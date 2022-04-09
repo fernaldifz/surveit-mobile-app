@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, Button, TextInput, View, Image, Text } from "react-native";
 
-const SignUp = () => {
+const SignUp = ({ navigation }) => {
   const [nama, onChangeNama] = React.useState("Nama");
   const [email, onChangeEmail] = React.useState("Email");
   const [password, onChangePassword] = React.useState("Password");
 
   return (
-    <View style={styles.center}>
+    <View style={{ alignItems: "center" }}>
       <Image style={styles.image} source={require("../assets/sign-up.png")} />
 
       <Text style={styles.h1}>Buat akun Surveitmu</Text>
@@ -36,19 +36,20 @@ const SignUp = () => {
         />
       </View>
       <Text>
-        Sudah punya akun?<Text style={styles.link}> Masuk </Text>
+        Sudah punya akun?
+        <Text
+          style={{ color: "#6E61E8" }}
+          onPress={() => navigation.navigate("LogIn")}
+        >
+          {" "}
+          Masuk
+        </Text>
       </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  center: {
-    alignItems: "center",
-  },
-  flexStart: {
-    alignItems: "flex-start",
-  },
   h1: {
     fontSize: 24,
     lineHeight: 28,
@@ -76,9 +77,6 @@ const styles = StyleSheet.create({
     marginTop: 36,
     marginBottom: 48,
     width: "88.89%",
-  },
-  link: {
-    color: "#6E61E8",
   },
 });
 
