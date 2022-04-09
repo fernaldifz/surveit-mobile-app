@@ -7,11 +7,11 @@ const SignUp = () => {
   const [password, onChangePassword] = React.useState("Password");
 
   return (
-    <View style={styles.view}>
+    <View style={styles.center}>
       <Image style={styles.image} source={require("../assets/sign-up.png")} />
-      <View>
-        <Text style={styles.h1}>Buat akun Surveitmu</Text>
-      </View>
+
+      <Text style={styles.h1}>Buat akun Surveitmu</Text>
+
       <TextInput
         style={styles.input}
         onChangeText={onChangeNama}
@@ -43,28 +43,39 @@ const SignUp = () => {
 };
 
 const styles = StyleSheet.create({
-  view: {
+  center: {
     alignItems: "center",
+  },
+  flexStart: {
+    alignItems: "flex-start",
   },
   h1: {
     fontSize: 24,
     lineHeight: 28,
+    marginTop: 24,
+    marginBottom: 36,
   },
   input: {
+    width: "88.89%",
     height: 48,
-    width: 320,
-    margin: 12,
+
+    paddingLeft: 16,
+
+    marginBottom: 12,
+
     borderWidth: 1,
-    padding: 10,
+    borderColor: "#E2E8F0",
+    borderStyle: "solid",
+    borderRadius: 12,
   },
   image: {
     marginTop: 48,
     alignItems: "center",
   },
   viewButton: {
-    marginTop: 48,
+    marginTop: 36,
     marginBottom: 48,
-    width: 320,
+    width: "88.89%",
   },
   link: {
     color: "#6E61E8",
