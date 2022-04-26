@@ -1,27 +1,21 @@
 import React from "react";
 import { StyleSheet, Button, TextInput, View, Image, Text } from "react-native";
+import InputPassword from "../components/InputPassword";
 
 const LogIn = ({ navigation }) => {
-  const [email, onChangeEmail] = React.useState("Email");
-  const [password, onChangePassword] = React.useState("Password");
+  const [email, onChangeEmail] = React.useState("");
+  const [password, onChangePassword] = React.useState("");
 
   return (
     <View style={{ alignItems: "center" }}>
       <Image style={styles.image} source={require("../assets/log-in.png")} />
-
       <Text style={styles.h1}>Selamat datang di Surveit!</Text>
-
       <TextInput
         style={styles.input}
         onChangeText={onChangeEmail}
         placeholder="Email"
       />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangePassword}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
+      <InputPassword password={password} onChangePassword={onChangePassword} />
       <View style={styles.viewButton}>
         <Button
           title="Masuk"
@@ -49,15 +43,13 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     marginTop: 54,
     marginBottom: 36,
+    fontWeight: "bold",
   },
   input: {
     width: "88.89%",
     height: 48,
-
     paddingLeft: 16,
-
     marginBottom: 12,
-
     borderWidth: 1,
     borderColor: "#E2E8F0",
     borderStyle: "solid",
@@ -71,6 +63,8 @@ const styles = StyleSheet.create({
     marginTop: 36,
     marginBottom: 48,
     width: "88.89%",
+    borderRadius: 12,
+    overflow: "hidden",
   },
 });
 
