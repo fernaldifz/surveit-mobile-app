@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from './app/screens/Home';
+import Guide from './app/screens/Guide';
 import SignUp from './app/screens/SignUp';
 import LogIn from './app/screens/LogIn';
 import { NavigationContainer } from '@react-navigation/native';
@@ -32,6 +33,11 @@ const App = () => {
 				<Stack.Screen
 					name="Home"
 					component={Home}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="Guide"
+					component={Guide}
 					options={{ headerShown: false }}
 				/>
 				<Stack.Screen

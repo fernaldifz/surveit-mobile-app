@@ -62,7 +62,10 @@ const Home = ({ navigation }) => {
 							overflow: 'hidden',
 						}}
 					>
-						<TouchableOpacity style={styles.seeGuideButton}>
+						<TouchableOpacity
+							style={styles.seeGuideButton}
+							onPress={() => navigation.navigate('Guide')}
+						>
 							<Text style={styles.button1}>Lihat panduan</Text>
 						</TouchableOpacity>
 					</View>
