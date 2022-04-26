@@ -112,25 +112,29 @@ const styles = StyleSheet.create({
 	h2: {
 		fontSize: 20,
 		lineHeight: 24,
-		color: '#475569',
 		fontWeight: '600',
+		fontFamily: 'Urbanist_600SemiBold',
+		color: '#475569',
 	},
 	h3: {
 		fontSize: 16,
 		lineHeight: 20,
 		fontWeight: '600',
+		fontFamily: 'Urbanist_600SemiBold',
 		color: '#ffffff',
 	},
 	p2: {
 		fontSize: 12,
 		lineHeight: 24,
 		fontWeight: '500',
+		fontFamily: 'Urbanist_500Medium',
 		color: '#475569',
 	},
 	button2: {
 		fontSize: 12,
 		lineHeight: 24,
 		fontWeight: '600',
+		fontFamily: 'Urbanist_600SemiBold',
 		color: '#6E61E8',
 	},
 	image: {

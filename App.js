@@ -1,4 +1,5 @@
 import React from 'react';
+import Home from './app/screens/Home';
 import SignUp from './app/screens/SignUp';
 import LogIn from './app/screens/LogIn';
 import { NavigationContainer } from '@react-navigation/native';
