@@ -8,7 +8,6 @@ import otherCategory from '../assets/other-category.png';
 import cheveronRight from '../assets/cheveron-right.png';
 import {
 	StyleSheet,
-	Button,
 	View,
 	Image,
 	Text,
@@ -54,8 +53,18 @@ const Home = ({ navigation }) => {
 						<Text style={styles.h3}>Isi survei dengan kaidah</Text>
 						<Text style={styles.h3}>yang benar</Text>
 					</View>
-					<View style={styles.seeGuideButton}>
-						<Button color="#6E61E8" title="Lihat panduan" />
+					<View
+						style={{
+							width: 140,
+							position: 'absolute',
+							top: 88,
+							left: 20,
+							overflow: 'hidden',
+						}}
+					>
+						<TouchableOpacity style={styles.seeGuideButton}>
+							<Text style={styles.button1}>Lihat panduan</Text>
+						</TouchableOpacity>
 					</View>
 				</ImageBackground>
 			</View>
@@ -112,28 +121,30 @@ const styles = StyleSheet.create({
 	h2: {
 		fontSize: 20,
 		lineHeight: 24,
-		fontWeight: '600',
 		fontFamily: 'Urbanist_600SemiBold',
 		color: '#475569',
 	},
 	h3: {
 		fontSize: 16,
 		lineHeight: 20,
-		fontWeight: '600',
 		fontFamily: 'Urbanist_600SemiBold',
 		color: '#ffffff',
 	},
 	p2: {
 		fontSize: 12,
 		lineHeight: 24,
-		fontWeight: '500',
 		fontFamily: 'Urbanist_500Medium',
 		color: '#475569',
+	},
+	button1: {
+		fontSize: 16,
+		lineHeight: 20,
+		fontFamily: 'Urbanist_600SemiBold',
+		color: '#6E61E8',
 	},
 	button2: {
 		fontSize: 12,
 		lineHeight: 24,
-		fontWeight: '600',
 		fontFamily: 'Urbanist_600SemiBold',
 		color: '#6E61E8',
 	},
@@ -151,12 +162,12 @@ const styles = StyleSheet.create({
 	},
 	seeGuideButton: {
 		width: 140,
-		position: 'absolute',
-		top: 88,
-		left: 20,
+		height: 40,
+		color: '#6E61E8',
 		borderRadius: 12,
-		overflow: 'hidden',
 		backgroundColor: '#ffffff',
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	cardImage: {
 		width: 320,
