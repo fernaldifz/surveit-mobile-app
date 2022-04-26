@@ -92,6 +92,11 @@ const Home = ({ navigation }) => {
 									alignItems: 'center',
 								}}
 								key={index}
+								onPress={() =>
+									navigation.navigate('SurveyCategory', {
+										itemName: category.name,
+									})
+								}
 							>
 								<Image style={styles.categoryImage} source={category.img} />
 								<Text style={styles.p2}>{category.name}</Text>

@@ -12,14 +12,7 @@ import guide5Correct from '../assets/guide05-correct.png';
 import guide5Wrong from '../assets/guide05-wrong.png';
 import wrongEmoji from '../assets/frown-emoji.png';
 import correctEmoji from '../assets/smile-emoji.png';
-import {
-	StyleSheet,
-	View,
-	Image,
-	Text,
-	ImageBackground,
-	TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 
 const Guide = ({ navigation }) => {
 	const images = [

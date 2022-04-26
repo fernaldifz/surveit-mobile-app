@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './app/screens/Home';
 import Guide from './app/screens/Guide';
+import SurveyCategory from './app/screens/SurveyCategory';
 import SignUp from './app/screens/SignUp';
 import LogIn from './app/screens/LogIn';
 import { NavigationContainer } from '@react-navigation/native';
@@ -38,6 +39,11 @@ const App = () => {
 				<Stack.Screen
 					name="Guide"
 					component={Guide}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="SurveyCategory"
+					component={SurveyCategory}
 					options={{ headerShown: false }}
 				/>
 				<Stack.Screen
