@@ -1,6 +1,13 @@
 import React from 'react';
 import cheveronLeft from '../assets/cheveron-left.png';
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import {
+	StyleSheet,
+	View,
+	Image,
+	Text,
+	TouchableOpacity,
+	ScrollView,
+} from 'react-native';
 
 const SurveyRecommendation = ({ navigation }) => {
 	return (
@@ -16,6 +23,7 @@ const SurveyRecommendation = ({ navigation }) => {
 					height: 80,
 					position: 'absolute',
 					top: 0,
+					zIndex: 1,
 				}}
 			>
 				<View
@@ -43,6 +51,11 @@ const SurveyRecommendation = ({ navigation }) => {
 					</View>
 				</View>
 			</View>
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<View style={{ marginTop: 100 }}>
+					<Text>List Survei</Text>
+				</View>
+			</ScrollView>
 		</View>
 	);
 };

@@ -13,6 +13,7 @@ import {
 	Text,
 	ImageBackground,
 	TouchableOpacity,
+	ScrollView,
 } from 'react-native';
 
 const Home = ({ navigation }) => {
@@ -36,95 +37,97 @@ const Home = ({ navigation }) => {
 	];
 
 	return (
-		<View style={{ alignItems: 'center' }}>
-			<Image style={styles.image} source={surveitLogo} />
-			<View
-				style={{
-					alignItems: 'center',
-					borderRadius: 20,
-					overflow: 'hidden',
-					marginTop: 20,
-					width: 320,
-					height: 160,
-				}}
-			>
-				<ImageBackground style={styles.cardImage} source={guideBG}>
-					<View style={styles.guideText}>
-						<Text style={styles.h3}>Isi survei dengan kaidah</Text>
-						<Text style={styles.h3}>yang benar</Text>
-					</View>
-					<View
-						style={{
-							width: 140,
-							position: 'absolute',
-							top: 88,
-							left: 20,
-							overflow: 'hidden',
-						}}
-					>
-						<TouchableOpacity
-							style={styles.seeGuideButton}
-							onPress={() => navigation.navigate('Guide')}
-						>
-							<Text style={styles.button1}>Lihat panduan</Text>
-						</TouchableOpacity>
-					</View>
-				</ImageBackground>
-			</View>
-			<View style={{ width: 320, marginTop: 20 }}>
-				<Text style={styles.h2}>Kategori survei</Text>
+		<ScrollView showsVerticalScrollIndicator={false}>
+			<View style={{ alignItems: 'center' }}>
+				<Image style={styles.image} source={surveitLogo} />
 				<View
 					style={{
-						marginTop: 16,
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'space-between',
+						alignItems: 'center',
+						borderRadius: 20,
+						overflow: 'hidden',
+						marginTop: 20,
+						width: 320,
+						height: 160,
 					}}
 				>
-					{category.map((category, index) => {
-						return (
+					<ImageBackground style={styles.cardImage} source={guideBG}>
+						<View style={styles.guideText}>
+							<Text style={styles.h3}>Isi survei dengan kaidah</Text>
+							<Text style={styles.h3}>yang benar</Text>
+						</View>
+						<View
+							style={{
+								width: 140,
+								position: 'absolute',
+								top: 88,
+								left: 20,
+								overflow: 'hidden',
+							}}
+						>
 							<TouchableOpacity
-								style={{
-									width: 74,
-									height: 80,
-									paddingTop: 8,
-									paddingBottom: 8,
-									alignItems: 'center',
-								}}
-								key={index}
-								onPress={() =>
-									navigation.navigate('SurveyCategory', {
-										itemName: category.name,
-									})
-								}
+								style={styles.seeGuideButton}
+								onPress={() => navigation.navigate('Guide')}
 							>
-								<Image style={styles.categoryImage} source={category.img} />
-								<Text style={styles.p2}>{category.name}</Text>
+								<Text style={styles.button1}>Lihat panduan</Text>
 							</TouchableOpacity>
-						);
-					})}
+						</View>
+					</ImageBackground>
 				</View>
-			</View>
-			<View
-				style={{
-					width: 320,
-					marginTop: 20,
-					display: 'flex',
-					flexDirection: 'row',
-				}}
-			>
-				<Text style={styles.h2}>Survei untukmu</Text>
-				<View style={{ position: 'absolute', right: 0 }}>
-					<TouchableOpacity
-						style={styles.seeAllButton}
-						onPress={() => navigation.navigate('SurveyRecommendation')}
+				<View style={{ width: 320, marginTop: 20 }}>
+					<Text style={styles.h2}>Kategori survei</Text>
+					<View
+						style={{
+							marginTop: 16,
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+						}}
 					>
-						<Text style={styles.button2}>Lihat semua</Text>
-						<Image style={{ width: 12, height: 12 }} source={cheveronRight} />
-					</TouchableOpacity>
+						{category.map((category, index) => {
+							return (
+								<TouchableOpacity
+									style={{
+										width: 74,
+										height: 80,
+										paddingTop: 8,
+										paddingBottom: 8,
+										alignItems: 'center',
+									}}
+									key={index}
+									onPress={() =>
+										navigation.navigate('SurveyCategory', {
+											itemName: category.name,
+										})
+									}
+								>
+									<Image style={styles.categoryImage} source={category.img} />
+									<Text style={styles.p2}>{category.name}</Text>
+								</TouchableOpacity>
+							);
+						})}
+					</View>
+				</View>
+				<View
+					style={{
+						width: 320,
+						marginTop: 20,
+						display: 'flex',
+						flexDirection: 'row',
+					}}
+				>
+					<Text style={styles.h2}>Survei untukmu</Text>
+					<View style={{ position: 'absolute', right: 0 }}>
+						<TouchableOpacity
+							style={styles.seeAllButton}
+							onPress={() => navigation.navigate('SurveyRecommendation')}
+						>
+							<Text style={styles.button2}>Lihat semua</Text>
+							<Image style={{ width: 12, height: 12 }} source={cheveronRight} />
+						</TouchableOpacity>
+					</View>
 				</View>
 			</View>
-		</View>
+		</ScrollView>
 	);
 };
 
