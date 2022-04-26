@@ -40,7 +40,7 @@ const SurveyCategory = ({ route, navigation }) => {
 							marginRight: 'auto',
 						}}
 					>
-						<Text style={styles.h3}>{itemName}</Text>
+						<Text style={styles.h3}>{'Survei ' + itemName}</Text>
 					</View>
 				</View>
 			</View>
