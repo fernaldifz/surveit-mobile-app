@@ -2,8 +2,7 @@ import React from 'react';
 import cheveronLeft from '../assets/cheveron-left.png';
 import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 
-const SurveyCategory = ({ route, navigation }) => {
-	const { itemName } = route.params;
+const SurveyRecommendation = ({ navigation }) => {
 	return (
 		<View
 			style={{
@@ -40,7 +39,7 @@ const SurveyCategory = ({ route, navigation }) => {
 							marginRight: 'auto',
 						}}
 					>
-						<Text style={styles.h3}>{itemName}</Text>
+						<Text style={styles.h3}>Survei untukmu</Text>
 					</View>
 				</View>
 			</View>
@@ -61,4 +60,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default SurveyCategory;
+export default SurveyRecommendation;

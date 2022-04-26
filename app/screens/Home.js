@@ -115,7 +115,10 @@ const Home = ({ navigation }) => {
 			>
 				<Text style={styles.h2}>Survei untukmu</Text>
 				<View style={{ position: 'absolute', right: 0 }}>
-					<TouchableOpacity style={styles.seeAllButton}>
+					<TouchableOpacity
+						style={styles.seeAllButton}
+						onPress={() => navigation.navigate('SurveyRecommendation')}
+					>
 						<Text style={styles.button2}>Lihat semua</Text>
 						<Image style={{ width: 12, height: 12 }} source={cheveronRight} />
 					</TouchableOpacity>
