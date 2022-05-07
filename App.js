@@ -5,7 +5,8 @@ import SurveyCategory from "./app/screens/SurveyCategory";
 import SurveyRecommendation from "./app/screens/SurveyRecommendation";
 import SignUp from "./app/screens/SignUp";
 import LogIn from "./app/screens/LogIn";
-import Profile from "./app/screens/Profile";
+import Profile from "./app/screens/Profile/Profile";
+import EditProfile from "./app/screens/Profile/EditProfile"
 
 import homeOutline from "./app/assets/home.png";
 import homeSolid from "./app/assets/home-solid.png";
@@ -47,7 +48,7 @@ const AddSurveyButton = ({ children, onPress }) => (
       },
       shadowRadius: 20,
       shadowOpacity: 0.5,
-      elevation: 5,
+	  elevation: 5,
     }}
     onPress={onPress}
   >
@@ -62,8 +63,8 @@ const NavigationBar = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           height: 74,
-          justifyContent: "center",
-          alignItems: "center",
+		  justifyContent: "center",
+		  alignItems: "center",
         },
       }}
     >
@@ -77,7 +78,7 @@ const NavigationBar = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: 17,
+				top: 17,
               }}
             >
               <Image
@@ -130,7 +131,7 @@ const NavigationBar = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: 17,
+				top: 17,
               }}
             >
               <Image
@@ -174,20 +175,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
+          name="Main"
           component={NavigationBar}
           options={{ headerShown: false }}
         />
-        {/* // <Stack.Screen
-				// 	name="Profile"
-				// 	component={Profile}
-				// 	options={{ headerShown: false }}
-				// />
-				// <Stack.Screen
-				// 	name="Home"
-				// 	component={Home}
-				// 	options={{ headerShown: false }}
-				// /> */}
         <Stack.Screen
           name="Guide"
           component={Guide}
@@ -211,6 +202,11 @@ const App = () => {
         <Stack.Screen
           name="LogIn"
           component={LogIn}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfile}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
