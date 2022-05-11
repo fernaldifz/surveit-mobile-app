@@ -9,6 +9,9 @@ import {
 } from "@expo-google-fonts/urbanist";
 import { StackNav } from "./app/navigation";
 
+import cheveronLeft from "@assets/cheveron-left.png";
+import { Image, TouchableOpacity } from "react-native";
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -24,7 +27,23 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <TouchableOpacity>
+              <Image source={cheveronLeft} style={{ width: 24, height: 24 }}  />
+            </TouchableOpacity>
+          ),
+          headerTitleStyle: {
+            fontFamily: "Urbanist_600SemiBold",
+            fontSize: 16,
+            lineHeight: 20,
+            color: "#475569",
+          },
+          headerShadowVisible: false
+        }}
+      >
         {StackNav &&
           StackNav.map((item, index) => {
             return (

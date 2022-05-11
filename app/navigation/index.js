@@ -7,6 +7,9 @@ import Voucher from "@screens/Profile/Voucher";
 import Guide from "@screens/Guide";
 
 import { NavigationBar } from "./TabNav";
+import { TouchableOpacity, Image } from "react-native";
+
+import VoucherImage from "@assets/voucher.png";
 
 export const StackNav = [
   {
@@ -17,7 +20,18 @@ export const StackNav = [
   {
     name: "Voucher",
     component: Voucher,
-    options: { title: "Tukar poinmu" },
+    options: {
+      title: "Tukar poinmu",
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => {
+            alert("Tukar poinmu");
+          }}
+        >
+          <Image source={VoucherImage} style={{width: 18, height: 14}}/>
+        </TouchableOpacity>
+      ),
+    },
   },
   {
     name: "EditProfile",
