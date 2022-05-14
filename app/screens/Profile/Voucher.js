@@ -26,7 +26,10 @@ const Voucher = () => {
   ];
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: "#fff"}}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{ backgroundColor: "#F8FAFC" }}
+    >
       <View style={{ marginTop: 20, alignItems: "center" }}>
         {dummy.map((item, index) => {
           return <Card key={index} {...item} />;

@@ -28,11 +28,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={{
+        screenOptions={({ navigation }) => ({
           headerTitleAlign: "center",
           headerLeft: () => (
-            <TouchableOpacity>
-              <Image source={cheveronLeft} style={{ width: 24, height: 24 }}  />
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={cheveronLeft} style={{ width: 24, height: 24 }} />
             </TouchableOpacity>
           ),
           headerTitleStyle: {
@@ -41,8 +41,11 @@ const App = () => {
             lineHeight: 20,
             color: "#475569",
           },
-          headerShadowVisible: false
-        }}
+          headerStyle: {
+            height: 56,
+          },
+          headerShadowVisible: false,
+        })}
       >
         {StackNav &&
           StackNav.map((item, index) => {

@@ -36,7 +36,7 @@ export const StackNav = [
   {
     name: "EditProfile",
     component: EditProfile,
-    options: { headerShown: false },
+    options: { title: "Edit Profil" },
   },
   {
     name: "Guide",

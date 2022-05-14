@@ -36,7 +36,7 @@ export const NavigationBar = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: 17,
+                alignSelf: "center"
               }}
             >
               <Image
@@ -89,7 +89,7 @@ export const NavigationBar = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                top: 17,
+                alignSelf: "center"
               }}
             >
               <Image

@@ -13,6 +13,8 @@ module.exports = function (api) {
             "@assets": "./app/assets",
             "@const": "./app/const",
             "@navigation": "./app/navigation",
+            "@config": "./app/config",
+            "@services": "./app/services",
           },
         },
       ],
