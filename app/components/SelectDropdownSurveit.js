@@ -7,6 +7,7 @@ const SelectDropdownSurveit = ({
   data,
   defaultButtonText,
   setSelectedOption,
+  defaultValue,
 }) => {
   return (
     <View>
@@ -18,6 +19,7 @@ const SelectDropdownSurveit = ({
         defaultButtonText={defaultButtonText}
         buttonStyle={styles.dropdownButton}
         buttonTextStyle={{ ...styles.dropdownButtonText, ...styles.p1 }}
+        defaultValue={defaultValue}
         renderDropdownIcon={(isOpened) => {
           return (
             <FontAwesome

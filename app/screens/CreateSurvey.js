@@ -1,18 +1,15 @@
 import React from "react";
 import {
   StyleSheet,
-  Button,
   TextInput,
   View,
   Image,
   Text,
   TouchableOpacity,
-  Pressable,
 } from "react-native";
 import Modal from "react-native-modal";
-import SelectDropdown from "react-native-select-dropdown";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
+import close from "../assets/close.png";
 
 const CreateSurvey = ({ route, navigation }) => {
   const categories = ["Edukasi", "Bisnis", "Gaya Hidup", "Hobi"];
@@ -27,6 +24,7 @@ const CreateSurvey = ({ route, navigation }) => {
   const [title, onChangeTitle] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("");
   const [description, onChangeDescription] = React.useState("");
+  const [respondentCount, onChangeRespondentCount] = React.useState("");
   const [questionCount, setQuestionCount] = React.useState(0);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedQuestionType, setSelectedQuestionType] = React.useState("");
@@ -35,10 +33,60 @@ const CreateSurvey = ({ route, navigation }) => {
     setModalVisible(!modalVisible);
   };
 
+  const handleAddQuestion = () => {
+    if (selectedQuestionType == "Jawaban singkat") {
+      navigation.navigate("ShortAnswerQuestion", {
+        selectedQuestionType: selectedQuestionType,
+        questionCount: questionCount + 1,
+      });
+    } else if (selectedQuestionType == "Paragraph") {
+      navigation.navigate("ParagraphQuestion", {
+        selectedQuestionType: selectedQuestionType,
+        questionCount: questionCount + 1,
+      });
+    } else if (selectedQuestionType == "Pilihan ganda") {
+      navigation.navigate("MultipleChoiceQuestion", {
+        selectedQuestionType: selectedQuestionType,
+        questionCount: questionCount + 1,
+      });
+    } else if (selectedQuestionType == "Kotak centang") {
+      navigation.navigate("CheckboxQuestion", {
+        selectedQuestionType: selectedQuestionType,
+        questionCount: questionCount + 1,
+      });
+    } else if (selectedQuestionType == "Skala linear") {
+      navigation.navigate("LinearScaleQuestion", {
+        selectedQuestionType: selectedQuestionType,
+        questionCount: questionCount + 1,
+      });
+    }
+  };
+
   return (
     <View>
       <View style={styles.title}>
-        <Text style={styles.h3}>Buat survei</Text>
+        <View
+          style={{
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingTop: 32,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity onPress={() => console.log("pindah ke home")}>
+            <Image style={styles.close} source={close} />
+          </TouchableOpacity>
+          <View
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <Text style={styles.h3}>Buat survei</Text>
+          </View>
+        </View>
       </View>
       <View style={styles.contents}>
         <View style={styles.content}>
@@ -46,6 +94,7 @@ const CreateSurvey = ({ route, navigation }) => {
           <TextInput
             style={{ ...styles.textInput, ...styles.p1 }}
             onChangeText={onChangeTitle}
+            value={title}
           />
         </View>
         <View style={styles.content}>
@@ -64,6 +113,17 @@ const CreateSurvey = ({ route, navigation }) => {
             maxHeight={96}
             style={{ ...styles.multilineTextInput, ...styles.p1 }}
             onChangeText={onChangeDescription}
+            value={description}
+          />
+        </View>
+        <View style={styles.content}>
+          <Text style={styles.h3}>Target Jumlah Responden</Text>
+          <TextInput
+            style={{ ...styles.respondentInput, ...styles.p1 }}
+            onChangeText={onChangeRespondentCount}
+            keyboardType="numeric"
+            maxLength={4}
+            value={respondentCount}
           />
         </View>
         <View style={styles.content}>
@@ -88,19 +148,7 @@ const CreateSurvey = ({ route, navigation }) => {
               />
               <TouchableOpacity
                 style={styles.continueButton}
-                onPress={() => {
-                  if (selectedQuestionType == "Jawaban singkat") {
-                    navigation.navigate("ShortAnswerQuestion", {
-                      selectedQuestionType: selectedQuestionType,
-                      questionCount: questionCount,
-                    });
-                  } else if (selectedQuestionType == "Paragraph") {
-                    navigation.navigate("ParagraphQuestion", {
-                      selectedQuestionType: selectedQuestionType,
-                      questionCount: questionCount,
-                    });
-                  }
-                }}
+                onPress={handleAddQuestion}
               >
                 <Text style={styles.textButton}>Lanjut</Text>
               </TouchableOpacity>
@@ -124,7 +172,6 @@ const CreateSurvey = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   title: {
-    alignItems: "center",
     marginTop: 28,
     marginBottom: 20,
   },
@@ -224,6 +271,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#6E61E8",
     alignItems: "center",
     justifyContent: "center",
+  },
+  close: {
+    width: 12,
+    height: 12,
+    alignSelf: "flex-start",
+  },
+  respondentInput: {
+    height: 48,
+    width: "25%",
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    borderStyle: "solid",
+    borderRadius: 12,
+    marginTop: 10,
+    paddingHorizontal: 16,
   },
 });
 

@@ -6,12 +6,13 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
 import SwitchSurveit from "../components/SwitchSurveit";
 import cheveronLeft from "../assets/cheveron-left.png";
 
-const ShortAnswerQuestion = ({ route, navigation }) => {
+const CheckboxQuestion = ({ route, navigation }) => {
   const questionTypes = [
     "Jawaban singkat",
     "Paragraph",
@@ -19,27 +20,47 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
     "Kotak centang",
     "Skala linear",
   ];
+  const optionCount = [1, 2, 3, 4, 5];
 
   const { selectedQuestionType, questionCount } = route.params;
   const [currSelectedQuestionType, setCurrSelectedQuestionType] =
     useState(selectedQuestionType);
   const [question, onChangeQuestion] = useState("");
+  const [option_1, onChangeOption_1] = useState("");
+  const [option_2, onChangeOption_2] = useState("");
+  const [option_3, onChangeOption_3] = useState("");
+  const [option_4, onChangeOption_4] = useState("");
+  const [option_5, onChangeOption_5] = useState("");
+  const [selectedOptionCount, setSelectedOptionCount] = useState(0);
+
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
+  const handleSaveQuestion = () => {
+    console.log(currSelectedQuestionType);
+    console.log(question);
+    console.log(questionCount);
+    console.log(option_1);
+    console.log(option_2);
+    console.log(option_3);
+    console.log(option_4);
+    console.log(option_5);
+    console.log(isEnabled);
+  };
+
   useEffect(() => {
-    if (currSelectedQuestionType == "Paragraph") {
+    if (currSelectedQuestionType == "Jawaban singkat") {
+      navigation.navigate("ShortAnswerQuestion", {
+        selectedQuestionType: currSelectedQuestionType,
+        questionCount: questionCount,
+      });
+    } else if (currSelectedQuestionType == "Paragraph") {
       navigation.navigate("ParagraphQuestion", {
         selectedQuestionType: currSelectedQuestionType,
         questionCount: questionCount,
       });
     } else if (currSelectedQuestionType == "Pilihan ganda") {
       navigation.navigate("MultipleChoiceQuestion", {
-        selectedQuestionType: currSelectedQuestionType,
-        questionCount: questionCount,
-      });
-    } else if (currSelectedQuestionType == "Kotak centang") {
-      navigation.navigate("CheckboxQuestion", {
         selectedQuestionType: currSelectedQuestionType,
         questionCount: questionCount,
       });
@@ -52,7 +73,7 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
   }, [currSelectedQuestionType]);
 
   return (
-    <View>
+    <ScrollView>
       <View
         style={{
           paddingLeft: 20,
@@ -88,13 +109,63 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
             setSelectedOption={setCurrSelectedQuestionType}
           />
         </View>
-        <View style={{ marginBottom: 4 }}>
+        <View style={{ marginBottom: 20 }}>
           <Text style={{ ...styles.h3 }}>Pertanyaan</Text>
           <TextInput
-            style={{ ...styles.textInput, ...styles.p1 }}
+            multiline
+            numberOfLines={4}
+            maxHeight={96}
+            style={{ ...styles.multilineTextInput, ...styles.p1 }}
             onChangeText={onChangeQuestion}
             value={question}
           />
+        </View>
+        <View style={{ marginBottom: 20 }}>
+          <Text style={{ ...styles.h3 }}>Jumlah opsi</Text>
+          <SelectDropdownSurveit
+            data={optionCount}
+            defaultButtonText="Pilih jumlah opsi"
+            setSelectedOption={setSelectedOptionCount}
+            defaultValue={1}
+          />
+        </View>
+        <View style={{ marginBottom: 4 }}>
+          <Text style={{ ...styles.h3 }}>Pilihan</Text>
+          {selectedOptionCount >= 1 && (
+            <TextInput
+              style={{ ...styles.textInput, ...styles.p1 }}
+              onChangeText={onChangeOption_1}
+              value={option_1}
+            />
+          )}
+          {selectedOptionCount >= 2 && (
+            <TextInput
+              style={{ ...styles.textInput, ...styles.p1 }}
+              onChangeText={onChangeOption_2}
+              value={option_2}
+            />
+          )}
+          {selectedOptionCount >= 3 && (
+            <TextInput
+              style={{ ...styles.textInput, ...styles.p1 }}
+              onChangeText={onChangeOption_3}
+              value={option_3}
+            />
+          )}
+          {selectedOptionCount >= 4 && (
+            <TextInput
+              style={{ ...styles.textInput, ...styles.p1 }}
+              onChangeText={onChangeOption_4}
+              value={option_4}
+            />
+          )}
+          {selectedOptionCount >= 5 && (
+            <TextInput
+              style={{ ...styles.textInput, ...styles.p1 }}
+              onChangeText={onChangeOption_5}
+              value={option_5}
+            />
+          )}
         </View>
         <View>
           <SwitchSurveit onValueChange={toggleSwitch} value={isEnabled} />
@@ -102,15 +173,13 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
         <View>
           <TouchableOpacity
             style={styles.saveQuestionButton}
-            onPress={() => {
-              console.log(currSelectedQuestionType, question, isEnabled);
-            }}
+            onPress={handleSaveQuestion}
           >
             <Text style={styles.textButton}>Simpan pertanyaan</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -152,6 +221,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  multilineTextInput: {
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    borderStyle: "solid",
+    borderRadius: 12,
+    marginTop: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    textAlignVertical: "top",
+  },
 });
 
-export default ShortAnswerQuestion;
+export default CheckboxQuestion;

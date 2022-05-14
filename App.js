@@ -4,6 +4,9 @@ import LogIn from "./app/screens/LogIn";
 import CreateSurvey from "./app/screens/CreateSurvey";
 import ShortAnswerQuestion from "./app/screens/ShortAnswerQuestion";
 import ParagraphQuestion from "./app/screens/ParagraphQuestion";
+import MultipleChoiceQuestion from "./app/screens/MultipleChoiceQuestion";
+import CheckboxQuestion from "./app/screens/CheckboxQuestion";
+import LinearScaleQuestion from "./app/screens/LinearScaleQuestion";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -38,6 +41,16 @@ const App = () => {
         }}
       >
         <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="LogIn"
+          component={LogIn}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="CreateSurvey"
           component={CreateSurvey}
           options={{ headerShown: false }}
@@ -52,17 +65,21 @@ const App = () => {
           component={ParagraphQuestion}
           options={{ headerShown: false }}
         />
-
-        {/* <Stack.Screen
-					name="SignUp"
-					component={SignUp}
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen
-					name="LogIn"
-					component={LogIn}
-					options={{ headerShown: false }}
-				/> */}
+        <Stack.Screen
+          name="MultipleChoiceQuestion"
+          component={MultipleChoiceQuestion}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CheckboxQuestion"
+          component={CheckboxQuestion}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="LinearScaleQuestion"
+          component={LinearScaleQuestion}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

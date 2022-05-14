@@ -6,12 +6,13 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
 import SwitchSurveit from "../components/SwitchSurveit";
 import cheveronLeft from "../assets/cheveron-left.png";
 
-const ShortAnswerQuestion = ({ route, navigation }) => {
+const LinearScaleQuestion = ({ route, navigation }) => {
   const questionTypes = [
     "Jawaban singkat",
     "Paragraph",
@@ -19,16 +20,36 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
     "Kotak centang",
     "Skala linear",
   ];
+  const scaleCount = [2, 3, 4, 5];
 
   const { selectedQuestionType, questionCount } = route.params;
   const [currSelectedQuestionType, setCurrSelectedQuestionType] =
     useState(selectedQuestionType);
   const [question, onChangeQuestion] = useState("");
+  const [leftDescription, onChangeLeftDescription] = useState("");
+  const [rightDescription, onChangeRightDescription] = useState("");
+  const [selectedScaleCount, setSelectedScaleCount] = useState(2);
+
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
+  const handleSaveQuestion = () => {
+    console.log("jenis pertanyaan: ", currSelectedQuestionType);
+    console.log("isi pertanyaan: ", question);
+    console.log("pertanyaan ke: ", questionCount);
+    console.log("jumlah skala: ", selectedScaleCount);
+    console.log("keterangan kiri: ", leftDescription);
+    console.log("keterangan kanan: ", rightDescription);
+    console.log("wajib diisi atau ga: ", isEnabled);
+  };
+
   useEffect(() => {
-    if (currSelectedQuestionType == "Paragraph") {
+    if (currSelectedQuestionType == "Jawaban singkat") {
+      navigation.navigate("ShortAnswerQuestion", {
+        selectedQuestionType: currSelectedQuestionType,
+        questionCount: questionCount,
+      });
+    } else if (currSelectedQuestionType == "Paragraph") {
       navigation.navigate("ParagraphQuestion", {
         selectedQuestionType: currSelectedQuestionType,
         questionCount: questionCount,
@@ -43,16 +64,11 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
         selectedQuestionType: currSelectedQuestionType,
         questionCount: questionCount,
       });
-    } else if (currSelectedQuestionType == "Skala linear") {
-      navigation.navigate("LinearScaleQuestion", {
-        selectedQuestionType: currSelectedQuestionType,
-        questionCount: questionCount,
-      });
     }
   }, [currSelectedQuestionType]);
 
   return (
-    <View>
+    <ScrollView>
       <View
         style={{
           paddingLeft: 20,
@@ -88,12 +104,37 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
             setSelectedOption={setCurrSelectedQuestionType}
           />
         </View>
-        <View style={{ marginBottom: 4 }}>
+        <View style={{ marginBottom: 20 }}>
           <Text style={{ ...styles.h3 }}>Pertanyaan</Text>
           <TextInput
-            style={{ ...styles.textInput, ...styles.p1 }}
+            multiline
+            numberOfLines={4}
+            maxHeight={96}
+            style={{ ...styles.multilineTextInput, ...styles.p1 }}
             onChangeText={onChangeQuestion}
             value={question}
+          />
+        </View>
+        <View style={{ marginBottom: 20 }}>
+          <Text style={{ ...styles.h3 }}>Jumlah skala</Text>
+          <SelectDropdownSurveit
+            data={scaleCount}
+            defaultButtonText="Pilih jumlah skala"
+            setSelectedOption={setSelectedScaleCount}
+            defaultValue={2}
+          />
+        </View>
+        <View style={{ marginBottom: 4 }}>
+          <Text style={{ ...styles.h3 }}>Keterangan</Text>
+          <TextInput
+            style={{ ...styles.textInput, ...styles.p1 }}
+            onChangeText={onChangeLeftDescription}
+            value={leftDescription}
+          />
+          <TextInput
+            style={{ ...styles.textInput, ...styles.p1 }}
+            onChangeText={onChangeRightDescription}
+            value={rightDescription}
           />
         </View>
         <View>
@@ -102,15 +143,13 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
         <View>
           <TouchableOpacity
             style={styles.saveQuestionButton}
-            onPress={() => {
-              console.log(currSelectedQuestionType, question, isEnabled);
-            }}
+            onPress={handleSaveQuestion}
           >
             <Text style={styles.textButton}>Simpan pertanyaan</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -152,6 +191,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  multilineTextInput: {
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    borderStyle: "solid",
+    borderRadius: 12,
+    marginTop: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    textAlignVertical: "top",
+  },
 });
 
-export default ShortAnswerQuestion;
+export default LinearScaleQuestion;
