@@ -36,7 +36,7 @@ const RedeemPoint = ({ navigation }) => {
   );
 
   const fetchVoucher = async () => {
-    let data = await getVoucherlist();
+    let data = await getVoucherlist(user);
     setVoucherList(data);
   };
 
@@ -65,6 +65,12 @@ const RedeemPoint = ({ navigation }) => {
         </TouchableOpacity>
       ),
     });
+
+    const willFocusSubscription = navigation.addListener("focus", () => {
+      fetchVoucher();
+    });
+
+    return willFocusSubscription;
   }, []);
 
   return (

@@ -15,6 +15,7 @@ module.exports = function (api) {
             "@navigation": "./app/navigation",
             "@config": "./app/config",
             "@services": "./app/services",
+            "@const": "./app/const",
           },
         },
       ],

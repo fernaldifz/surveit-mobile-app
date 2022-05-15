@@ -29,24 +29,13 @@ const Voucher = ({ navigation }) => {
       }}
     >
       <View>
-        <Text style={[style.p2, { marginLeft: 4 }]}>Berlaku s/d {due}</Text>
+        <Text style={style.p2}>Berlaku s/d {due}</Text>
       </View>
     </View>
   );
 
-  // const dummy = [
-  //   {
-  //     id: 1,
-  //     name: "Voucher 1",
-  //     point: 100,
-  //     due: "20/12/2020",
-  //     code: "GOJEKINAJA",
-  //   },
-  // ];
-
   const fetchVoucher = async () => {
     let data = await getUserVoucher(user);
-    console.log(data);
     setVoucherList(data);
   };
 

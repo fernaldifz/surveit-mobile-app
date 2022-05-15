@@ -9,6 +9,7 @@ import {
   addDoc,
   setDoc,
 } from "firebase/firestore";
+import { MONTH } from "@const/";
 
 export const getUser = async (user) => {
   const myDoc = doc(db, "users", user);
@@ -25,37 +26,45 @@ export const getUser = async (user) => {
     });
 };
 
-export const getVoucherlist = async () => {
+export const getVoucherlist = async (user) => {
   const querySnapshot = await getDocs(collection(db, "vouchers"));
+  const userVoucher = await getUserVoucher(user);
 
   let arr = [];
   querySnapshot.forEach((doc) => {
-    arr.push({ ...doc.data(), id: doc.id });
+    if (!userVoucher.some((item) => item.id === doc.id)) {
+      arr.push({ ...doc.data(), id: doc.id });
+    }
   });
 
   return arr;
 };
 
 export const getUserVoucher = async (user) => {
-  const userRef = doc(db, "users", user);
-  const q = query(collection(db, "user_voucher"), where("user", "==", userRef));
+  let userRef = doc(db, "users", user);
+  let q = query(collection(db, "user_voucher"), where("user", "==", userRef));
 
-  const querySnapshot = await getDocs(q);
+  let querySnapshot = await getDocs(q);
 
   let arr = [];
-  querySnapshot.forEach(async (doc) => {
-    let temp = { id: doc.id, ...doc.data() };
+  if (!querySnapshot.empty) {
+    for (let item of querySnapshot.docs) {
+      let { voucher } = item.data();
 
-    if (temp.voucher) {
-      let voucherData = await getDoc(temp.voucher);
-
-      if (voucherData.exists) {
-        delete temp.voucher;
-        temp = { ...voucherData.data(), ...temp };
-        arr.push(temp);
-      }
+      await getDoc(voucher).then(async (snapshot) => {
+        if (snapshot.exists) {
+          let data = await snapshot.data();
+          let date = new Date(data["due"].toDate());
+          data["due"] = `${date.getDate()} ${
+            MONTH[date.getMonth()]
+          } ${date.getFullYear()}`;
+          arr.push({ ...data, id: snapshot.id });
+        }
+      });
     }
-  });
+  }
+
+  return arr;
 };
 
 export const getVoucher = async (id) => {
