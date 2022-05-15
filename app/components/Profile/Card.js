@@ -1,30 +1,32 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import voucherCover from "@assets/voucher-cover.png";
-import pointPic from "@assets/point.png";
 
-const Card = ({ name, point }) => {
+const Card = ({
+  id,
+  name,
+  content,
+  buttonText,
+  handleUse,
+  code,
+  type,
+  point,
+}) => {
   return (
     <View style={style.container}>
       <Image source={voucherCover} style={style.image} />
       <View style={{ padding: 12, display: "flex", flexDirection: "row" }}>
         <View style={{ flex: 2 }}>
           <Text style={style.h3}>{name}</Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 8,
-            }}
-          >
-            <Image style={style.pointPic} source={pointPic} />
-            <View>
-              <Text style={[style.p2, { marginLeft: 4 }]}>{point} Poin</Text>
-            </View>
-          </View>
+          {content}
         </View>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <TouchableOpacity style={style.button}>
-            <Text style={style.buttonText}>Tukar Poinmu</Text>
+          <TouchableOpacity
+            style={style.button}
+            onPress={() =>
+              handleUse(type === "redeem" ? { id: id, point:point } : code)
+            }
+          >
+            <Text style={style.buttonText}>{buttonText}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -38,7 +40,7 @@ const style = StyleSheet.create({
     width: 320,
     borderRadius: 20,
     shadowColor: "#7F5D70",
-    elevation: 19,
+    elevation: 8,
     marginBottom: 20,
     shadowOffset: {
       width: 0,
@@ -65,21 +67,11 @@ const style = StyleSheet.create({
     fontFamily: "Urbanist_600SemiBold",
     fontSize: 16,
   },
-  pointPic: {
-    width: 24,
-    height: 24,
-  },
   h3: {
     fontSize: 16,
     lineHeight: 20,
     fontFamily: "Urbanist_600SemiBold",
     color: "#475569",
-  },
-  p2: {
-    color: "#F9AD5D",
-    lineHeight: 14,
-    fontFamily: "Urbanist_600SemiBold",
-    fontSize: 12,
   },
 });
 

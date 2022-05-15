@@ -66,7 +66,7 @@ const Profile = ({ navigation }) => {
         <View style={{ width: 320, marginTop: 32 }}>
           <TouchableOpacity
             style={styles.whiteBoxButton}
-            onPress={() => navigation.navigate("Voucher")}
+            onPress={() => navigation.navigate("RedeemPoint")}
           >
             <View style={{ width: 262, marginLeft: 16, marginRight: 10 }}>
               <Text style={[styles.button1, { color: "#475569" }]}>

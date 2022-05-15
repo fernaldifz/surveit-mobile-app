@@ -2,14 +2,13 @@ import SurveyCategory from "@screens/SurveyCategory";
 import SurveyRecommendation from "@screens/SurveyRecommendation";
 import SignUp from "@screens/SignUp";
 import LogIn from "@screens/LogIn";
-import EditProfile from "@screens/Profile/EditProfile";
-import Voucher from "@screens/Profile/Voucher";
 import Guide from "@screens/Guide";
 
-import { NavigationBar } from "./TabNav";
-import { TouchableOpacity, Image } from "react-native";
+import EditProfile from "@screens/Profile/EditProfile";
+import RedeemPoint from "@screens/Profile/RedeemPoint";
+import Voucher from "@screens/Profile/Voucher";
 
-import VoucherImage from "@assets/voucher.png";
+import { NavigationBar } from "./TabNav";
 
 export const StackNav = [
   {
@@ -18,19 +17,10 @@ export const StackNav = [
     options: { headerShown: false },
   },
   {
-    name: "Voucher",
-    component: Voucher,
+    name: "RedeemPoint",
+    component: RedeemPoint,
     options: {
       title: "Tukar poinmu",
-      headerRight: () => (
-        <TouchableOpacity
-          onPress={() => {
-            alert("Tukar poinmu");
-          }}
-        >
-          <Image source={VoucherImage} style={{width: 18, height: 14}}/>
-        </TouchableOpacity>
-      ),
     },
   },
   {
@@ -62,5 +52,12 @@ export const StackNav = [
     name: "LogIn",
     component: LogIn,
     options: { headerShown: false },
+  },
+  {
+    name: "Voucher",
+    component: Voucher,
+    options: {
+      title: "Vouchermu",
+    },
   },
 ];

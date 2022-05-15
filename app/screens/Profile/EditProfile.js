@@ -70,8 +70,6 @@ const EditProfile = ({ navigation }) => {
       }
     });
 
-    console.log(params);
-
     setDoc(myDoc, params, { merge: true })
       .then(() => {
         alert("Profil berhasil diperbarui!");
