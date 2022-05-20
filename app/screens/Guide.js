@@ -123,8 +123,8 @@ const Guide = ({ navigation }) => {
 							<TouchableOpacity
 								style={styles.imageButton}
 								onPress={() => {
+									setIndex(index + 1);
 									if (index < 4) {
-										setIndex(index + 1);
 										setGuideState(2);
 									} else {
 										setGuideState(4);
@@ -146,8 +146,8 @@ const Guide = ({ navigation }) => {
 							<TouchableOpacity
 								style={styles.imageButton}
 								onPress={() => {
+									setIndex(index + 1);
 									if (index < 4) {
-										setIndex(index + 1);
 										setGuideState(3);
 									} else {
 										setGuideState(5);
