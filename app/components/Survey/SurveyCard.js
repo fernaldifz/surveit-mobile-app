@@ -1,16 +1,19 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const SurveyCard = ({ title, numQuestion, cover }) => {
+const SurveyCard = ({ title, numQuestion, cover, navigation, data }) => {
   return (
-    <View style={style.container}>
-      <Image style={style.image} source={{uri: cover}} />
+    <TouchableOpacity
+      style={style.container}
+      onPress={() => navigation.navigate("MySurveyDetail", data)}
+    >
+      <Image style={style.image} source={{ uri: cover }} />
       <View style={{ padding: 12 }}>
         <Text style={style.h3}>{title}</Text>
         <Text style={[style.p2, { color: "#94A3B8" }]}>
           {numQuestion} pertanyaan
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -34,7 +37,7 @@ const style = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     height: 100,
-    resizeMode: "cover"
+    resizeMode: "cover",
   },
 
   h3: {

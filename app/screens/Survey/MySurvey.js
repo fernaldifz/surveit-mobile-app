@@ -13,13 +13,20 @@ const MySurvey = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-      fetchVoucher(route.params?.type);
+    fetchVoucher(route.params?.type);
   }, [route.params?.type]);
 
   return (
     <ScrollView style={{ padding: 20 }} showsVerticalScrollIndicator={false}>
       {voucher &&
-        voucher.map((item, index) => <SurveyCard key={index} {...item} />)}
+        voucher.map((item, index) => (
+          <SurveyCard
+            key={index}
+            {...item}
+            navigation={navigation}
+            data={item}
+          />
+        ))}
     </ScrollView>
   );
 };

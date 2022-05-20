@@ -1,5 +1,6 @@
 import SurveyCategory from "@screens/SurveyCategory";
 import SurveyRecommendation from "@screens/SurveyRecommendation";
+import MySurveyDetail from "@screens/Survey/MySurveyDetail";
 
 import SignUp from "@screens/SignUp";
 import LogIn from "@screens/LogIn";
@@ -68,5 +69,10 @@ export const StackNav = [
     options: {
       title: "Vouchermu",
     },
+  },
+  {
+    name: "MySurveyDetail",
+    component: MySurveyDetail,
+    options: { headerTransparent: true, title: "" },
   },
 ];
