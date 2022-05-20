@@ -2,11 +2,7 @@ import React from "react";
 import SignUp from "./app/screens/SignUp";
 import LogIn from "./app/screens/LogIn";
 import CreateSurvey from "./app/screens/CreateSurvey";
-import ShortAnswerQuestion from "./app/screens/ShortAnswerQuestion";
-import ParagraphQuestion from "./app/screens/ParagraphQuestion";
-import MultipleChoiceQuestion from "./app/screens/MultipleChoiceQuestion";
-import CheckboxQuestion from "./app/screens/CheckboxQuestion";
-import LinearScaleQuestion from "./app/screens/LinearScaleQuestion";
+import CreateQuestion from "./app/screens/CreateQuestion";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -40,7 +36,7 @@ const App = () => {
           },
         }}
       >
-        <Stack.Screen
+        {/* <Stack.Screen
           name="SignUp"
           component={SignUp}
           options={{ headerShown: false }}
@@ -49,35 +45,15 @@ const App = () => {
           name="LogIn"
           component={LogIn}
           options={{ headerShown: false }}
-        />
+        /> */}
         <Stack.Screen
           name="CreateSurvey"
           component={CreateSurvey}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ShortAnswerQuestion"
-          component={ShortAnswerQuestion}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="ParagraphQuestion"
-          component={ParagraphQuestion}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MultipleChoiceQuestion"
-          component={MultipleChoiceQuestion}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="CheckboxQuestion"
-          component={CheckboxQuestion}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="LinearScaleQuestion"
-          component={LinearScaleQuestion}
+          name="CreateQuestion"
+          component={CreateQuestion}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

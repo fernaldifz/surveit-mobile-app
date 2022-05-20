@@ -6,10 +6,13 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import Modal from "react-native-modal";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
 import close from "../assets/close.png";
+import * as ImagePicker from "expo-image-picker";
+import surveyCover from "../assets/survey-cover.png";
 
 const CreateSurvey = ({ route, navigation }) => {
   const categories = ["Edukasi", "Bisnis", "Gaya Hidup", "Hobi"];
@@ -18,52 +21,61 @@ const CreateSurvey = ({ route, navigation }) => {
     "Paragraph",
     "Pilihan ganda",
     "Kotak centang",
-    "Skala linear",
+    "Skala linier",
   ];
 
   const [title, onChangeTitle] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState("");
   const [description, onChangeDescription] = React.useState("");
   const [respondentCount, onChangeRespondentCount] = React.useState("");
-  const [questionCount, setQuestionCount] = React.useState(0);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedQuestionType, setSelectedQuestionType] = React.useState("");
+  const [questionList, setQuestionList] = React.useState(
+    route.params?.questionListTemp || []
+  );
+  const [cover, setCover] = React.useState(null);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
 
-  const handleAddQuestion = () => {
-    if (selectedQuestionType == "Jawaban singkat") {
-      navigation.navigate("ShortAnswerQuestion", {
-        selectedQuestionType: selectedQuestionType,
-        questionCount: questionCount + 1,
-      });
-    } else if (selectedQuestionType == "Paragraph") {
-      navigation.navigate("ParagraphQuestion", {
-        selectedQuestionType: selectedQuestionType,
-        questionCount: questionCount + 1,
-      });
-    } else if (selectedQuestionType == "Pilihan ganda") {
-      navigation.navigate("MultipleChoiceQuestion", {
-        selectedQuestionType: selectedQuestionType,
-        questionCount: questionCount + 1,
-      });
-    } else if (selectedQuestionType == "Kotak centang") {
-      navigation.navigate("CheckboxQuestion", {
-        selectedQuestionType: selectedQuestionType,
-        questionCount: questionCount + 1,
-      });
-    } else if (selectedQuestionType == "Skala linear") {
-      navigation.navigate("LinearScaleQuestion", {
-        selectedQuestionType: selectedQuestionType,
-        questionCount: questionCount + 1,
-      });
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [16, 5],
+      quality: 1,
+      base64: true,
+    });
+
+    if (!result.cancelled) {
+      setCover(result.uri);
     }
   };
 
+  const handleAddQuestion = () => {
+    navigation.navigate("CreateQuestion", {
+      selectedQuestionType: selectedQuestionType,
+      questionCountTemp: questionList.length,
+      questionListTemp: questionList,
+    });
+  };
+
+  const handleCreateSurvey = () => {
+    var survey = {
+      cover: cover,
+      judul: title,
+      kategori: selectedCategory,
+      deskripsi: description,
+      targetJumlahResponden: respondentCount,
+      jumlahPertanyaan: questionList.length,
+      pertanyaan: questionList,
+    };
+    console.log(survey);
+  };
+
   return (
-    <View>
+    <ScrollView>
       <View style={styles.title}>
         <View
           style={{
@@ -90,6 +102,21 @@ const CreateSurvey = ({ route, navigation }) => {
       </View>
       <View style={styles.contents}>
         <View style={styles.content}>
+          <View style={{ display: "flex", flexDirection: "column" }}>
+            <Text style={styles.h3}>Cover</Text>
+            {cover ? (
+              <Image source={{ uri: cover }} style={styles.cover} />
+            ) : (
+              <Image source={surveyCover} style={styles.cover} />
+            )}
+
+            <TouchableOpacity
+              style={styles.uploadPictureButton}
+              onPress={() => pickImage()}
+            >
+              <Text style={styles.textButton}>Upload Gambar</Text>
+            </TouchableOpacity>
+          </View>
           <Text style={styles.h3}>Judul survei</Text>
           <TextInput
             style={{ ...styles.textInput, ...styles.p1 }}
@@ -127,7 +154,8 @@ const CreateSurvey = ({ route, navigation }) => {
           />
         </View>
         <View style={styles.content}>
-          <Text style={styles.h3}>Pertanyaan ({questionCount})</Text>
+          <Text style={styles.h3}>Pertanyaan ({questionList.length})</Text>
+
           <TouchableOpacity
             style={styles.addQuestionButton}
             onPress={toggleModal}
@@ -158,15 +186,13 @@ const CreateSurvey = ({ route, navigation }) => {
         <View>
           <TouchableOpacity
             style={styles.createButton}
-            onPress={() => {
-              console.log(selectedQuestionType);
-            }}
+            onPress={handleCreateSurvey}
           >
             <Text style={styles.textButton}>Buat survei</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -286,6 +312,22 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginTop: 10,
     paddingHorizontal: 16,
+  },
+  cover: {
+    height: 100,
+    width: "100%",
+    borderRadius: 12,
+    marginTop: 16,
+  },
+  uploadPictureButton: {
+    width: 160,
+    height: 48,
+    borderRadius: 12,
+    backgroundColor: "#6E61E8",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+    marginTop: 16,
   },
 });
 

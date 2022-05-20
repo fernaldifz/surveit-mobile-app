@@ -20,7 +20,8 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
     "Skala linear",
   ];
 
-  const { selectedQuestionType, questionCount } = route.params;
+  const { selectedQuestionType, questionCountTemp, questionListTemp } =
+    route.params;
   const [currSelectedQuestionType, setCurrSelectedQuestionType] =
     useState(selectedQuestionType);
   const [question, onChangeQuestion] = useState("");
@@ -31,25 +32,43 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
     if (currSelectedQuestionType == "Paragraph") {
       navigation.navigate("ParagraphQuestion", {
         selectedQuestionType: currSelectedQuestionType,
-        questionCount: questionCount,
+        questionCountTemp: questionCountTemp,
+        questionListTemp: questionListTemp,
       });
     } else if (currSelectedQuestionType == "Pilihan ganda") {
       navigation.navigate("MultipleChoiceQuestion", {
         selectedQuestionType: currSelectedQuestionType,
-        questionCount: questionCount,
+        questionCountTemp: questionCountTemp,
+        questionListTemp: questionListTemp,
       });
     } else if (currSelectedQuestionType == "Kotak centang") {
       navigation.navigate("CheckboxQuestion", {
         selectedQuestionType: currSelectedQuestionType,
-        questionCount: questionCount,
+        questionCountTemp: questionCountTemp,
+        questionListTemp: questionListTemp,
       });
     } else if (currSelectedQuestionType == "Skala linear") {
       navigation.navigate("LinearScaleQuestion", {
         selectedQuestionType: currSelectedQuestionType,
-        questionCount: questionCount,
+        questionCountTemp: questionCountTemp,
+        questionListTemp: questionListTemp,
       });
     }
   }, [currSelectedQuestionType]);
+
+  const handleSaveQuestion = () => {
+    var data = {
+      tipePertanyaan: currSelectedQuestionType,
+      pertanyaan: question,
+      wajibDiisi: isEnabled,
+    };
+    questionList.append(data);
+
+    navigation.navigate("CreateSurvey", {
+      questionCountTemp: questionCountTemp,
+      questionListTemp: questionListTemp,
+    });
+  };
 
   return (
     <View>
@@ -76,7 +95,7 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
             marginRight: "auto",
           }}
         >
-          <Text style={styles.h3}>Pertanyaan {questionCount}</Text>
+          <Text style={styles.h3}>Pertanyaan {questionCountTemp}</Text>
         </View>
       </View>
       <View style={{ marginHorizontal: 20 }}>
@@ -102,9 +121,7 @@ const ShortAnswerQuestion = ({ route, navigation }) => {
         <View>
           <TouchableOpacity
             style={styles.saveQuestionButton}
-            onPress={() => {
-              console.log(currSelectedQuestionType, question, isEnabled);
-            }}
+            onPress={handleSaveQuestion}
           >
             <Text style={styles.textButton}>Simpan pertanyaan</Text>
           </TouchableOpacity>
