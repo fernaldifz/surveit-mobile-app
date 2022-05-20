@@ -1,19 +1,12 @@
 import { db } from "@config/";
-import {
-  doc,
-  getDocs,
-  collection,
-  query,
-  where,
-} from "firebase/firestore";
-
+import { doc, getDocs, collection, query, where } from "firebase/firestore";
 
 export const getSurvey = async (user, type) => {
   const userRef = doc(db, "users", user);
   const q = query(
     collection(db, "surveys"),
     where("user_id", "==", userRef),
-    where("timestamp", type ? "<" : ">=", new Date())
+    where("timestamp", type ? ">=" : "<", new Date())
   );
 
   let querySnapshot = await getDocs(q);
