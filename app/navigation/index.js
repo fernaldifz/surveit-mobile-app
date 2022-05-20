@@ -1,5 +1,6 @@
 import SurveyCategory from "@screens/SurveyCategory";
 import SurveyRecommendation from "@screens/SurveyRecommendation";
+
 import SignUp from "@screens/SignUp";
 import LogIn from "@screens/LogIn";
 import Guide from "@screens/Guide";
@@ -9,12 +10,20 @@ import RedeemPoint from "@screens/Profile/RedeemPoint";
 import Voucher from "@screens/Profile/Voucher";
 
 import { NavigationBar } from "./TabNav";
+import { SurveyNav } from "./MySurveyNav";
 
 export const StackNav = [
   {
     name: "Main",
     component: NavigationBar,
     options: { headerShown: false },
+  },
+  {
+    name: "MySurvey",
+    component: SurveyNav,
+    options: {
+      title: "Surveimu",
+    },
   },
   {
     name: "RedeemPoint",

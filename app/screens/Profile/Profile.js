@@ -79,7 +79,10 @@ const Profile = ({ navigation }) => {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.whiteBoxButton, { marginTop: 8 }]}>
+          <TouchableOpacity
+            style={[styles.whiteBoxButton, { marginTop: 8 }]}
+            onPress={() => navigation.navigate("MySurvey")}
+          >
             <View style={{ width: 262, marginLeft: 16, marginRight: 10 }}>
               <Text style={[styles.button1, { color: "#475569" }]}>
                 Surveimu
