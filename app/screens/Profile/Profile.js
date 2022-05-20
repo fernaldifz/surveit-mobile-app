@@ -4,15 +4,13 @@ import editPic from "@assets/pencil.png";
 import cheveronRight from "@assets/cheveron-right.png";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { getUser } from "@services/ProfileServices";
-
-// TODO change to current user
-const user = "naheedo";
+import { dummyAcc } from "@const";
 
 const Profile = ({ navigation }) => {
   const [userDoc, setUserDoc] = useState(null);
 
   const fetchUser = async () => {
-    const data = await getUser(user);
+    const data = await getUser(dummyAcc);
     setUserDoc(data);
   };
 

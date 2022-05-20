@@ -1,11 +1,26 @@
-import { View } from "react-native";
+import { ScrollView } from "react-native";
+import { useEffect, useState } from "react";
 import SurveyCard from "@components/Survey/SurveyCard";
+import { dummyAcc } from "@const";
+import { getSurvey } from "@services/SurveyServices";
 
-const MySurvey = ({ navigation }) => {
+const MySurvey = ({ route, navigation }) => {
+  const [voucher, setVoucher] = useState([]);
+
+  const fetchVoucher = async (type) => {
+    let data = await getSurvey(dummyAcc, type);
+    setVoucher(data);
+  };
+
+  useEffect(() => {
+      fetchVoucher(route.params?.type);
+  }, [route.params?.type]);
+
   return (
-    <View style={{ padding: 20 }}>
-      <SurveyCard />
-    </View>
+    <ScrollView style={{ padding: 20 }} showsVerticalScrollIndicator={false}>
+      {voucher &&
+        voucher.map((item, index) => <SurveyCard key={index} {...item} />)}
+    </ScrollView>
   );
 };
 

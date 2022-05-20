@@ -1,13 +1,14 @@
 import { View, Text, Image, StyleSheet } from "react-native";
-import VoucherCover from "@assets/voucher-cover.png";
 
-const SurveyCard = () => {
+const SurveyCard = ({ title, numQuestion, cover }) => {
   return (
     <View style={style.container}>
-      <Image style={style.image} source={VoucherCover} />
+      <Image style={style.image} source={{uri: cover}} />
       <View style={{ padding: 12 }}>
-        <Text style={style.h3}>Survei Hewan Peliharaan</Text>
-        <Text style={[style.p2, { color: "#94A3B8" }]}>5 pertanyaan</Text>
+        <Text style={style.h3}>{title}</Text>
+        <Text style={[style.p2, { color: "#94A3B8" }]}>
+          {numQuestion} pertanyaan
+        </Text>
       </View>
     </View>
   );
@@ -24,6 +25,7 @@ const style = StyleSheet.create({
     shadowRadius: 16,
     shadowColor: "#7F5D70",
     elevation: 8,
+    marginBottom: 20,
   },
 
   image: {
@@ -32,6 +34,7 @@ const style = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     height: 100,
+    resizeMode: "cover"
   },
 
   h3: {

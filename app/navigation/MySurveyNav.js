@@ -14,13 +14,21 @@ export const SurveyNav = () => {
           lineHeight: 20,
           fontFamily: "Urbanist_600SemiBold",
         },
-		tabBarIndicatorStyle: {
-			backgroundColor: "#6E61E8",
-		}
+        tabBarIndicatorStyle: {
+          backgroundColor: "#6E61E8",
+        },
       }}
     >
-      <Tab.Screen name="Ongoing" component={MySurvey} />
-      <Tab.Screen name="Past" component={MySurvey} />
+      <Tab.Screen
+        name="Ongoing"
+        component={MySurvey}
+        initialParams={{ type: true }}
+      />
+      <Tab.Screen
+        name="Past"
+        component={MySurvey}
+        initialParams={{ type: false }}
+      />
     </Tab.Navigator>
   );
 };
