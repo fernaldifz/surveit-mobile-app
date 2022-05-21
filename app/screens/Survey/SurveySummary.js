@@ -1,6 +1,7 @@
 import { ScrollView } from 'react-native';
 import TextSummary from '@components/Survey/TextSummary';
-import MultipleChoiceSummary from '@components/Survey/MultipleChoiceSummary';
+import PieChartSummary from '@components/Survey/PieChartSummary';
+import BarChartSummary from '@components/Survey/BarChartSummary';
 
 const dummy = [
 	{
@@ -59,6 +60,15 @@ const answers = [
 	},
 ];
 
+const answers2 = {
+	labels: ['Anjing', 'Hamster', 'Kucing', 'Ikan', 'Lainnya'],
+	datasets: [
+		{
+			data: [80, 35, 75, 50, 15],
+		},
+	],
+};
+
 const SurveySummary = ({ navigation }) => {
 	return (
 		<ScrollView style={{ backgroundColor: '#F8FAFC', padding: 20 }}>
@@ -72,9 +82,14 @@ const SurveySummary = ({ navigation }) => {
 				question={'Siapa namamu?'}
 				navigation={navigation}
 			/>
-			<MultipleChoiceSummary
+			<PieChartSummary
 				data={answers}
 				question={'Jenis doggy apa yang paling kamu sukai?'}
+				navigation={navigation}
+			/>
+			<BarChartSummary
+				data={answers2}
+				question={'Hewan apa saja yang pernah kamu pelihara?'}
 				navigation={navigation}
 			/>
 		</ScrollView>

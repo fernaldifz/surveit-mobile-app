@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { PieChart } from 'react-native-chart-kit';
+import { BarChart } from 'react-native-chart-kit';
 
-const MultipleChoiceSummary = ({ data, question }) => {
+const BarChartSummary = ({ data, question }) => {
 	const chartConfig = {
-		backgroundGradientFrom: '#1E2923',
-		backgroundGradientFromOpacity: 0,
-		backgroundGradientTo: '#08130D',
-		backgroundGradientToOpacity: 0.5,
+		fillShadowGradient: '#ffffff',
+		fillShadowGradientOpacity: 1,
+		backgroundColorFromOpacity: 0,
+		backgroundColorToOpacity: 0,
 		color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
 		strokeWidth: 2, // optional, default 3
 		barPercentage: 0.5,
@@ -22,15 +22,14 @@ const MultipleChoiceSummary = ({ data, question }) => {
 			<View style={{ alignItems: 'center' }}>
 				{data && (
 					<View style={style.answer}>
-						<PieChart
+						<BarChart
 							data={data}
 							width={320}
-							height={200}
-							chartConfig={chartConfig}
-							accessor={'percentage'}
+							height={220}
+							yAxisLabel="$"
 							backgroundColor={'transparent'}
-							center={[0, 0]}
-							absolute
+							chartConfig={chartConfig}
+							verticalLabelRotation={30}
 						/>
 					</View>
 				)}
@@ -39,7 +38,7 @@ const MultipleChoiceSummary = ({ data, question }) => {
 	);
 };
 
-export default MultipleChoiceSummary;
+export default BarChartSummary;
 
 const style = StyleSheet.create({
 	answer: {
