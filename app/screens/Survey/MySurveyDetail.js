@@ -7,10 +7,16 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
+import { useEffect } from "react";
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from "react-native-popup-menu";
 
 import kebab from "@assets/kebab-white.png";
 import cheveronLeft from "@assets/cheveron-white-left.png";
-import { useEffect } from "react";
 
 const MySurveyDetail = ({ route, navigation }) => {
   const { title, cover, numQuestion, description } = route.params;
@@ -18,9 +24,31 @@ const MySurveyDetail = ({ route, navigation }) => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity>
-          <Image source={kebab} style={{ marginRight: 10 }} />
-        </TouchableOpacity>
+        <View>
+          <Menu>
+            <MenuTrigger>
+              <View style={{padding: 10}}>
+                <Image source={kebab}/>
+              </View>
+            </MenuTrigger>
+            <MenuOptions
+              customStyles={{
+                optionText: {
+                  fontFamily: "Urbanist_500Medium",
+                  fontSize: 14,
+                  lineHeight: 20,
+                  color: "#475569",
+                },
+                optionWrapper: {
+                  padding: 8,
+                },
+              }}
+            >
+              <MenuOption text="Edit survei" />
+              <MenuOption text="Hapus survei" />
+            </MenuOptions>
+          </Menu>
+        </View>
       ),
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.goBack()}>
