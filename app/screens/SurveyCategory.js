@@ -43,7 +43,7 @@ const SurveyCategory = ({ route, navigation }) => {
 			}}
 		>
 			<ScrollView style={{ padding: 20 }} showsVerticalScrollIndicator={false}>
-				<View style={{ width: 320 }}>
+				<View>
 					{survey &&
 						survey.map((item, index) =>
 							item['category'] == itemName ? (

@@ -136,28 +136,28 @@ const Home = ({ navigation }) => {
 				>
 					<View
 						style={{
-							width: 320,
-							height: 32,
 							marginTop: 20,
 							display: 'flex',
 							flexDirection: 'row',
+							alignItems: "center",
+							paddingHorizontal: 20,
+							maxWidth: 360,
+							justifyContent: "space-around"
 						}}
 					>
-						<Text style={styles.h2}>Survei untukmu</Text>
-						<View style={{ position: 'absolute', right: 0 }}>
-							<TouchableOpacity
-								style={styles.seeAllButton}
-								onPress={() => navigation.navigate('SurveyRecommendation')}
-							>
-								<Text style={styles.button2}>Lihat semua</Text>
-								<Image
-									style={{ width: 12, height: 12 }}
-									source={cheveronRight}
-								/>
-							</TouchableOpacity>
-						</View>
+						<Text style={[styles.h2, {flex: 1}]}>Survei untukmu</Text>
+						<TouchableOpacity
+							style={styles.seeAllButton}
+							onPress={() => navigation.navigate('SurveyRecommendation')}
+						>
+							<Text style={styles.button2}>Lihat semua</Text>
+							<Image
+								style={{ width: 12, height: 12 }}
+								source={cheveronRight}
+							/>
+						</TouchableOpacity>
 					</View>
-					<View style={{ width: 320 }}>
+					<View style={{ marginTop: 16 }}>
 						{survey.length > 5
 							? survey
 									.slice(0, 5)

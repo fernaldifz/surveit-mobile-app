@@ -56,11 +56,13 @@ const style = StyleSheet.create({
 		shadowColor: '#7F5D70',
 		elevation: 8,
 		marginBottom: 20,
+		marginHorizontal: 20,
+		minWidth: 320,
+		minHeight: 100
 	},
 
 	image: {
 		width: '100%',
-		height: 320,
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
 		height: 100,
