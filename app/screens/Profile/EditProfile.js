@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 import { db, storage } from "@config/";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import * as ImagePicker from "expo-image-picker";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { Overlay } from "react-native-elements";
