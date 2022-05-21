@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useEffect, useState } from "react";
 import SurveyCard from "@components/Survey/SurveyCard";
 import { dummyAcc } from "@const";
@@ -17,7 +17,7 @@ const MySurvey = ({ route, navigation }) => {
   }, [route.params?.type]);
 
   return (
-    <ScrollView style={{ padding: 20 }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{paddingVertical: 20}} showsVerticalScrollIndicator={false}>
       {voucher &&
         voucher.map((item, index) => (
           <SurveyCard
@@ -27,6 +27,7 @@ const MySurvey = ({ route, navigation }) => {
             data={item}
           />
         ))}
+      <View style={{ marginBottom: 20 }} />
     </ScrollView>
   );
 };
