@@ -35,7 +35,7 @@ const SurveyRecommendation = ({ navigation }) => {
 			}}
 		>
 			<ScrollView style={{ padding: 20 }} showsVerticalScrollIndicator={false}>
-				<View style={{ width: 320, marginTop: 20 }}>
+				<View style={{ width: 320 }}>
 					{survey &&
 						survey.map((item, index) => (
 							<SurveyCard
