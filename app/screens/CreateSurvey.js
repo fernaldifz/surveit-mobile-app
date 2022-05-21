@@ -94,15 +94,17 @@ const CreateSurvey = ({ route, navigation }) => {
 
   const Create = async (url) => {
     const myDoc = doc(db, "surveys", "document_dummy");
+    const { Timestamp } = require("firebase/firestore");
 
     var survey = {
       cover: url,
       title: title,
       category: selectedCategory,
       description: description,
-      response_target: respondentCount,
+      response_target: parseInt(respondentCount),
       question_list: questionList,
       user_id: user_id_dummy,
+      timestamp: Timestamp.fromDate(new Date()),
     };
 
     setDoc(myDoc, survey)
@@ -195,20 +197,18 @@ const CreateSurvey = ({ route, navigation }) => {
         </View>
         <View style={styles.content}>
           <Text style={styles.h3}>Pertanyaan ({questionList.length})</Text>
-
           {questionList.map((questionData) => (
-            <View key={new Date().toISOString()} style={styles.questionDisplay}>
-              {questionData.question.length <= 20 ? (
+            <View style={styles.questionDisplay}>
+              {questionData.question.length <= 25 ? (
                 <Text style={styles.p1}>{questionData.question}</Text>
               ) : (
                 <Text style={styles.p1}>
-                  {questionData.question.substr(0, 19)}...
+                  {questionData.question.substr(0, 24)}...
                 </Text>
               )}
               <Image style={styles.more} source={more} />
             </View>
           ))}
-
           <TouchableOpacity
             style={styles.addQuestionButton}
             onPress={toggleModal}
