@@ -12,6 +12,7 @@ import {
 import Modal from "react-native-modal";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
 import close from "../assets/close.png";
+import more from "../assets/more.png";
 import * as ImagePicker from "expo-image-picker";
 import surveyCover from "../assets/survey-cover.png";
 import { db, storage } from "../config/index";
@@ -195,6 +196,19 @@ const CreateSurvey = ({ route, navigation }) => {
         <View style={styles.content}>
           <Text style={styles.h3}>Pertanyaan ({questionList.length})</Text>
 
+          {questionList.map((questionData) => (
+            <View key={new Date().toISOString()} style={styles.questionDisplay}>
+              {questionData.question.length <= 20 ? (
+                <Text style={styles.p1}>{questionData.question}</Text>
+              ) : (
+                <Text style={styles.p1}>
+                  {questionData.question.substr(0, 19)}...
+                </Text>
+              )}
+              <Image style={styles.more} source={more} />
+            </View>
+          ))}
+
           <TouchableOpacity
             style={styles.addQuestionButton}
             onPress={toggleModal}
@@ -273,6 +287,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 16,
   },
+  questionDisplay: {
+    height: 48,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    borderStyle: "solid",
+    borderRadius: 12,
+    marginTop: 10,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   multilineTextInput: {
     borderWidth: 1,
     borderColor: "#E2E8F0",
@@ -341,6 +367,10 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     alignSelf: "flex-start",
+  },
+  more: {
+    width: 16,
+    height: 16,
   },
   respondentInput: {
     height: 48,
