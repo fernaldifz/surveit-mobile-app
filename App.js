@@ -36,7 +36,7 @@ const App = () => {
           },
         }}
       >
-        {/* <Stack.Screen
+        <Stack.Screen
           name="SignUp"
           component={SignUp}
           options={{ headerShown: false }}
@@ -45,7 +45,7 @@ const App = () => {
           name="LogIn"
           component={LogIn}
           options={{ headerShown: false }}
-        /> */}
+        />
         <Stack.Screen
           name="CreateSurvey"
           component={CreateSurvey}
