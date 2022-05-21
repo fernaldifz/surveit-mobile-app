@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import surveyCover from "../assets/survey-cover.png";
 import cheveronLeft from "../assets/cheveron-left.png";
+import point from "../assets/point.png";
+import dot from "../assets/dot.png";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../config/index";
 
@@ -22,7 +24,9 @@ const SurveyDetails = ({ route, navigation }) => {
   const [error, setError] = useState(null);
 
   const handleStartFill = () => {
-    console.log(userDoc.question_list);
+    navigation.navigate("FillSurvey", {
+      survey_data: userDoc,
+    });
   };
 
   const myDoc = doc(db, "surveys", "document_dummy");
@@ -114,9 +118,24 @@ const SurveyDetails = ({ route, navigation }) => {
         <View style={{ marginLeft: 20, marginRight: 20 }}>
           <View style={{ marginTop: 20, marginBottom: 32 }}>
             <Text style={[styles.h3, styles.surveyTitle]}>{userDoc.title}</Text>
-            <Text style={styles.p2}>
-              {userDoc.question_list.length} Pertanyaan
-            </Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Image style={styles.point} source={point} />
+              <Text style={{ ...styles.p2, color: "#F9AD5D" }}>
+                {" "}
+                {userDoc.point} poin{"  "}
+              </Text>
+              <Image style={styles.dot} source={dot} tintColor="#64748B" />
+              <Text style={{ ...styles.p2, color: "#64748B" }}>
+                {"  "}
+                {userDoc.question_list.length} Pertanyaan
+              </Text>
+            </View>
           </View>
           <View style={{ marginBottom: 32 }}>
             <Text style={styles.p1}>{userDoc.description}</Text>
@@ -157,6 +176,14 @@ const styles = StyleSheet.create({
   cheveronLeft: {
     width: 24,
     height: 24,
+  },
+  point: {
+    width: 16,
+    height: 16,
+  },
+  dot: {
+    width: 4,
+    height: 4,
   },
   image: {
     flex: 1,
