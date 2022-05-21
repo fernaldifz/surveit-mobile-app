@@ -46,40 +46,52 @@ const CreateQuestion = ({ route, navigation }) => {
       currSelectedQuestionType == "Paragraph"
     ) {
       var questionData = {
-        tipe: currSelectedQuestionType,
-        pertanyaan: question,
-        wajibDiisi: isEnabled,
+        no: questionListTemp.length + 1,
+        type: currSelectedQuestionType,
+        question: question,
+        required: isEnabled,
       };
     } else if (
       currSelectedQuestionType == "Pilihan ganda" ||
       currSelectedQuestionType == "Kotak centang"
     ) {
+      var option = [];
+      option.push(option_1);
+      if (selectedOptionCount >= 2) {
+        option.push(option_2);
+      }
+      if (selectedOptionCount >= 3) {
+        option.push(option_3);
+      }
+      if (selectedOptionCount >= 4) {
+        option.push(option_4);
+      }
+      if (selectedOptionCount >= 5) {
+        option.push(option_5);
+      }
+
       var questionData = {
-        tipe: currSelectedQuestionType,
-        pertanyaan: question,
-        jumlahOpsi: selectedOptionCount,
-        pilihan_1: option_1,
-        pilihan_2: option_2,
-        pilihan_3: option_3,
-        pilihan_4: option_4,
-        pilihan_5: option_5,
-        wajibDiisi: isEnabled,
+        no: questionListTemp.length + 1,
+        type: currSelectedQuestionType,
+        question: question,
+        option: option,
+        required: isEnabled,
       };
     } else if (currSelectedQuestionType == "Skala linier") {
       var questionData = {
-        tipe: currSelectedQuestionType,
-        pertanyaan: question,
-        wajibDiisi: isEnabled,
-        jumlahSkala: selectedScaleCount,
-        keteranganSkalaKiri: leftDescription,
-        keteranganSkalaKanan: rightDescription,
+        no: questionListTemp.length + 1,
+        type: currSelectedQuestionType,
+        question: question,
+        number_of_scales: selectedScaleCount,
+        option: [leftDescription, rightDescription],
+        required: isEnabled,
       };
     }
 
     questionListTemp.push(questionData);
 
     navigation.navigate("CreateSurvey", {
-      questionCountTemp: questionListTemp + 1,
+      questionCountTemp: questionListTemp.length + 1,
       questionListTemp: questionListTemp,
     });
   };

@@ -7,12 +7,21 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  LogBox,
 } from "react-native";
 import Modal from "react-native-modal";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
 import close from "../assets/close.png";
 import * as ImagePicker from "expo-image-picker";
 import surveyCover from "../assets/survey-cover.png";
+import { db, storage } from "../config/index";
+import { doc, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
+
+// Firebase sets some timers for a long period, which will trigger some warnings.
+LogBox.ignoreLogs([`Setting a timer for a long period`]);
+
+const user_id_dummy = "user_id_dummy";
 
 const CreateSurvey = ({ route, navigation }) => {
   const categories = ["Edukasi", "Bisnis", "Gaya Hidup", "Hobi"];
@@ -61,17 +70,47 @@ const CreateSurvey = ({ route, navigation }) => {
     });
   };
 
-  const handleCreateSurvey = () => {
+  const handleCreateSurvey = async () => {
+    if (cover !== null) {
+      let id = new Date().toISOString();
+      const refer = ref(storage, id);
+
+      const img = await fetch(cover);
+      const bytes = await img.blob();
+
+      try {
+        await uploadBytes(refer, bytes);
+        await getDownloadURL(refer).then((url) => {
+          Create(url);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      Create(null);
+    }
+  };
+
+  const Create = async (url) => {
+    const myDoc = doc(db, "surveys", "document_dummy");
+
     var survey = {
-      cover: cover,
-      judul: title,
-      kategori: selectedCategory,
-      deskripsi: description,
-      targetJumlahResponden: respondentCount,
-      jumlahPertanyaan: questionList.length,
-      pertanyaan: questionList,
+      cover: url,
+      title: title,
+      category: selectedCategory,
+      description: description,
+      response_target: respondentCount,
+      question_list: questionList,
+      user_id: user_id_dummy,
     };
-    console.log(survey);
+
+    setDoc(myDoc, survey)
+      .then(() => {
+        console.log("success");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
   return (
