@@ -3,15 +3,16 @@ import { BarChart } from 'react-native-chart-kit';
 
 const BarChartSummary = ({ data, question }) => {
 	const chartConfig = {
-		fillShadowGradient: '#ffffff',
-		fillShadowGradientOpacity: 1,
-		backgroundColorFromOpacity: 0,
-		backgroundColorToOpacity: 0,
-		color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+		backgroundGradientFrom: "#fff",
+		backgroundGradientFromOpacity: 0,
+		backgroundGradientTo: "#fff",
+		backgroundGradientToOpacity: 0.5,
+		color: (opacity = 1) => `rgba(110, 97, 232, ${opacity})`,
 		strokeWidth: 2, // optional, default 3
-		barPercentage: 0.5,
+		barPercentage: 1,
 		useShadowColorFromDataset: false, // optional
-	};
+		decimalPlaces: 0,
+	  };
 
 	return (
 		<View style={{ marginBottom: 32 }}>
@@ -25,11 +26,9 @@ const BarChartSummary = ({ data, question }) => {
 						<BarChart
 							data={data}
 							width={320}
-							height={220}
-							yAxisLabel="$"
-							backgroundColor={'transparent'}
+							height={180}
 							chartConfig={chartConfig}
-							verticalLabelRotation={30}
+							verticalLabelRotation={0}
 						/>
 					</View>
 				)}
