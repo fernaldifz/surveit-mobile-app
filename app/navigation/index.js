@@ -8,6 +8,9 @@ import EditProfile from "@screens/Profile/EditProfile";
 import RedeemPoint from "@screens/Profile/RedeemPoint";
 import Voucher from "@screens/Profile/Voucher";
 
+import CreateSurvey from "@screens/CreateSurvey";
+import CreateQuestion from "@screens/CreateQuestion";
+
 import { NavigationBar } from "./TabNav";
 
 export const StackNav = [
@@ -58,6 +61,20 @@ export const StackNav = [
     component: Voucher,
     options: {
       title: "Vouchermu",
+    },
+  },
+  {
+    name: "CreateSurvey",
+    component: CreateSurvey,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: "CreateQuestion",
+    component: CreateQuestion,
+    options: {
+      headerShown: false,
     },
   },
 ];
