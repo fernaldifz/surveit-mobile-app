@@ -27,8 +27,8 @@ const MySurveyDetail = ({ route, navigation }) => {
         <View>
           <Menu>
             <MenuTrigger>
-              <View style={{padding: 10}}>
-                <Image source={kebab}/>
+              <View style={{ padding: 10 }}>
+                <Image source={kebab} />
               </View>
             </MenuTrigger>
             <MenuOptions
@@ -78,7 +78,10 @@ const MySurveyDetail = ({ route, navigation }) => {
         </View>
       </ScrollView>
       <View style={style.container}>
-        <TouchableOpacity style={style.button}>
+        <TouchableOpacity
+          style={style.button}
+          onPress={() => navigation.navigate("SurveySummary")}
+        >
           <Text style={style.buttonText}>Lihat ringkasan</Text>
         </TouchableOpacity>
       </View>
