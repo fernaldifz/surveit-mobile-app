@@ -17,7 +17,7 @@ const MySurvey = ({ route, navigation }) => {
   }, [route.params?.type]);
 
   return (
-    <ScrollView style={{paddingVertical: 20}} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{padding: 20}} showsVerticalScrollIndicator={false}>
       {voucher &&
         voucher.map((item, index) => (
           <SurveyCard
