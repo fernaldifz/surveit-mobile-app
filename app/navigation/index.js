@@ -1,6 +1,8 @@
 import SurveyCategory from "@screens/SurveyCategory";
 import SurveyRecommendation from "@screens/SurveyRecommendation";
 import MySurveyDetail from "@screens/Survey/MySurveyDetail";
+import SurveySummary from "@screens/Survey/SurveySummary";
+import DetailSummary from "@screens/Survey/DetailSummary";
 
 import SignUp from "@screens/SignUp";
 import LogIn from "@screens/LogIn";
@@ -74,5 +76,14 @@ export const StackNav = [
     name: "MySurveyDetail",
     component: MySurveyDetail,
     options: { headerTransparent: true, title: "" },
+  },
+  {
+    name: "SurveySummary",
+    component: SurveySummary,
+    options: { title: "Ringkasan Survei" },
+  },
+  {
+    name: "DetailSummary",
+    component: DetailSummary,
   },
 ];

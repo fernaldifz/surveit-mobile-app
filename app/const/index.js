@@ -15,4 +15,4 @@ export const MONTH = {
 
 // Dummy to maintain the samme Acc for now
 // TODO DELETE
-export const dummyAcc = "zG6JHETd61zRkma4fkVy"
+export const dummyAcc = "zG6JHETd61zRkma4fkVy";
