@@ -16,7 +16,6 @@ import {
   ScrollView,
 } from "react-native";
 
-//Changes
 import SurveyCard from "@components/Survey/SurveyCard";
 import { getSurvey } from "@services/SurveyServices";
 import { useEffect, useState } from "react";
@@ -42,11 +41,11 @@ const Home = ({ navigation }) => {
     },
   ];
 
-  //changes
   const [survey, setSurvey] = useState([]);
 
   const fetchSurvey = async () => {
     let data = await getSurvey(dummyAcc);
+    // nanti filter data yang bukan punya currentUser
     setSurvey(data);
   };
 
@@ -130,7 +129,6 @@ const Home = ({ navigation }) => {
             })}
           </View>
         </View>
-        {/* changes */}
         <View
           style={{
             display: "flex",
