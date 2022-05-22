@@ -12,3 +12,7 @@ export const MONTH = {
   10: "November",
   11: "Desember",
 };
+
+// Dummy to maintain the samme Acc for now
+// TODO DELETE
+export const dummyAcc = "zG6JHETd61zRkma4fkVy";
