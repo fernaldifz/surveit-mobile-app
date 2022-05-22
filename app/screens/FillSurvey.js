@@ -8,6 +8,7 @@ import {
   Text,
 } from "react-native";
 import { RadioButton } from "react-native-paper";
+import { Checkbox } from "react-native-paper";
 
 const FillSurvey = ({ route, navigation }) => {
   const { survey_data } = route.params;
@@ -17,6 +18,7 @@ const FillSurvey = ({ route, navigation }) => {
   const questions = survey_data.question_list;
 
   const [checked, setChecked] = useState(0);
+  const [option, setOption] = useState([]);
 
   const handleFill = () => {
     let tempAnswers = answers;
@@ -24,9 +26,12 @@ const FillSurvey = ({ route, navigation }) => {
     if (survey_data.question_list[index].type == "Pilihan ganda") {
       tempAnswers[index] = String(checked);
       setChecked(0);
-    } else {
+    } else if (survey_data.question_list[index].type == "Jawaban singkat") {
       tempAnswers[index] = answer;
       onChangeAnswer("");
+    } else if (survey_data.question_list[index].type == "Kotak centang") {
+      tempAnswers[index] = option;
+      setOption([]);
     }
     setAnswersState(tempAnswers);
     console.log(answers);
@@ -37,8 +42,12 @@ const FillSurvey = ({ route, navigation }) => {
       if (survey_data.question_list[index - 1].type == "Pilihan ganda") {
         setChecked(parseInt(answers[index - 1]));
         console.log("here" + index);
-      } else {
+      } else if (
+        survey_data.question_list[index - 1].type == "Jawaban singkat"
+      ) {
         onChangeAnswer(answers[index - 1]);
+      } else if (survey_data.question_list[index - 1].type == "Kotak centang") {
+        setOption(answers[index - 1]);
       }
     }
   };
@@ -48,8 +57,10 @@ const FillSurvey = ({ route, navigation }) => {
       if (survey_data.question_list[index + 1].type == "Pilihan ganda") {
         setChecked(parseInt(answers[index + 1]));
         console.log("here" + index);
-      } else {
+      } else if (survey_data.question_list[index + 1].type == "Paragraph") {
         onChangeAnswer(answers[index + 1]);
+      } else if (survey_data.question_list[index + 1].type == "Kotak centang") {
+        setOption(answers[index + 1]);
       }
     }
   };
@@ -125,13 +136,32 @@ const FillSurvey = ({ route, navigation }) => {
               {questions[index].question}
               {questions[index].required ? "*" : ""}
             </Text>
-            <TextInput
-              style={styles.respondentInput}
-              onChangeText={onChangeAnswer}
-              keyboardType="default"
-              value={answer}
-              multiline={true}
-            />
+            {survey_data.question_list[index].option.map((item, idx) => {
+              return (
+                <View
+                  key={idx}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Checkbox
+                    status={option.includes(idx) ? "checked" : "unchecked"}
+                    style={{ width: 20, height: 20 }}
+                    color="#6E61E8"
+                    onPress={() => {
+                      if (option.includes(idx)) {
+                        setOption(option.filter((item) => item !== idx));
+                      } else {
+                        setOption([...option, idx]);
+                      }
+                    }}
+                  />
+                  <Text style={styles.p1}>{item}</Text>
+                </View>
+              );
+            })}
           </>
         ) : (
           <>
