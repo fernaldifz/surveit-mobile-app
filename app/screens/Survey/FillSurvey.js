@@ -83,8 +83,6 @@ const FillSurvey = ({ route, navigation }) => {
     let res;
     switch (survey_data.question_list[index].type) {
       case "Pilihan ganda":
-        res = !checked;
-        break;
       case "Skala linier":
         res = !checked;
         break;

@@ -46,8 +46,10 @@ const CreateQuestion = ({ route, navigation }) => {
 
   const handleDisabled = () => {
     var res = true;
+    console.log(currSelectedQuestionType);
     switch (currSelectedQuestionType) {
-      case "Pilihan ganda" || "Kotak centang":
+      case "Pilihan ganda":
+      case "Kotak centang":
         res = res && option_1;
 
         if (selectedOptionCount >= 2) {
@@ -64,9 +66,9 @@ const CreateQuestion = ({ route, navigation }) => {
         }
         break;
       case "Skala linier":
-        res = leftDescription;
+        res = res && leftDescription;
         if (selectedScaleCount >= 2) {
-          res && rightDescription;
+          res = res && rightDescription;
         }
         break;
       default:
@@ -131,15 +133,19 @@ const CreateQuestion = ({ route, navigation }) => {
   };
 
   const reset = () => {
-    onChangeQuestion("");
+    clearOption();
+    onChangeLeftDescription("");
+    onChangeRightDescription("");
+    setSelectedScaleCount(2);
+    setSelectedOptionCount(1);
+  };
+
+  const clearOption = () => {
     onChangeOption_1("");
     onChangeOption_2("");
     onChangeOption_3("");
     onChangeOption_4("");
     onChangeOption_5("");
-    onChangeLeftDescription("");
-    onChangeRightDescription("");
-    setSelectedScaleCount(2);
   };
 
   useEffect(() => {
@@ -182,7 +188,7 @@ const CreateQuestion = ({ route, navigation }) => {
                 defaultButtonText="Pilih jumlah opsi"
                 setSelectedOption={setSelectedOptionCount}
                 defaultValue={1}
-                reset={reset}
+                reset={clearOption}
               />
             </View>
           )}
