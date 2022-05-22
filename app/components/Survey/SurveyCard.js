@@ -15,8 +15,8 @@ const SurveyCard = ({
         <TouchableOpacity
             style={style.container}
             onPress={() =>
-                (page = 'home'
-                    ? navigation.navigate('MySurveyDetail', data)
+                (page === 'home'
+                    ? navigation.navigate('SurveyDetails', data)
                     : navigation.navigate('MySurveyDetail', data))
             }
         >
