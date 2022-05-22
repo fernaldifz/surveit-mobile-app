@@ -17,13 +17,10 @@ import * as ImagePicker from "expo-image-picker";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { Overlay } from "react-native-elements";
 import { getUser } from "@services/ProfileServices";
+import { dummyAcc } from "../../const";
 
 // Firebase sets some timeers for a long period, which will trigger some warnings.
 LogBox.ignoreLogs([`Setting a timer for a long period`]);
-
-
-// TODO Change to current user
-const dummy = "naheedo"
 
 const EditProfile = ({ navigation }) => {
   const [nama, setNama] = useState("");
@@ -35,7 +32,7 @@ const EditProfile = ({ navigation }) => {
   const [userDoc, setUserDoc] = useState(null);
 
   const fetchUser = async () => {
-    const data = await getUser(dummy);
+    const data = await getUser(dummyAcc);
     setUserDoc(data);
     setNama(data.name);
     setEmail(data.email);
@@ -56,7 +53,7 @@ const EditProfile = ({ navigation }) => {
   }, []);
 
   const Update = async (url) => {
-    let myDoc = doc(db, "users", "naheedo");
+    let myDoc = doc(db, "users", dummyAcc);
 
     let params = {
       name: nama,
@@ -73,8 +70,8 @@ const EditProfile = ({ navigation }) => {
     setDoc(myDoc, params, { merge: true })
       .then(() => {
         alert("Profil berhasil diperbarui!");
-        navigation.navigate("Profile");
         setUploading(false);
+        navigation.navigate("Profile");
       })
       .catch((error) => {
         setUploading(false);
