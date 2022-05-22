@@ -71,6 +71,6 @@ export const StackNav = [
 	{
 		name: 'FillSurvey',
 		component: FillSurvey,
-		options: { headerShown: false },
+		options: {},
 	},
 ];
