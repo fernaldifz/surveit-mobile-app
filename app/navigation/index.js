@@ -4,6 +4,8 @@ import MySurveyDetail from "@screens/Survey/MySurveyDetail";
 import SurveySummary from "@screens/Survey/SurveySummary";
 import DetailSummary from "@screens/Survey/DetailSummary";
 import FillSurvey from "@screens/Survey/FillSurvey";
+import CreateQuestion from "@screens/CreateQuestion";
+import CreateSurvey from "@screens/CreateSurvey";
 
 import SignUp from "@screens/SignUp";
 import LogIn from "@screens/LogIn";
@@ -98,5 +100,15 @@ export const StackNav = [
     name: "FillSurvey",
     component: FillSurvey,
     options: { title: "Isi Survei" },
+  },
+  {
+    name: "CreateQuestion",
+    component: CreateQuestion,
+    options: {},
+  },
+  {
+    name: "CreateSurvey",
+    component: CreateSurvey,
+    options: { headerShown: false },
   },
 ];

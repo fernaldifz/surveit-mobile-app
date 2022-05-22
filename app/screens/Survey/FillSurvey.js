@@ -80,6 +80,20 @@ const FillSurvey = ({ route, navigation }) => {
     }
   };
 
+  const handleDisabled = () => {
+    console.log(option.length);
+    switch (survey_data.question_list[index].type) {
+      case "Pilihan ganda":
+        return checked;
+      case "Skala linier":
+        return checked;
+      case "Kotak centang":
+        return option.length > 0;
+      default:
+        return answer;
+    }
+  };
+
   useEffect(() => {
     navigation.setOptions({
       title: "Pertanyaan " + (index + 1),
@@ -244,6 +258,9 @@ const FillSurvey = ({ route, navigation }) => {
               handleFill();
               handleNext();
             }}
+            disabled={
+              !handleDisabled() && survey_data.question_list[index].required
+            }
           >
             <Text style={styles.nextButtonText}>Lanjut</Text>
           </TouchableOpacity>
@@ -251,11 +268,13 @@ const FillSurvey = ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              console.log("balik ke home");
               setVisible(true);
               handleFill();
               handleNext();
             }}
+            disabled={
+              !handleDisabled() && survey_data.question_list[index].required
+            }
           >
             <Text style={styles.nextButtonText}>Selesai</Text>
           </TouchableOpacity>

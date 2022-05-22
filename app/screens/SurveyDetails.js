@@ -9,26 +9,17 @@ import {
   StatusBar,
 } from "react-native";
 
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from "react-native-popup-menu";
-
-import surveyCover from "../assets/survey-cover.png";
 import point from "../assets/point.png";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../config/index";
 
-import kebab from "@assets/kebab-white.png";
 import cheveronLeft from "@assets/cheveron-white-left.png";
 
 // Firebase sets some timers for a long period, which will trigger some warnings.
 LogBox.ignoreLogs([`Setting a timer for a long period`]);
 
 const SurveyDetails = ({ route, navigation }) => {
-  const { id } = route.params;
+  const { id, cover } = route.params;
 
   const [userDoc, setUserDoc] = useState(null);
   const [isLoaded, setisLoaded] = useState(false);
@@ -58,33 +49,6 @@ const SurveyDetails = ({ route, navigation }) => {
       });
 
     navigation.setOptions({
-      headerRight: () => (
-        <View>
-          <Menu>
-            <MenuTrigger>
-              <View style={{ padding: 10 }}>
-                <Image source={kebab} />
-              </View>
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionText: {
-                  fontFamily: "Urbanist_500Medium",
-                  fontSize: 14,
-                  lineHeight: 20,
-                  color: "#475569",
-                },
-                optionWrapper: {
-                  padding: 8,
-                },
-              }}
-            >
-              <MenuOption text="Edit survei" />
-              <MenuOption text="Hapus survei" />
-            </MenuOptions>
-          </Menu>
-        </View>
-      ),
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={cheveronLeft} style={{ marginLeft: 10 }} />
@@ -124,7 +88,7 @@ const SurveyDetails = ({ route, navigation }) => {
       <View style={{ flex: 1 }}>
         <StatusBar translucent backgroundColor="transparent" />
         <View style={{ flex: 1 }}>
-          <Image source={surveyCover} style={styles.image} />
+          <Image source={{uri: cover}} style={styles.image} />
           <View
             style={{
               marginLeft: 20,
