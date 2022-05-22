@@ -45,13 +45,13 @@ const Home = ({ navigation }) => {
 	//changes
 	const [survey, setSurvey] = useState([]);
 
-	const fetchSurvey = async (type) => {
-		let data = await getSurvey(dummyAcc, type);
+	const fetchSurvey = async () => {
+		let data = await getSurvey(dummyAcc);
 		setSurvey(data);
 	};
 
 	useEffect(() => {
-		fetchSurvey(true);
+		fetchSurvey();
 	}, []);
 
 	return (
@@ -158,7 +158,7 @@ const Home = ({ navigation }) => {
 						</TouchableOpacity>
 					</View>
 					<View style={{ marginTop: 16 }}>
-						{survey.length > 5
+						{survey && (survey.length > 5
 							? survey
 									.slice(0, 5)
 									.map((item, index) => (
@@ -178,7 +178,7 @@ const Home = ({ navigation }) => {
 										data={item}
 										page="home"
 									/>
-							  ))}
+							  )))}
 					</View>
 				</View>
 			</View>

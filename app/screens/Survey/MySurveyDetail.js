@@ -92,7 +92,7 @@ const MySurveyDetail = ({ route, navigation }) => {
 const style = StyleSheet.create({
   image: {
     width: "100%",
-    height: 250,
+    height: 180,
   },
   container: {
     padding: 20,
