@@ -27,7 +27,7 @@ export const StackNav = [
   {
     name: "SurveyDetails",
     component: SurveyDetails,
-    options: { headerShown: false },
+    options: { headerTransparent: true, title: "" },
   },
   {
     name: "MySurvey",

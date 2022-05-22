@@ -1,233 +1,243 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-	StyleSheet,
-	View,
-	Image,
-	Text,
-	ImageBackground,
-	TouchableOpacity,
-	LogBox,
-} from 'react-native';
-import surveyCover from '../assets/survey-cover.png';
-import cheveronLeft from '../assets/cheveron-left-white.png';
-import point from '../assets/point.png';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../config/index';
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  LogBox,
+  StatusBar,
+} from "react-native";
+
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from "react-native-popup-menu";
+
+import surveyCover from "../assets/survey-cover.png";
+import point from "../assets/point.png";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../config/index";
+
+import kebab from "@assets/kebab-white.png";
+import cheveronLeft from "@assets/cheveron-white-left.png";
 
 // Firebase sets some timers for a long period, which will trigger some warnings.
 LogBox.ignoreLogs([`Setting a timer for a long period`]);
 
 const SurveyDetails = ({ route, navigation }) => {
-	const [userDoc, setUserDoc] = useState(null);
-	const [isLoaded, setisLoaded] = useState(false);
-	const [error, setError] = useState(null);
+  const { id } = route.params;
 
-	const handleStartFill = () => {
-		navigation.navigate('FillSurvey', {
-			survey_data: userDoc,
-		});
-	};
+  const [userDoc, setUserDoc] = useState(null);
+  const [isLoaded, setisLoaded] = useState(false);
+  const [error, setError] = useState(null);
 
-	const myDoc = doc(db, 'surveys', 'document_dummy');
-	getDoc(myDoc)
-		.then((snapshot) => {
-			if (snapshot.exists) {
-				setUserDoc(snapshot.data());
-				setisLoaded(true);
-			} else {
-				alert('No doc found!');
-			}
-		})
-		.catch((error) => {
-			setisLoaded(true);
-			setError(error);
-		});
+  const handleStartFill = () => {
+    navigation.navigate("FillSurvey", {
+      survey_data: userDoc,
+    });
+  };
 
-	if (error) {
-		return (
-			<Text
-				style={{
-					marginTop: 'auto',
-					marginBottom: 'auto',
-					marginLeft: 'auto',
-					marginRight: 'auto',
-				}}
-			>
-				Error: {error.message}
-			</Text>
-		);
-	} else if (!isLoaded) {
-		return (
-			<Text
-				style={{
-					marginTop: 'auto',
-					marginBottom: 'auto',
-					marginLeft: 'auto',
-					marginRight: 'auto',
-				}}
-			>
-				Loading...
-			</Text>
-		);
-	} else {
-		return (
-			<View style={{ flex: 1 }}>
-				<View style={{ flex: 1 }}>
-					<View style={{ width: '100%', height: 180 }}>
-						<ImageBackground source={surveyCover} style={styles.image}>
-							<View
-								style={{
-									width: '100%',
-									height: 80,
-									position: 'absolute',
-									top: 0,
-									zIndex: 1,
-								}}
-							>
-								<View
-									style={{
-										paddingLeft: 20,
-										paddingRight: 20,
-										paddingTop: 32,
-										display: 'flex',
-										flexDirection: 'row',
-										alignItems: 'center',
-										justifyContent: 'center',
-										textAlign: 'left',
-									}}
-								>
-									<TouchableOpacity
-										onPress={() => console.log('pindah ke pilih survey')}
-									>
-										<Image
-											style={styles.cheveronLeft}
-											source={cheveronLeft}
-											tintColor="white"
-										/>
-									</TouchableOpacity>
-									<View
-										style={{
-											marginLeft: 'auto',
-											marginRight: 'auto',
-										}}
-									></View>
-								</View>
-							</View>
-						</ImageBackground>
-					</View>
-					<View
-						style={{
-							marginLeft: 20,
-							marginRight: 20,
-						}}
-					>
-						<View
-							style={{
-								marginTop: 20,
-								marginBottom: 32,
-							}}
-						>
-							<Text style={[styles.h3, styles.surveyTitle]}>
-								{userDoc.title}
-							</Text>
-							<View
-								style={{
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center',
-								}}
-							>
-								<Image style={styles.point} source={point} />
-								<Text
-									style={{
-										...styles.p2,
-										color: '#F9AD5D',
-										fontFamily: 'Urbanist_500Medium',
-									}}
-								>
-									{' '}
-									{userDoc.point} poin {'  '}
-								</Text>
-								<Text
-									style={{
-										...styles.p2,
-										color: '#94A3B8',
-										fontFamily: 'Urbanist_500Medium',
-									}}
-								>
-									{'•  '}
-									{userDoc.question_list.length} pertanyaan
-								</Text>
-							</View>
-						</View>
-						<View>
-							<Text style={styles.p1}>{userDoc.description}</Text>
-						</View>
-					</View>
-				</View>
-				<View style={{ marginHorizontal: 20 }}>
-					<TouchableOpacity
-						style={styles.startButton}
-						onPress={handleStartFill}
-					>
-						<Text style={styles.textButton}>Mulai kerjakan</Text>
-					</TouchableOpacity>
-				</View>
-			</View>
-		);
-	}
+  useEffect(() => {
+    const myDoc = doc(db, "surveys", id);
+    console.log(id)
+    getDoc(myDoc)
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          setUserDoc(snapshot.data());
+          setisLoaded(true);
+        } else {
+          alert("No doc found!");
+        }
+      })
+      .catch((error) => {
+        setisLoaded(true);
+        setError(error);
+      });
+
+    navigation.setOptions({
+      headerRight: () => (
+        <View>
+          <Menu>
+            <MenuTrigger>
+              <View style={{ padding: 10 }}>
+                <Image source={kebab} />
+              </View>
+            </MenuTrigger>
+            <MenuOptions
+              customStyles={{
+                optionText: {
+                  fontFamily: "Urbanist_500Medium",
+                  fontSize: 14,
+                  lineHeight: 20,
+                  color: "#475569",
+                },
+                optionWrapper: {
+                  padding: 8,
+                },
+              }}
+            >
+              <MenuOption text="Edit survei" />
+              <MenuOption text="Hapus survei" />
+            </MenuOptions>
+          </Menu>
+        </View>
+      ),
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image source={cheveronLeft} style={{ marginLeft: 10 }} />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+
+  if (error) {
+    return (
+      <Text
+        style={{
+          marginTop: "auto",
+          marginBottom: "auto",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
+        Error: {error.message}
+      </Text>
+    );
+  } else if (!isLoaded) {
+    return (
+      <Text
+        style={{
+          marginTop: "auto",
+          marginBottom: "auto",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
+        Loading...
+      </Text>
+    );
+  } else {
+    return (
+      <View style={{ flex: 1 }}>
+        <StatusBar translucent backgroundColor="transparent" />
+        <View style={{ flex: 1 }}>
+          <Image source={surveyCover} style={styles.image} />
+          <View
+            style={{
+              marginLeft: 20,
+              marginRight: 20,
+            }}
+          >
+            <View
+              style={{
+                marginTop: 20,
+                marginBottom: 32,
+              }}
+            >
+              <Text style={[styles.h3, styles.surveyTitle]}>
+                {userDoc.title}
+              </Text>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Image style={styles.point} source={point} />
+                <Text
+                  style={{
+                    ...styles.p2,
+                    color: "#F9AD5D",
+                    fontFamily: "Urbanist_500Medium",
+                  }}
+                >
+                  {" "}
+                  {userDoc.point} poin {"  "}
+                </Text>
+                <Text
+                  style={{
+                    ...styles.p2,
+                    color: "#94A3B8",
+                    fontFamily: "Urbanist_500Medium",
+                  }}
+                >
+                  {"•  "}
+                  {userDoc.question_list.length} pertanyaan
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.p1}>{userDoc.description}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ marginHorizontal: 20 }}>
+          <TouchableOpacity
+            style={styles.startButton}
+            onPress={handleStartFill}
+          >
+            <Text style={styles.textButton}>Mulai kerjakan</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
-	h3: {
-		fontSize: 16,
-		lineHeight: 20,
-		fontWeight: '600',
-		color: '#475569',
-		fontFamily: 'Urbanist_600SemiBold',
-	},
-	p1: {
-		fontSize: 16,
-		color: '#475569',
-		lineHeight: 20,
-		fontFamily: 'Urbanist_500Medium',
-	},
-	p2: {
-		fontSize: 12,
-		color: '#94A3B8',
-		lineHeight: 14,
-		fontFamily: 'Urbanist_500Medium',
-	},
-	cheveronLeft: {
-		width: 24,
-		height: 24,
-	},
-	point: {
-		width: 16,
-		height: 16,
-	},
-	image: {
-		flex: 1,
-		justifyContent: 'center',
-	},
-	surveyTitle: {
-		marginBottom: 8,
-	},
-	startButton: {
-		marginBottom: 20,
-		height: 56,
-		width: '100%',
-		borderRadius: 12,
-		backgroundColor: '#6E61E8',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	textButton: {
-		color: '#FFFFFF',
-		fontSize: 16,
-		lineHeight: 20,
-		fontFamily: 'Urbanist_600SemiBold',
-	},
+  h3: {
+    fontSize: 16,
+    lineHeight: 20,
+    fontWeight: "600",
+    color: "#475569",
+    fontFamily: "Urbanist_600SemiBold",
+  },
+  p1: {
+    fontSize: 16,
+    color: "#475569",
+    lineHeight: 20,
+    fontFamily: "Urbanist_500Medium",
+  },
+  p2: {
+    fontSize: 12,
+    color: "#94A3B8",
+    lineHeight: 14,
+    fontFamily: "Urbanist_500Medium",
+  },
+  cheveronLeft: {
+    width: 24,
+    height: 24,
+  },
+  point: {
+    width: 16,
+    height: 16,
+  },
+  image: {
+    justifyContent: "center",
+    height: 180,
+  },
+  surveyTitle: {
+    marginBottom: 8,
+  },
+  startButton: {
+    marginBottom: 20,
+    height: 56,
+    width: "100%",
+    borderRadius: 12,
+    backgroundColor: "#6E61E8",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textButton: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    lineHeight: 20,
+    fontFamily: "Urbanist_600SemiBold",
+  },
 });
 
 export default SurveyDetails;
