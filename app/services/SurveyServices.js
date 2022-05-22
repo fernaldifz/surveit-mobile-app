@@ -6,6 +6,7 @@ import {
   query,
   where,
   orderBy,
+  addDoc,
 } from "firebase/firestore";
 
 export const getSurvey = async (user) => {
@@ -59,4 +60,12 @@ export const getUserSurvey = async (user, type) => {
   return arr;
 };
 
-export const saveAnswer = async (user, surveyId, answer) => {};
+export const saveAnswer = async (user, surveyId, answer) => {
+  const docRef = await addDoc(collection(db, "answers"), {
+    user_id: doc(db, "users", user),
+    survey_id: doc(db, "surveys", surveyId),
+    answer: answer
+  });
+
+  return docRef.id
+};

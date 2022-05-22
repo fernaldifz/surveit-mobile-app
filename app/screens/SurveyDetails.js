@@ -33,11 +33,10 @@ const SurveyDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     const myDoc = doc(db, "surveys", id);
-    console.log(id)
     getDoc(myDoc)
       .then((snapshot) => {
         if (snapshot.exists) {
-          setUserDoc(snapshot.data());
+          setUserDoc({ ...snapshot.data(), id: snapshot.id });
           setisLoaded(true);
         } else {
           alert("No doc found!");
@@ -88,7 +87,7 @@ const SurveyDetails = ({ route, navigation }) => {
       <View style={{ flex: 1 }}>
         <StatusBar translucent backgroundColor="transparent" />
         <View style={{ flex: 1 }}>
-          <Image source={{uri: cover}} style={styles.image} />
+          <Image source={{ uri: cover }} style={styles.image} />
           <View
             style={{
               marginLeft: 20,

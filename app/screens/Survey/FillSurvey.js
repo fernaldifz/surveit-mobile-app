@@ -14,6 +14,8 @@ import { RadioButton } from "react-native-paper";
 import { Checkbox } from "react-native-paper";
 
 import success from "@assets/success.png";
+import { saveAnswer } from "@services/SurveyServices";
+import { dummyAcc } from "@const/";
 
 const FillSurvey = ({ route, navigation }) => {
   const { survey_data } = route.params;
@@ -22,7 +24,7 @@ const FillSurvey = ({ route, navigation }) => {
   const [index, setIndexState] = useState(0);
   const questions = survey_data.question_list;
 
-  const [checked, setChecked] = useState(0);
+  const [checked, setChecked] = useState(null);
   const [option, setOption] = useState([]);
   const [visible, setVisible] = useState(false);
 
@@ -33,8 +35,8 @@ const FillSurvey = ({ route, navigation }) => {
       survey_data.question_list[index].type == "Pilihan ganda" ||
       survey_data.question_list[index].type == "Skala linier"
     ) {
-      tempAnswers[index] = String(checked);
-      setChecked(0);
+      tempAnswers[index] = checked;
+      setChecked(null);
     } else if (survey_data.question_list[index].type == "Jawaban singkat") {
       tempAnswers[index] = answer;
       onChangeAnswer("");
@@ -43,7 +45,6 @@ const FillSurvey = ({ route, navigation }) => {
       setOption([]);
     }
     setAnswersState(tempAnswers);
-    console.log(answers);
   };
 
   const handleBack = () => {
@@ -53,7 +54,6 @@ const FillSurvey = ({ route, navigation }) => {
         survey_data.question_list[index - 1].type == "Skala linier"
       ) {
         setChecked(parseInt(answers[index - 1]));
-        console.log("here" + index);
       } else if (
         survey_data.question_list[index - 1].type == "Jawaban singkat"
       ) {
@@ -71,7 +71,6 @@ const FillSurvey = ({ route, navigation }) => {
         survey_data.question_list[index + 1].type == "Skala linier"
       ) {
         setChecked(parseInt(answers[index + 1]));
-        console.log("here" + index);
       } else if (survey_data.question_list[index + 1].type == "Paragraph") {
         onChangeAnswer(answers[index + 1]);
       } else if (survey_data.question_list[index + 1].type == "Kotak centang") {
@@ -81,7 +80,6 @@ const FillSurvey = ({ route, navigation }) => {
   };
 
   const handleDisabled = () => {
-    console.log(option.length);
     switch (survey_data.question_list[index].type) {
       case "Pilihan ganda":
         return checked;
@@ -94,6 +92,22 @@ const FillSurvey = ({ route, navigation }) => {
     }
   };
 
+  const handleSubmit = async () => {
+    let mapAns = answers.map((ans, index) => {
+      return {
+        no: survey_data.question_list[index].no,
+        result: ans ? (Array.isArray(ans) ? ans : String(ans)) : ans,
+      };
+    });
+    mapAns = mapAns.filter((ans) => ans.result);
+    mapAns = mapAns.filter((ans) => ans.result.length > 0);
+
+    let res = await saveAnswer(dummyAcc, survey_data.id, mapAns);
+    if (res) {
+      setVisible(true);
+    }
+  };
+
   useEffect(() => {
     navigation.setOptions({
       title: "Pertanyaan " + (index + 1),
@@ -101,7 +115,7 @@ const FillSurvey = ({ route, navigation }) => {
   }, [index]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#F8FAFC" }}>
       <View style={{ marginHorizontal: 20, marginTop: 20, gap: 16, flex: 1 }}>
         {survey_data.question_list[index].type == "Jawaban singkat" ? (
           <>
@@ -268,9 +282,9 @@ const FillSurvey = ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.nextButton}
             onPress={() => {
-              setVisible(true);
               handleFill();
               handleNext();
+              handleSubmit();
             }}
             disabled={
               !handleDisabled() && survey_data.question_list[index].required
