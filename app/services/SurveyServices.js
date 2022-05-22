@@ -10,10 +10,14 @@ import {
 
 export const getSurvey = async (user, type) => {
 	const userRef = doc(db, 'users', user);
+
+	let date = new Date();
+	date.setMonth(date.getMonth() - 1);
+
 	const q = query(
 		collection(db, 'surveys'),
 		where('user_id', '==', userRef),
-		where('timestamp', type ? '>=' : '<', new Date()),
+		where('timestamp', type ? '>=' : '<', date),
 		orderBy('timestamp', 'desc') //change
 	);
 

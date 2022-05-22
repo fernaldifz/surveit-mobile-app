@@ -25,6 +25,7 @@ const MySurvey = ({ route, navigation }) => {
             {...item}
             navigation={navigation}
             data={item}
+            page="MySurvey"
           />
         ))}
       <View style={{ marginBottom: 20 }} />
