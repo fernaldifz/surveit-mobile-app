@@ -23,7 +23,10 @@ const FillSurvey = ({ route, navigation }) => {
   const handleFill = () => {
     let tempAnswers = answers;
 
-    if (survey_data.question_list[index].type == "Pilihan ganda") {
+    if (
+      survey_data.question_list[index].type == "Pilihan ganda" ||
+      survey_data.question_list[index].type == "Skala linier"
+    ) {
       tempAnswers[index] = String(checked);
       setChecked(0);
     } else if (survey_data.question_list[index].type == "Jawaban singkat") {
@@ -39,7 +42,10 @@ const FillSurvey = ({ route, navigation }) => {
 
   const handleBack = () => {
     if (answers[index - 1]) {
-      if (survey_data.question_list[index - 1].type == "Pilihan ganda") {
+      if (
+        survey_data.question_list[index - 1].type == "Pilihan ganda" ||
+        survey_data.question_list[index - 1].type == "Skala linier"
+      ) {
         setChecked(parseInt(answers[index - 1]));
         console.log("here" + index);
       } else if (
@@ -54,7 +60,10 @@ const FillSurvey = ({ route, navigation }) => {
 
   const handleNext = () => {
     if (answers[index + 1]) {
-      if (survey_data.question_list[index + 1].type == "Pilihan ganda") {
+      if (
+        survey_data.question_list[index + 1].type == "Pilihan ganda" ||
+        survey_data.question_list[index + 1].type == "Skala linier"
+      ) {
         setChecked(parseInt(answers[index + 1]));
         console.log("here" + index);
       } else if (survey_data.question_list[index + 1].type == "Paragraph") {
@@ -107,7 +116,7 @@ const FillSurvey = ({ route, navigation }) => {
               {questions[index].question}
               {questions[index].required ? "*" : ""}
             </Text>
-            <View>
+            <View style={{ marginTop: 16 }}>
               {survey_data.question_list[index].option.map((item, idx) => {
                 return (
                   <View
@@ -123,6 +132,7 @@ const FillSurvey = ({ route, navigation }) => {
                       value="test"
                       status={checked === idx ? "checked" : "unchecked"}
                       onPress={() => setChecked(idx)}
+                      color="#6E61E8"
                     />
                     <Text style={styles.p1}>{item}</Text>
                   </View>
@@ -144,6 +154,7 @@ const FillSurvey = ({ route, navigation }) => {
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
+                    marginTop: 20,
                   }}
                 >
                   <Checkbox
@@ -169,13 +180,34 @@ const FillSurvey = ({ route, navigation }) => {
               {questions[index].question}
               {questions[index].required ? "*" : ""}
             </Text>
-            <TextInput
-              style={styles.respondentInput}
-              onChangeText={onChangeAnswer}
-              keyboardType="default"
-              value={answer}
-              multiline={true}
-            />
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                marginTop: 36,
+              }}
+            >
+              {[
+                ...Array(survey_data.question_list[index].number_of_scales),
+              ].map((_, idx) => (
+                <View key={idx} style={{ alignItems: "center" }}>
+                  <RadioButton
+                    value="test"
+                    status={checked === idx ? "checked" : "unchecked"}
+                    onPress={() => setChecked(idx)}
+                    color="#6E61E8"
+                  />
+                  {idx === 0 && <Text>1</Text>}
+                  {idx ===
+                    survey_data.question_list[index].number_of_scales - 1 && (
+                    <Text>
+                      {survey_data.question_list[index].number_of_scales}
+                    </Text>
+                  )}
+                </View>
+              ))}
+            </View>
           </>
         )}
       </View>
@@ -305,6 +337,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: "Urbanist_500Medium",
     color: "#475569",
+    marginTop: 16,
   },
   paragraph: {
     width: 320,
