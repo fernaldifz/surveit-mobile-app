@@ -1,10 +1,30 @@
-import React from "react";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useEffect } from "react";
 import { StyleSheet, Button, TextInput, View, Image, Text } from "react-native";
 import InputPassword from "../components/InputPassword";
+import { auth } from "../config/index";
 
 const LogIn = ({ navigation }) => {
   const [email, onChangeEmail] = React.useState("");
   const [password, onChangePassword] = React.useState("");
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("pindah home");
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const handleLogIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Logged in with : ", user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
 
   return (
     <View style={{ alignItems: "center" }}>
@@ -17,11 +37,7 @@ const LogIn = ({ navigation }) => {
       />
       <InputPassword password={password} onChangePassword={onChangePassword} />
       <View style={styles.viewButton}>
-        <Button
-          title="Masuk"
-          color="#6E61E8"
-          onPress={() => console.log({ email }, { password })}
-        />
+        <Button title="Masuk" color="#6E61E8" onPress={handleLogIn} />
       </View>
       <Text>
         Belum punya akun?
