@@ -15,16 +15,14 @@ import more from "../assets/more.png";
 import * as ImagePicker from "expo-image-picker";
 import surveyCover from "../assets/survey-cover.png";
 import { db, storage } from "../config/index";
-import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { collection, Timestamp, addDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
-import { SURVEY_TEMPLATE } from "@const/";
+import { SURVEY_TEMPLATE, dummyAcc } from "@const/";
 
 // Firebase sets some timers for a long period, which will trigger some warnings.
 LogBox.ignoreLogs([`Setting a timer for a long period`]);
 
-const user_id_dummy = "user_id_dummy";
-
-const CreateSurvey = ({ route, navigation }) => {
+const CreateSurvey = ({ navigation }) => {
   const categories = ["Edukasi", "Bisnis", "Gaya Hidup", "Hobi"];
   const questionTypes = [
     "Jawaban singkat",
@@ -119,8 +117,6 @@ const CreateSurvey = ({ route, navigation }) => {
   };
 
   const Create = async (url) => {
-    const myDoc = doc(db, "surveys", "document_dummy_test");
-
     var survey = {
       cover: url,
       title: title,
@@ -128,14 +124,14 @@ const CreateSurvey = ({ route, navigation }) => {
       description: description,
       response_target: parseInt(respondentCount),
       question_list: questionList,
-      user_id: user_id_dummy,
+      user_id: dummyAcc,
       timestamp: Timestamp.fromDate(new Date()),
       point: questionList.length * 10,
     };
 
-    setDoc(myDoc, survey)
+    addDoc(collection(db, "surveys"), survey)
       .then(() => {
-        navigation.navigate("Home")
+        navigation.navigate("Home");
       })
       .catch((error) => {
         alert(error.message);
