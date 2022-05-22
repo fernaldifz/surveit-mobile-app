@@ -6,9 +6,14 @@ import {
   View,
   TouchableOpacity,
   Text,
+  Modal,
+  StatusBar,
+  Image,
 } from "react-native";
 import { RadioButton } from "react-native-paper";
 import { Checkbox } from "react-native-paper";
+
+import success from "@assets/success.png";
 
 const FillSurvey = ({ route, navigation }) => {
   const { survey_data } = route.params;
@@ -19,6 +24,7 @@ const FillSurvey = ({ route, navigation }) => {
 
   const [checked, setChecked] = useState(0);
   const [option, setOption] = useState([]);
+  const [visible, setVisible] = useState(false);
 
   const handleFill = () => {
     let tempAnswers = answers;
@@ -87,7 +93,7 @@ const FillSurvey = ({ route, navigation }) => {
           <>
             <Text style={styles.p1}>
               {questions[index].question}
-              {questions[index].required ? "*" : ""}
+              {questions[index].required ? " *" : ""}
             </Text>
             <TextInput
               style={styles.shortAnswer}
@@ -100,7 +106,7 @@ const FillSurvey = ({ route, navigation }) => {
           <>
             <Text style={styles.p1}>
               {questions[index].question}
-              {questions[index].required ? "*" : ""}
+              {questions[index].required ? " *" : ""}
             </Text>
             <TextInput
               style={styles.paragraph}
@@ -114,7 +120,7 @@ const FillSurvey = ({ route, navigation }) => {
           <>
             <Text style={styles.p1}>
               {questions[index].question}
-              {questions[index].required ? "*" : ""}
+              {questions[index].required ? " *" : ""}
             </Text>
             <View style={{ marginTop: 16 }}>
               {survey_data.question_list[index].option.map((item, idx) => {
@@ -125,6 +131,7 @@ const FillSurvey = ({ route, navigation }) => {
                       display: "flex",
                       flexDirection: "row",
                       alignItems: "center",
+                      marginTop: 12,
                     }}
                   >
                     <RadioButton
@@ -144,7 +151,7 @@ const FillSurvey = ({ route, navigation }) => {
           <>
             <Text style={styles.p1}>
               {questions[index].question}
-              {questions[index].required ? "*" : ""}
+              {questions[index].required ? " *" : ""}
             </Text>
             {survey_data.question_list[index].option.map((item, idx) => {
               return (
@@ -154,7 +161,7 @@ const FillSurvey = ({ route, navigation }) => {
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
-                    marginTop: 20,
+                    marginTop: 12,
                   }}
                 >
                   <Checkbox
@@ -178,7 +185,7 @@ const FillSurvey = ({ route, navigation }) => {
           <>
             <Text style={styles.p1}>
               {questions[index].question}
-              {questions[index].required ? "*" : ""}
+              {questions[index].required ? " *" : ""}
             </Text>
             <View
               style={{
@@ -198,7 +205,7 @@ const FillSurvey = ({ route, navigation }) => {
                     onPress={() => setChecked(idx)}
                     color="#6E61E8"
                   />
-                  {idx === 0 && <Text>1</Text>}
+                  {idx === 0 && <Text>{1}</Text>}
                   {idx ===
                     survey_data.question_list[index].number_of_scales - 1 && (
                     <Text>
@@ -245,6 +252,7 @@ const FillSurvey = ({ route, navigation }) => {
             style={styles.nextButton}
             onPress={() => {
               console.log("balik ke home");
+              setVisible(true);
               handleFill();
               handleNext();
             }}
@@ -253,11 +261,66 @@ const FillSurvey = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
       </View>
+      <Modal
+        animationType="slide"
+        visible={visible}
+        onRequestClose={() => {
+          setVisible(!visible);
+        }}
+        style={styles.modal}
+      >
+        <StatusBar translucent backgroundColor="#6E61E8" />
+        <View style={styles.modal}>
+          <Image source={success} style={styles.image} />
+          <Text style={[styles.h3, { color: "#fff", marginTop: 20.5 }]}>
+            Kamu mendapatkan +{survey_data.point} poin!
+          </Text>
+          <TouchableOpacity
+            style={styles.finishButton}
+            onPress={() => navigation.navigate("Home")}
+          >
+            <Text style={styles.button1}>Balik ke home</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  button1: {
+    fontSize: 16,
+    lineHeight: 20,
+    fontFamily: "Urbanist_600SemiBold",
+    color: "#6E61E8",
+  },
+  finishButton: {
+    backgroundColor: "#fff",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginTop: 64,
+  },
+  image: {
+    width: 205,
+    height: 205,
+  },
+  modal: {
+    backgroundColor: "#6E61E8",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  h3: {
+    fontSize: 16,
+    lineHeight: 20,
+    fontFamily: "Urbanist_600SemiBold",
+    color: "#475569",
+    marginBottom: 8,
+  },
   bottomNav: {
     display: "flex",
     flexDirection: "row",
@@ -326,7 +389,7 @@ const styles = StyleSheet.create({
   },
   shortAnswer: {
     height: 48,
-    width: 320,
+    width: "100%",
     borderWidth: 1,
     borderColor: "#E2E8F0",
     borderStyle: "solid",
@@ -340,7 +403,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   paragraph: {
-    width: 320,
+    marginTop: 16,
+    width: "100%",
     borderWidth: 1,
     borderColor: "#E2E8F0",
     borderStyle: "solid",

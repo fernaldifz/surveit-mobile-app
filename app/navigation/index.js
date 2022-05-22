@@ -3,6 +3,7 @@ import SurveyRecommendation from "@screens/SurveyRecommendation";
 import MySurveyDetail from "@screens/Survey/MySurveyDetail";
 import SurveySummary from "@screens/Survey/SurveySummary";
 import DetailSummary from "@screens/Survey/DetailSummary";
+import FillSurvey from "@screens/Survey/FillSurvey";
 
 import SignUp from "@screens/SignUp";
 import LogIn from "@screens/LogIn";
@@ -13,7 +14,6 @@ import RedeemPoint from "@screens/Profile/RedeemPoint";
 import Voucher from "@screens/Profile/Voucher";
 
 import SurveyDetails from "@screens/SurveyDetails";
-import FillSurvey from "@screens/FillSurvey";
 
 import { NavigationBar } from "./TabNav";
 import { SurveyNav } from "./MySurveyNav";

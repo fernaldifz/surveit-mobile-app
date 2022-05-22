@@ -12,7 +12,6 @@ export const getSurvey = async (user) => {
   const userRef = doc(db, "users", user);
 
   const q = query(collection(db, "surveys"), where("user_id", "!=", userRef));
-
   const querySnapshot = await getDocs(q);
 
   let arr = [];
