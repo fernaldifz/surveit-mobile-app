@@ -25,6 +25,13 @@ export const StackNav = [
 		options: { headerShown: false },
 	},
 	{
+		name: 'MySurvey',
+		component: SurveyNav,
+		options: {
+			title: 'Surveimu',
+		},
+	},
+	{
 		name: 'RedeemPoint',
 		component: RedeemPoint,
 		options: {
@@ -44,12 +51,12 @@ export const StackNav = [
 	{
 		name: 'SurveyCategory',
 		component: SurveyCategory,
-		options: { headerShown: false },
+		options: {},
 	},
 	{
 		name: 'SurveyRecommendation',
 		component: SurveyRecommendation,
-		options: { headerShown: false },
+		options: { title: 'Survei untukmu' },
 	},
 	{
 		name: 'SignUp',
@@ -69,8 +76,17 @@ export const StackNav = [
 		},
 	},
 	{
-		name: 'FillSurvey',
-		component: FillSurvey,
-		options: {},
+		name: 'MySurveyDetail',
+		component: MySurveyDetail,
+		options: { headerTransparent: true, title: '' },
+	},
+	{
+		name: 'SurveySummary',
+		component: SurveySummary,
+		options: { title: 'Ringkasan Survei' },
+	},
+	{
+		name: 'DetailSummary',
+		component: DetailSummary,
 	},
 ];

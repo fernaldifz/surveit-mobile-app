@@ -11,9 +11,7 @@ import * as Clipboard from "expo-clipboard";
 
 import Card from "@components/Profile/Card";
 import { getUserVoucher } from "@services/ProfileServices";
-
-// TODO Change to current user
-const user = "naheedo";
+import { dummyAcc } from "@const";
 
 const Voucher = ({ navigation }) => {
   const [voucherList, setVoucherList] = useState([]);
@@ -35,7 +33,7 @@ const Voucher = ({ navigation }) => {
   );
 
   const fetchVoucher = async () => {
-    let data = await getUserVoucher(user);
+    let data = await getUserVoucher(dummyAcc);
     setVoucherList(data);
   };
 
