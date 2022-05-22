@@ -1,5 +1,12 @@
 import SurveyCategory from "@screens/SurveyCategory";
 import SurveyRecommendation from "@screens/SurveyRecommendation";
+import MySurveyDetail from "@screens/Survey/MySurveyDetail";
+import SurveySummary from "@screens/Survey/SurveySummary";
+import DetailSummary from "@screens/Survey/DetailSummary";
+import FillSurvey from "@screens/Survey/FillSurvey";
+import CreateQuestion from "@screens/CreateQuestion";
+import CreateSurvey from "@screens/CreateSurvey";
+
 import SignUp from "@screens/SignUp";
 import LogIn from "@screens/LogIn";
 import Guide from "@screens/Guide";
@@ -8,13 +15,28 @@ import EditProfile from "@screens/Profile/EditProfile";
 import RedeemPoint from "@screens/Profile/RedeemPoint";
 import Voucher from "@screens/Profile/Voucher";
 
+import SurveyDetails from "@screens/SurveyDetails";
+
 import { NavigationBar } from "./TabNav";
+import { SurveyNav } from "./MySurveyNav";
 
 export const StackNav = [
   {
     name: "Main",
     component: NavigationBar,
     options: { headerShown: false },
+  },
+  {
+    name: "SurveyDetails",
+    component: SurveyDetails,
+    options: { headerTransparent: true, title: "" },
+  },
+  {
+    name: "MySurvey",
+    component: SurveyNav,
+    options: {
+      title: "Surveimu",
+    },
   },
   {
     name: "RedeemPoint",
@@ -36,12 +58,12 @@ export const StackNav = [
   {
     name: "SurveyCategory",
     component: SurveyCategory,
-    options: { headerShown: false },
+    options: {},
   },
   {
     name: "SurveyRecommendation",
     component: SurveyRecommendation,
-    options: { headerShown: false },
+    options: { title: "Survei untukmu" },
   },
   {
     name: "SignUp",
@@ -59,5 +81,34 @@ export const StackNav = [
     options: {
       title: "Vouchermu",
     },
+  },
+  {
+    name: "MySurveyDetail",
+    component: MySurveyDetail,
+    options: { headerTransparent: true, title: "" },
+  },
+  {
+    name: "SurveySummary",
+    component: SurveySummary,
+    options: { title: "Ringkasan Survei" },
+  },
+  {
+    name: "DetailSummary",
+    component: DetailSummary,
+  },
+  {
+    name: "FillSurvey",
+    component: FillSurvey,
+    options: { title: "Isi Survei" },
+  },
+  {
+    name: "CreateQuestion",
+    component: CreateQuestion,
+    options: {},
+  },
+  {
+    name: "CreateSurvey",
+    component: CreateSurvey,
+    options: { headerShown: false },
   },
 ];

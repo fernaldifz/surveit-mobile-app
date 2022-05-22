@@ -6,14 +6,31 @@ import {
   View,
   Image,
   Text,
-  Pressable,
+  LogBox,
 } from "react-native";
 import InputPassword from "../components/InputPassword";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/index";
+
+// Expo still imports AsyncStorage from react-native which cause warning
+LogBox.ignoreLogs([
+  "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage",
+]);
 
 const SignUp = ({ navigation }) => {
   const [nama, onChangeNama] = React.useState("");
   const [email, onChangeEmail] = React.useState("");
   const [password, onChangePassword] = React.useState("");
+
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Registered with : ", user.email);
+        navigation.navigate("LogIn");
+      })
+      .catch((error) => alert(error.message));
+  };
 
   return (
     <View style={{ alignItems: "center" }}>
@@ -33,11 +50,7 @@ const SignUp = ({ navigation }) => {
       />
       <InputPassword password={password} onChangePassword={onChangePassword} />
       <View style={styles.viewButton}>
-        <Button
-          title="Buat akun"
-          color="#6E61E8"
-          onPress={() => console.log({ nama }, { email }, { password })}
-        />
+        <Button title="Buat akun" color="#6E61E8" onPress={handleSignUp} />
       </View>
       <Text>
         Sudah punya akun?

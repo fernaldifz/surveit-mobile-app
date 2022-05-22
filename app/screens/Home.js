@@ -16,6 +16,12 @@ import {
 	ScrollView,
 } from 'react-native';
 
+//Changes
+import SurveyCard from '@components/Survey/SurveyCard';
+import { getSurvey } from '@services/SurveyServices';
+import { useEffect, useState } from 'react';
+import { dummyAcc } from '@const';
+
 const Home = ({ navigation }) => {
 	const category = [
 		{
@@ -35,6 +41,18 @@ const Home = ({ navigation }) => {
 			img: otherCategory,
 		},
 	];
+
+	//changes
+	const [survey, setSurvey] = useState([]);
+
+	const fetchSurvey = async () => {
+		let data = await getSurvey(dummyAcc);
+		setSurvey(data);
+	};
+
+	useEffect(() => {
+		fetchSurvey();
+	}, []);
 
 	return (
 		<ScrollView showsVerticalScrollIndicator={false}>
@@ -107,23 +125,60 @@ const Home = ({ navigation }) => {
 						})}
 					</View>
 				</View>
+				{/* changes */}
 				<View
 					style={{
-						width: 320,
-						marginTop: 20,
 						display: 'flex',
-						flexDirection: 'row',
+						flexDirection: 'column',
+						alignItems: 'flex-start',
+						gap: 16,
 					}}
 				>
-					<Text style={styles.h2}>Survei untukmu</Text>
-					<View style={{ position: 'absolute', right: 0 }}>
+					<View
+						style={{
+							marginTop: 20,
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: "center",
+							paddingHorizontal: 20,
+							maxWidth: 360,
+							justifyContent: "space-around"
+						}}
+					>
+						<Text style={[styles.h2, {flex: 1}]}>Survei untukmu</Text>
 						<TouchableOpacity
 							style={styles.seeAllButton}
 							onPress={() => navigation.navigate('SurveyRecommendation')}
 						>
 							<Text style={styles.button2}>Lihat semua</Text>
-							<Image style={{ width: 12, height: 12 }} source={cheveronRight} />
+							<Image
+								style={{ width: 12, height: 12 }}
+								source={cheveronRight}
+							/>
 						</TouchableOpacity>
+					</View>
+					<View style={{ marginTop: 16 }}>
+						{survey && (survey.length > 5
+							? survey
+									.slice(0, 5)
+									.map((item, index) => (
+										<SurveyCard
+											key={index}
+											{...item}
+											navigation={navigation}
+											data={item}
+											page="home"
+										/>
+									))
+							: survey.map((item, index) => (
+									<SurveyCard
+										key={index}
+										{...item}
+										navigation={navigation}
+										data={item}
+										page="home"
+									/>
+							  )))}
 					</View>
 				</View>
 			</View>

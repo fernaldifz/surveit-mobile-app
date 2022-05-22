@@ -1,5 +1,6 @@
 import Profile from "@screens/Profile/Profile";
 import Home from "@screens/Home";
+import CreateSurvey from "@screens/CreateSurvey";
 
 import homeOutline from "@assets/home.png";
 import homeSolid from "@assets/home-solid.png";
@@ -63,7 +64,7 @@ export const NavigationBar = () => {
       />
       <Tab.Screen
         name="Add Survey"
-        component={Profile}
+        component={CreateSurvey}
         options={{
           headerShown: false,
           tabBarIcon: ({ _ }) => (
