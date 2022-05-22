@@ -1,5 +1,9 @@
 import SurveyCategory from "@screens/SurveyCategory";
 import SurveyRecommendation from "@screens/SurveyRecommendation";
+import MySurveyDetail from "@screens/Survey/MySurveyDetail";
+import SurveySummary from "@screens/Survey/SurveySummary";
+import DetailSummary from "@screens/Survey/DetailSummary";
+
 import SignUp from "@screens/SignUp";
 import LogIn from "@screens/LogIn";
 import Guide from "@screens/Guide";
@@ -8,16 +12,21 @@ import EditProfile from "@screens/Profile/EditProfile";
 import RedeemPoint from "@screens/Profile/RedeemPoint";
 import Voucher from "@screens/Profile/Voucher";
 
-import CreateSurvey from "@screens/CreateSurvey";
-import CreateQuestion from "@screens/CreateQuestion";
-
 import { NavigationBar } from "./TabNav";
+import { SurveyNav } from "./MySurveyNav";
 
 export const StackNav = [
   {
     name: "Main",
     component: NavigationBar,
     options: { headerShown: false },
+  },
+  {
+    name: "MySurvey",
+    component: SurveyNav,
+    options: {
+      title: "Surveimu",
+    },
   },
   {
     name: "RedeemPoint",
@@ -39,12 +48,12 @@ export const StackNav = [
   {
     name: "SurveyCategory",
     component: SurveyCategory,
-    options: { headerShown: false },
+    options: {},
   },
   {
     name: "SurveyRecommendation",
     component: SurveyRecommendation,
-    options: { headerShown: false },
+    options: { title: "Survei untukmu" },
   },
   {
     name: "SignUp",
@@ -64,17 +73,17 @@ export const StackNav = [
     },
   },
   {
-    name: "CreateSurvey",
-    component: CreateSurvey,
-    options: {
-      headerShown: false,
-    },
+    name: "MySurveyDetail",
+    component: MySurveyDetail,
+    options: { headerTransparent: true, title: "" },
   },
   {
-    name: "CreateQuestion",
-    component: CreateQuestion,
-    options: {
-      headerShown: false,
-    },
+    name: "SurveySummary",
+    component: SurveySummary,
+    options: { title: "Ringkasan Survei" },
+  },
+  {
+    name: "DetailSummary",
+    component: DetailSummary,
   },
 ];
