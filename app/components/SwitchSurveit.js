@@ -4,9 +4,8 @@ const SwitchSurveit = ({ onValueChange, value }) => {
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <Switch
-        trackColor="#6E61E8"
-        thumbColor="#FFFFFF"
-        ios_backgroundColor="#6E61E8"
+        trackColor={{ false: "#767577", true: "#6E61E8" }}
+        thumbColor="#fff"
         onValueChange={onValueChange}
         value={value}
       />
@@ -15,7 +14,7 @@ const SwitchSurveit = ({ onValueChange, value }) => {
           fontSize: 16,
           color: "#64748B",
           lineHeight: 20,
-          fontWeight: "500",
+          fontFamily: "Urbanist_500Medium",
         }}
       >
         Wajib diisi

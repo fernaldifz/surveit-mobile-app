@@ -8,6 +8,7 @@ const SelectDropdownSurveit = ({
   defaultButtonText,
   setSelectedOption,
   defaultValue,
+  reset,
 }) => {
   return (
     <View>
@@ -15,6 +16,9 @@ const SelectDropdownSurveit = ({
         data={data}
         onSelect={(selectedOption) => {
           setSelectedOption(selectedOption);
+          if (reset) {
+            reset();
+          }
         }}
         defaultButtonText={defaultButtonText}
         buttonStyle={styles.dropdownButton}
@@ -50,15 +54,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#E2E8F0",
+    backgroundColor: "#F8FAFC",
     marginTop: 10,
   },
   dropdownButtonText: {
     textAlign: "left",
+    fontFamily: "Urbanist_500Medium",
   },
   dropdownRow: {
     borderBottomColor: "#E2E8F0",
   },
-  dropdownRowText: { textAlign: "left" },
+  dropdownRowText: { textAlign: "left", fontFamily: "Urbanist_500Medium" },
 });
 
 export default SelectDropdownSurveit;

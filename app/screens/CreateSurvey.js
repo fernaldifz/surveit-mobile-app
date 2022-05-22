@@ -42,6 +42,7 @@ const CreateSurvey = ({ navigation }) => {
   const [cover, setCover] = React.useState(null);
 
   const toggleModal = () => {
+    setSelectedQuestionType("");
     setModalVisible(!modalVisible);
   };
 
@@ -91,8 +92,13 @@ const CreateSurvey = ({ navigation }) => {
       selectedQuestionType: selectedQuestionType,
       questionCountTemp: questionList.length,
       questionListTemp: questionList,
-      setQuestionList,
+      handleNewQuestion: handleNewQuestion,
     });
+    setSelectedQuestionType("");
+  };
+
+  const handleNewQuestion = (newQuestion) => {
+    setQuestionList([...newQuestion]);
   };
 
   const handleCreateSurvey = async () => {
@@ -196,8 +202,8 @@ const CreateSurvey = ({ navigation }) => {
           </View>
           <View style={styles.content}>
             <Text style={styles.h3}>Pertanyaan ({questionList.length})</Text>
-            {questionList.map((questionData, index) => (
-              <View key={index} style={styles.questionDisplay}>
+            {questionList.map((questionData) => (
+              <View key={questionData.question} style={styles.questionDisplay}>
                 {questionData.question.length <= 25 ? (
                   <Text style={styles.p1}>{questionData.question}</Text>
                 ) : (
@@ -297,14 +303,13 @@ const styles = StyleSheet.create({
   h3: {
     fontSize: 16,
     lineHeight: 20,
-    fontWeight: "600",
     color: "#334155",
+    fontFamily: "Urbanist_600SemiBold",
   },
   p1: {
     fontSize: 16,
     color: "#334155",
     lineHeight: 20,
-    fontWeight: "500",
   },
   contents: {
     marginHorizontal: 20,
@@ -357,7 +362,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     lineHeight: 20,
-    fontWeight: "600",
+    fontFamily: "Urbanist_600SemiBold",
   },
   addQuestionButton: {
     marginTop: 10,
