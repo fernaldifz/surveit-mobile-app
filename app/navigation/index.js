@@ -104,11 +104,11 @@ export const StackNav = [
   {
     name: "CreateQuestion",
     component: CreateQuestion,
-    options: {},
+    options: { },
   },
   {
     name: "CreateSurvey",
     component: CreateSurvey,
-    options: { headerShown: false },
+    options: {  },
   },
 ];

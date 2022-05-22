@@ -3,14 +3,16 @@ import {
   StyleSheet,
   TextInput,
   View,
-  Image,
   Text,
   TouchableOpacity,
   ScrollView,
+  LogBox
 } from "react-native";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
 import SwitchSurveit from "../components/SwitchSurveit";
 import cheveronLeft from "../assets/cheveron-left.png";
+
+LogBox.ignoreLogs([ 'Non-serializable values were found in the navigation state', ]);
 
 const CreateQuestion = ({ route, navigation }) => {
   const questionTypes = [
@@ -23,7 +25,8 @@ const CreateQuestion = ({ route, navigation }) => {
   const optionCount = [1, 2, 3, 4, 5];
   const scaleCount = [2, 3, 4, 5];
 
-  const { selectedQuestionType, questionListTemp } = route.params;
+  const { selectedQuestionType, questionListTemp, setQuestionList } =
+    route.params;
   const [currSelectedQuestionType, setCurrSelectedQuestionType] =
     useState(selectedQuestionType);
   const [question, onChangeQuestion] = useState("");
@@ -90,32 +93,19 @@ const CreateQuestion = ({ route, navigation }) => {
 
     questionListTemp.push(questionData);
 
-    navigation.navigate("CreateSurvey", {
-      questionCountTemp: questionListTemp.length + 1,
-      questionListTemp: questionListTemp,
-    });
+    setQuestionList(questionListTemp);
+    navigation.goBack();
   };
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: `Pertanyaan ${questionListTemp.length + 1}`,
+    });
+  }, [questionListTemp]);
+
 
   return (
     <ScrollView>
-      <View style={styles.title}>
-        <TouchableOpacity onPress={() => navigation.navigate("CreateSurvey")}>
-          <Image
-            style={{ width: 24, height: 24, alignSelf: "flex-start" }}
-            source={cheveronLeft}
-          />
-        </TouchableOpacity>
-        <View
-          style={{
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          <Text style={styles.h3}>
-            Pertanyaan {questionListTemp.length + 1}
-          </Text>
-        </View>
-      </View>
       <View style={{ marginHorizontal: 20 }}>
         <View style={{ marginBottom: 20 }}>
           <SelectDropdownSurveit

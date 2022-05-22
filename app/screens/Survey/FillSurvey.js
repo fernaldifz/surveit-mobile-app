@@ -80,16 +80,22 @@ const FillSurvey = ({ route, navigation }) => {
   };
 
   const handleDisabled = () => {
+    let res;
     switch (survey_data.question_list[index].type) {
       case "Pilihan ganda":
-        return checked;
+        res = !checked;
+        break;
       case "Skala linier":
-        return checked;
+        res = !checked;
+        break;
       case "Kotak centang":
-        return option.length > 0;
+        res = !option.length > 0;
+        break;
       default:
-        return answer;
+        res = !answer;
+        break;
     }
+    return res && survey_data.question_list[index].required;
   };
 
   const handleSubmit = async () => {
@@ -266,31 +272,43 @@ const FillSurvey = ({ route, navigation }) => {
 
         {index != survey_data.question_list.length - 1 ? (
           <TouchableOpacity
-            style={styles.nextButton}
+            style={handleDisabled() ? styles.disabledButton : styles.nextButton}
             onPress={() => {
               setIndexState(index + 1);
               handleFill();
               handleNext();
             }}
-            disabled={
-              !handleDisabled() && survey_data.question_list[index].required
-            }
+            disabled={handleDisabled()}
           >
-            <Text style={styles.nextButtonText}>Lanjut</Text>
+            <Text
+              style={
+                handleDisabled()
+                  ? styles.disabledButtonText
+                  : styles.nextButtonText
+              }
+            >
+              Lanjut
+            </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            style={styles.nextButton}
+            style={handleDisabled() ? styles.disabledButton : styles.nextButton}
             onPress={() => {
               handleFill();
               handleNext();
               handleSubmit();
             }}
-            disabled={
-              !handleDisabled() && survey_data.question_list[index].required
-            }
+            disabled={handleDisabled()}
           >
-            <Text style={styles.nextButtonText}>Selesai</Text>
+            <Text
+              style={
+                handleDisabled()
+                  ? styles.disabledButtonText
+                  : styles.nextButtonText
+              }
+            >
+              Selesai
+            </Text>
           </TouchableOpacity>
         )}
       </View>
@@ -401,6 +419,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
+    marginRight: 16,
   },
   backButtonText: {
     fontSize: 16,
