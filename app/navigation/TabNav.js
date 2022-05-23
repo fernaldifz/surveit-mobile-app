@@ -1,6 +1,6 @@
 import Profile from "@screens/Profile/Profile";
-import Home from "@screens/Home";
-import CreateSurvey from "@screens/CreateSurvey";
+import Home from "@screens/Home/Home";
+import CreateSurvey from "@screens/Survey/CreateSurvey";
 
 import homeOutline from "@assets/home.png";
 import homeSolid from "@assets/home-solid.png";

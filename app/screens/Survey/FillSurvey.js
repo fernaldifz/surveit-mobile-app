@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -108,7 +107,10 @@ const FillSurvey = ({ route, navigation }) => {
     mapAns = mapAns.filter((ans) => ans.result.length > 0);
 
     let res = await saveAnswer(auth.currentUser.uid, survey_data.id, mapAns);
-    let newPoint = await reducePoint(auth.currentUser.uid, -1 * survey_data.point);
+    let newPoint = await reducePoint(
+      auth.currentUser.uid,
+      -1 * survey_data.point
+    );
     if (res && newPoint) {
       setVisible(true);
     }

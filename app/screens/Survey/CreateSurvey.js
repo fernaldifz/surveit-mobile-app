@@ -10,15 +10,13 @@ import {
   LogBox,
 } from "react-native";
 import Modal from "react-native-modal";
-import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
-// import more from "../assets/more.png";
+import SelectDropdownSurveit from "@components/Survey/SelectDropdownSurveit";
 import * as ImagePicker from "expo-image-picker";
-import surveyCover from "../assets/survey-cover.png";
-import { db, storage } from "../config/index";
+import surveyCover from "@assets/survey-cover.png";
+import { db, storage, auth } from "@config";
 import { collection, Timestamp, addDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { SURVEY_TEMPLATE } from "@const/";
-import { auth } from "@config";
 
 // Firebase sets some timers for a long period, which will trigger some warnings.
 LogBox.ignoreLogs([`Setting a timer for a long period`]);

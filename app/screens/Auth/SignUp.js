@@ -8,10 +8,10 @@ import {
   Text,
   LogBox,
 } from "react-native";
-import InputPassword from "../components/InputPassword";
+import InputPassword from "@components/Auth/InputPassword";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../config/index";
-import { register, signOut } from "../services/ProfileServices";
+import { auth } from "@config";
+import { register } from "@services/ProfileServices";
 
 // Expo still imports AsyncStorage from react-native which cause warning
 LogBox.ignoreLogs([
@@ -58,7 +58,7 @@ const SignUp = ({ navigation }) => {
 
   return (
     <View style={{ alignItems: "center" }}>
-      <Image style={styles.image} source={require("../assets/sign-up.png")} />
+      <Image style={styles.image} source={require("@assets/sign-up.png")} />
 
       <Text style={styles.h1}>Buat akun Surveitmu</Text>
 

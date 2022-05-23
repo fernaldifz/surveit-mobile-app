@@ -1,16 +1,16 @@
-import SurveyCategory from "@screens/SurveyCategory";
-import SurveyRecommendation from "@screens/SurveyRecommendation";
+import SurveyCategory from "@screens/Survey/SurveyCategory";
+import SurveyRecommendation from "@screens/Survey/SurveyRecommendation";
 import MySurveyDetail from "@screens/Survey/MySurveyDetail";
 import SurveySummary from "@screens/Survey/SurveySummary";
 import DetailSummary from "@screens/Survey/DetailSummary";
 import FillSurvey from "@screens/Survey/FillSurvey";
-import CreateQuestion from "@screens/CreateQuestion";
-import CreateSurvey from "@screens/CreateSurvey";
-import SurveyDetails from "@screens/SurveyDetails";
+import CreateQuestion from "@screens/Survey/CreateQuestion";
+import CreateSurvey from "@screens/Survey/CreateSurvey";
+import SurveyDetails from "@screens/Survey/SurveyDetails";
 
-import SignUp from "@screens/SignUp";
-import LogIn from "@screens/LogIn";
-import Guide from "@screens/Guide";
+import SignUp from "@screens/Auth/SignUp";
+import LogIn from "@screens/Auth/LogIn";
+import Guide from "@screens/Home/Guide";
 
 import EditProfile from "@screens/Profile/EditProfile";
 import RedeemPoint from "@screens/Profile/RedeemPoint";

@@ -1,17 +1,17 @@
 import React from "react";
-import cheveronLeft from "../assets/cheveron-left.png";
-import guide1Correct from "../assets/guide01-correct.png";
-import guide1Wrong from "../assets/guide01-wrong.png";
-import guide2Correct from "../assets/guide02-correct.png";
-import guide2Wrong from "../assets/guide02-wrong.png";
-import guide3Correct from "../assets/guide03-correct.png";
-import guide3Wrong from "../assets/guide03-wrong.png";
-import guide4Correct from "../assets/guide04-correct.png";
-import guide4Wrong from "../assets/guide04-wrong.png";
-import guide5Correct from "../assets/guide05-correct.png";
-import guide5Wrong from "../assets/guide05-wrong.png";
-import wrongEmoji from "../assets/frown-emoji.png";
-import correctEmoji from "../assets/smile-emoji.png";
+import cheveronLeft from "@assets/cheveron-left.png";
+import guide1Correct from "@assets/guide01-correct.png";
+import guide1Wrong from "@assets/guide01-wrong.png";
+import guide2Correct from "@assets/guide02-correct.png";
+import guide2Wrong from "@assets/guide02-wrong.png";
+import guide3Correct from "@assets/guide03-correct.png";
+import guide3Wrong from "@assets/guide03-wrong.png";
+import guide4Correct from "@assets/guide04-correct.png";
+import guide4Wrong from "@assets/guide04-wrong.png";
+import guide5Correct from "@assets/guide05-correct.png";
+import guide5Wrong from "@assets/guide05-wrong.png";
+import wrongEmoji from "@assets/frown-emoji.png";
+import correctEmoji from "@assets/smile-emoji.png";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 
 const Guide = ({ navigation }) => {

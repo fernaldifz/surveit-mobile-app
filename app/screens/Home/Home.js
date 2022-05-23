@@ -1,11 +1,11 @@
-import React from "react";
-import surveitLogo from "../assets/surveit-home.png";
-import guideBG from "../assets/guide-bg.png";
-import educationCategory from "../assets/education-category.png";
-import lifestyleCategory from "../assets/lifestyle-category.png";
-import businessCategory from "../assets/business-category.png";
-import otherCategory from "../assets/other-category.png";
-import cheveronRight from "../assets/cheveron-right.png";
+import React, { useEffect, useState } from "react";
+import surveitLogo from "@assets/surveit-home.png";
+import guideBG from "@assets/guide-bg.png";
+import educationCategory from "@assets/education-category.png";
+import lifestyleCategory from "@assets/lifestyle-category.png";
+import businessCategory from "@assets/business-category.png";
+import otherCategory from "@assets/other-category.png";
+import cheveronRight from "@assets/cheveron-right.png";
 import {
   StyleSheet,
   View,
@@ -18,7 +18,6 @@ import {
 
 import SurveyCard from "@components/Survey/SurveyCard";
 import { getSurvey } from "@services/SurveyServices";
-import { useEffect, useState } from "react";
 import { auth } from "@config";
 
 const Home = ({ navigation }) => {

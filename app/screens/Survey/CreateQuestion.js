@@ -8,8 +8,8 @@ import {
   ScrollView,
   LogBox,
 } from "react-native";
-import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
-import SwitchSurveit from "../components/SwitchSurveit";
+import SelectDropdownSurveit from "@components/Survey/SelectDropdownSurveit";
+import SwitchSurveit from "@components/Survey/SwitchSurveit";
 
 LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",

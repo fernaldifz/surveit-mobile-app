@@ -1,8 +1,8 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { StyleSheet, Button, TextInput, View, Image, Text } from "react-native";
-import InputPassword from "../components/InputPassword";
-import { auth } from "../config/index";
+import InputPassword from "@components/Auth/InputPassword";
+import { auth } from "@config/";
 
 const LogIn = ({ navigation }) => {
   const [email, onChangeEmail] = React.useState("");
@@ -20,7 +20,7 @@ const LogIn = ({ navigation }) => {
 
   return (
     <View style={{ alignItems: "center" }}>
-      <Image style={styles.image} source={require("../assets/log-in.png")} />
+      <Image style={styles.image} source={require("@assets/log-in.png")} />
       <Text style={styles.h1}>Selamat datang di Surveit!</Text>
       <TextInput
         style={styles.input}
