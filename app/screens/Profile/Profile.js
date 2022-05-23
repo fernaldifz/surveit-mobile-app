@@ -10,7 +10,6 @@ const Profile = ({ navigation }) => {
   const [userDoc, setUserDoc] = useState(null);
 
   const fetchUser = async () => {
-    console.log(auth.currentUser.uid)
     const data = await getUser(auth.currentUser.uid);
     setUserDoc(data);
   };
@@ -30,9 +29,9 @@ const Profile = ({ navigation }) => {
         <View style={{ width: 320, marginTop: 44 }}>
           <Text style={styles.h1}>Profil</Text>
           <View style={{ alignItems: "center" }}>
-            <Image style={styles.profpic} source={{ uri: userDoc.photo }} />
+            <Image style={styles.profpic} source={{ uri: auth.currentUser.photoURL }} />
             <View style={{ marginTop: 20 }}>
-              <Text style={styles.h2}>{userDoc.name}</Text>
+              <Text style={styles.h2}>{auth.currentUser.displayName}</Text>
             </View>
             <View
               style={{

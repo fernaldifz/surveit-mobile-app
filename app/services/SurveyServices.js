@@ -7,6 +7,7 @@ import {
   where,
   orderBy,
   addDoc,
+  getDoc,
 } from "firebase/firestore";
 
 export const getSurvey = async (user) => {
@@ -64,8 +65,33 @@ export const saveAnswer = async (user, surveyId, answer) => {
   const docRef = await addDoc(collection(db, "answers"), {
     user_id: doc(db, "users", user),
     survey_id: doc(db, "surveys", surveyId),
-    answer: answer
+    answer: answer,
   });
 
-  return docRef.id
+  return docRef.id;
+};
+
+export const getAnswer = async (surveyId) => {
+  let surveyRef = doc(db, "surveys", surveyId);
+  let q = query(collection(db, "answers"), where("survey_id", "==", surveyRef));
+  let querySnapshot = getDocs(q);
+
+  let arr = [];
+  querySnapshot.forEach((doc) => {
+    let data = doc.data();
+    arr.push({ answer: data.answer, id: doc.id });
+  });
+
+  return arr;
+};
+
+export const getQuestion = async (surveyId) => {
+  let surveyRef = doc(db, "surveys", surveyId);
+
+  return await getDoc(surveyRef).then((doc) => {
+    if (doc.exists) {
+      let data = doc.data();
+      return data.question_list;
+    }
+  });
 };

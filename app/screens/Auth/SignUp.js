@@ -13,6 +13,8 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "@config";
 import { register } from "@services/ProfileServices";
 
+import { USER_TEMPLATE } from "@const/"
+
 // Expo still imports AsyncStorage from react-native which cause warning
 LogBox.ignoreLogs([
   "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage",
@@ -30,9 +32,10 @@ const SignUp = ({ navigation }) => {
 
         updateProfile(user, {
           displayName: nama,
+          photoURL: USER_TEMPLATE
         })
           .then(async () => {
-            let res = await register(email, nama, user.uid);
+            let res = await register(user.uid);
             if (res) {
               alert("Registration Successful");
             }
@@ -40,7 +43,6 @@ const SignUp = ({ navigation }) => {
           .catch((error) => {
             alert(error.message);
           });
-        console.log("Registered with : ", user.email);
       })
       .then(() => {
         reset();
