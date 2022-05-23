@@ -22,7 +22,7 @@ import { SURVEY_TEMPLATE } from "@const/";
 LogBox.ignoreLogs([`Setting a timer for a long period`]);
 
 const CreateSurvey = ({ navigation }) => {
-  const categories = ["Edukasi", "Bisnis", "Gaya Hidup", "Hobi"];
+  const categories = ["Edukasi", "Bisnis", "Gaya Hidup", "Lainnya"];
   const questionTypes = [
     "Jawaban singkat",
     "Paragraph",
