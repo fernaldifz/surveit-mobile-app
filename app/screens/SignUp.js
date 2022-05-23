@@ -9,7 +9,7 @@ import {
   LogBox,
 } from "react-native";
 import InputPassword from "../components/InputPassword";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../config/index";
 
 // Expo still imports AsyncStorage from react-native which cause warning
@@ -26,7 +26,19 @@ const SignUp = ({ navigation }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
+
+        updateProfile(user, {
+          displayName: nama,
+        })
+          .then(() => {
+            console.log("Profile updated!");
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
         console.log("Registered with : ", user.email);
+      })
+      .then(() => {
         navigation.navigate("LogIn");
       })
       .catch((error) => alert(error.message));

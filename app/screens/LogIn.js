@@ -11,7 +11,7 @@ const LogIn = ({ navigation }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("pindah home");
+        navigation.navigate("Home");
       }
     });
     return unsubscribe;
