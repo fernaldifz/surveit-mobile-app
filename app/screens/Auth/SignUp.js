@@ -7,11 +7,13 @@ import {
   Image,
   Text,
   LogBox,
+  TouchableOpacity,
 } from "react-native";
 import InputPassword from "@components/Auth/InputPassword";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "@config";
 import { register } from "@services/ProfileServices";
+import signup from "@assets/sign-up.png";
 
 // Expo still imports AsyncStorage from react-native which cause warning
 LogBox.ignoreLogs([
@@ -58,7 +60,7 @@ const SignUp = ({ navigation }) => {
 
   return (
     <View style={{ alignItems: "center" }}>
-      <Image style={styles.image} source={require("@assets/sign-up.png")} />
+      <Image style={styles.image} source={signup} />
 
       <Text style={styles.h1}>Buat akun Surveitmu</Text>
 
@@ -67,25 +69,32 @@ const SignUp = ({ navigation }) => {
         onChangeText={onChangeNama}
         placeholder="Nama"
         value={nama}
+        placeholderTextColor="#94A3B8"
       />
       <TextInput
         style={styles.input}
         onChangeText={onChangeEmail}
         placeholder="Email"
         value={email}
+        placeholderTextColor="#94A3B8"
       />
       <InputPassword
         password={password}
         onChangePassword={onChangePassword}
         value={password}
       />
-      <View style={styles.viewButton}>
-        <Button title="Buat akun" color="#6E61E8" onPress={handleSignUp} />
-      </View>
-      <Text>
+      <TouchableOpacity onPress={handleSignUp} style={styles.createButton}>
+        <Text style={styles.button1}>Buat akun</Text>
+      </TouchableOpacity>
+      <Text style={styles.p1}>
         Sudah punya akun?
         <Text
-          style={{ color: "#6E61E8" }}
+          style={{
+            color: "#6E61E8",
+            fontSize: 16,
+            lineHeight: 20,
+            fontFamily: "Urbanist_600SemiBold",
+          }}
           onPress={() => {
             reset();
             navigation.navigate("LogIn");
@@ -105,7 +114,20 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     marginTop: 24,
     marginBottom: 36,
-    fontWeight: "bold",
+    fontFamily: "Urbanist_700Bold",
+    color: "#475569",
+  },
+  p1: {
+    fontSize: 16,
+    lineHeight: 20,
+    fontFamily: "Urbanist_500Medium",
+    color: "#94A3B8",
+  },
+  button1: {
+    fontSize: 16,
+    lineHeight: 20,
+    fontFamily: "Urbanist_600SemiBold",
+    color: "#fff",
   },
   input: {
     width: "88.89%",
@@ -116,17 +138,28 @@ const styles = StyleSheet.create({
     borderColor: "#E2E8F0",
     borderStyle: "solid",
     borderRadius: 12,
+    fontSize: 16,
+    lineHeight: 20,
+    fontFamily: "Urbanist_500Medium",
+    color: "#475569",
   },
   image: {
     marginTop: 48,
     alignItems: "center",
+    height: 220,
+    width: 308,
   },
-  viewButton: {
+  createButton: {
     marginTop: 36,
     marginBottom: 48,
-    width: "88.89%",
+    width: 320,
+    height: 56,
     borderRadius: 12,
     overflow: "hidden",
+    backgroundColor: "#6E61E8",
+    color: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

@@ -23,6 +23,13 @@ const InputPassword = ({ password, onChangePassword }) => {
         onChangeText={onChangePassword}
         placeholder="Password"
         secureTextEntry={passwordVisibility}
+        style={{
+          fontSize: 16,
+          lineHeight: 20,
+          fontFamily: "Urbanist_500Medium",
+          color: "#475569",
+        }}
+        placeholderTextColor="#94A3B8"
       />
       <Pressable style={styles.passwordIcon} onPress={handlePasswordVisibility}>
         <MaterialCommunityIcons name={eyeIcon} size={20} color="#475569" />
