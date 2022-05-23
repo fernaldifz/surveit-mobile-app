@@ -1,18 +1,14 @@
 import React from "react";
-import cheveronLeft from "../assets/cheveron-left.png";
 import {
   StyleSheet,
   View,
-  Image,
-  Text,
-  TouchableOpacity,
   ScrollView,
 } from "react-native";
 
 import SurveyCard from "@components/Survey/SurveyCard";
 import { getSurvey } from "@services/SurveyServices";
 import { useEffect, useState } from "react";
-import { dummyAcc } from "@const";
+import { auth } from "@config";
 
 const SurveyCategory = ({ route, navigation }) => {
   const { itemName } = route.params;
@@ -20,7 +16,7 @@ const SurveyCategory = ({ route, navigation }) => {
   const [survey, setSurvey] = useState([]);
 
   const fetchSurvey = async (type) => {
-    let data = await getSurvey(dummyAcc, type);
+    let data = await getSurvey(auth.currentUser.uid, type);
     setSurvey(data);
   };
 

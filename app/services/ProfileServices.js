@@ -9,7 +9,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { MONTH, USER_TEMPLATE } from "@const/";
-import { db, auth } from "@config/";
+import { db } from "@config/";
 
 export const getUser = async (user) => {
   const myDoc = doc(db, "users", user);

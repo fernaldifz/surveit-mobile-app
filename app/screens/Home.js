@@ -19,7 +19,7 @@ import {
 import SurveyCard from "@components/Survey/SurveyCard";
 import { getSurvey } from "@services/SurveyServices";
 import { useEffect, useState } from "react";
-import { dummyAcc } from "@const";
+import { auth } from "@config";
 
 const Home = ({ navigation }) => {
   const category = [
@@ -44,7 +44,7 @@ const Home = ({ navigation }) => {
   const [survey, setSurvey] = useState([]);
 
   const fetchSurvey = async () => {
-    let data = await getSurvey(dummyAcc);
+    let data = await getSurvey(auth.currentUser.uid);
     // nanti filter data yang bukan punya currentUser
     setSurvey(data);
   };

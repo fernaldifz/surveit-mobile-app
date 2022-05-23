@@ -1,14 +1,14 @@
 import { ScrollView, View } from "react-native";
 import { useEffect, useState } from "react";
 import SurveyCard from "@components/Survey/SurveyCard";
-import { dummyAcc } from "@const";
 import { getUserSurvey } from "@services/SurveyServices";
+import { auth } from "@config";
 
 const MySurvey = ({ route, navigation }) => {
   const [survey, setSurvey] = useState([]);
 
   const fetchSurvey = async (type) => {
-    let data = await getUserSurvey(dummyAcc, type);
+    let data = await getUserSurvey(auth.currentUser.uid, type);
     setSurvey(data);
   };
 

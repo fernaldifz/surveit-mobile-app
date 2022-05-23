@@ -13,7 +13,7 @@ import pointPic from '@assets/point.png';
 
 import { useEffect, useState } from 'react';
 import { getVoucherlist, redeemVoucher } from '@services/ProfileServices';
-import { dummyAcc } from '@const';
+import { auth } from '@config';
 
 const RedeemPoint = ({ navigation }) => {
 	const [voucherList, setVoucherList] = useState([]);
@@ -34,13 +34,13 @@ const RedeemPoint = ({ navigation }) => {
 	);
 
 	const fetchVoucher = async () => {
-		let data = await getVoucherlist(dummyAcc);
+		let data = await getVoucherlist(auth.currentUser.uid);
 		setVoucherList(data);
 	};
 
 	const redeem = async (params) => {
 		let { id, point } = params;
-		let data = await redeemVoucher(dummyAcc, id, point);
+		let data = await redeemVoucher(auth.currentUser.uid, id, point);
 
 		if (data) {
 			navigation.navigate('Voucher');

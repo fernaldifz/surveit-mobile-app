@@ -5,13 +5,13 @@ import cheveronRight from "@assets/cheveron-right.png";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { getUser } from "@services/ProfileServices";
 import { auth } from "@config";
-import { dummyAcc } from "@const";
 
 const Profile = ({ navigation }) => {
   const [userDoc, setUserDoc] = useState(null);
 
   const fetchUser = async () => {
-    const data = await getUser(dummyAcc);
+    console.log(auth.currentUser.uid)
+    const data = await getUser(auth.currentUser.uid);
     setUserDoc(data);
   };
 

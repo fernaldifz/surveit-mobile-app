@@ -15,7 +15,8 @@ import { Checkbox } from "react-native-paper";
 
 import success from "@assets/success.png";
 import { saveAnswer } from "@services/SurveyServices";
-import { dummyAcc } from "@const/";
+import { reducePoint } from "@services/ProfileServices";
+import { auth } from "@config";
 
 const FillSurvey = ({ route, navigation }) => {
   const { survey_data } = route.params;
@@ -106,8 +107,9 @@ const FillSurvey = ({ route, navigation }) => {
     mapAns = mapAns.filter((ans) => ans.result);
     mapAns = mapAns.filter((ans) => ans.result.length > 0);
 
-    let res = await saveAnswer(dummyAcc, survey_data.id, mapAns);
-    if (res) {
+    let res = await saveAnswer(auth.currentUser.uid, survey_data.id, mapAns);
+    let newPoint = await reducePoint(auth.currentUser.uid, -1 * survey_data.point);
+    if (res && newPoint) {
       setVisible(true);
     }
   };
