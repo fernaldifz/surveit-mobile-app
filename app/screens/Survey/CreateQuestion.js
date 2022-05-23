@@ -46,7 +46,6 @@ const CreateQuestion = ({ route, navigation }) => {
 
   const handleDisabled = () => {
     var res = true;
-    console.log(currSelectedQuestionType);
     switch (currSelectedQuestionType) {
       case "Pilihan ganda":
       case "Kotak centang":

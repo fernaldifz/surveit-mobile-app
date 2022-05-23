@@ -11,8 +11,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-import { db, storage, auth } from "@config/";
-import { doc, setDoc } from "firebase/firestore";
+import { storage, auth } from "@config/";
+import { updateProfile, updateEmail } from "firebase/auth";
 import * as ImagePicker from "expo-image-picker";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { Overlay } from "react-native-elements";
@@ -33,8 +33,8 @@ const EditProfile = ({ navigation }) => {
   const fetchUser = async () => {
     const data = await getUser(auth.currentUser.uid);
     setUserDoc(data);
-    setNama(data.name);
-    setEmail(data.email);
+    setNama(auth.currentUser.displayName);
+    setEmail(auth.currentUser.email);
   };
 
   useEffect(() => {
@@ -52,12 +52,9 @@ const EditProfile = ({ navigation }) => {
   }, []);
 
   const Update = async (url) => {
-    let myDoc = doc(db, "users", auth.currentUser.uid);
-
     let params = {
-      name: nama,
-      email: email,
-      photo: url,
+      displayName: nama,
+      photoURL: url,
     };
 
     Object.keys(params).forEach((key) => {
@@ -66,16 +63,28 @@ const EditProfile = ({ navigation }) => {
       }
     });
 
-    setDoc(myDoc, params, { merge: true })
+    updateProfile(auth.currentUser, params)
       .then(() => {
-        alert("Profil berhasil diperbarui!");
-        setUploading(false);
-        navigation.navigate("Profile");
+        if (email) {
+          updateEmail(auth.currentUser, email)
+            .then(() => {
+              alert("Profil berhasil diperbarui!");
+              navigation.navigate("Profile");
+            })
+            .catch((_) => {
+              alert("Session Habis, Silahkan Login Kembali!");
+              auth.signOut();
+            });
+        } else {
+          alert("Profil berhasil diperbarui!");
+          navigation.navigate("Profile");
+        }
       })
-      .catch((error) => {
-        setUploading(false);
-        console.log(error);
+      .catch((_) => {
+        alert("Session Habis, Silahkan Login Kembali!");
+        auth.signOut();
       });
+    setUploading(false);
   };
 
   const pickImage = async () => {
@@ -132,7 +141,7 @@ const EditProfile = ({ navigation }) => {
         <View style={{ flex: 1 }}>
           <View style={{ display: "flex", flexDirection: "row" }}>
             <Image
-              source={{ uri: foto ? foto : userDoc.photo }}
+              source={{ uri: foto ? foto : auth.currentUser.photoURL }}
               style={style.profpic}
             />
             <TouchableOpacity
@@ -146,14 +155,14 @@ const EditProfile = ({ navigation }) => {
           </View>
           <TextInput
             style={[style.textInput, style.p1]}
-            placeholder={userDoc.nama}
+            placeholder={auth.currentUser.displayName}
             onChangeText={(newText) => setNama(newText)}
             value={nama}
           />
 
           <TextInput
             style={[style.textInput, style.p1]}
-            placeholder={userDoc.email}
+            placeholder={auth.currentUser.email}
             onChangeText={(newText) => setEmail(newText)}
             value={email}
           />
@@ -162,7 +171,7 @@ const EditProfile = ({ navigation }) => {
         <TouchableOpacity
           style={[style.editProfileButton, style.button]}
           onPress={() => uploadImage()}
-          disabled={nama === userDoc.name && email === userDoc.email && !foto}
+          // disabled={nama === auth.currentUser.displayName && email === auth.currentUser.emailVerified && !foto}
         >
           <Text style={[style.button1, { color: "#fff" }]}>Submit</Text>
         </TouchableOpacity>
@@ -213,7 +222,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     marginTop: 20,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
 
   p1: {
