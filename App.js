@@ -1,5 +1,11 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useState } from "react";
+import { Image, TouchableOpacity } from "react-native";
+import { MenuProvider } from "react-native-popup-menu";
+
+import { onAuthStateChanged } from "firebase/auth";
+
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -9,10 +15,7 @@ import {
 } from "@expo-google-fonts/urbanist";
 
 import cheveronLeft from "@assets/cheveron-left.png";
-import { Image, TouchableOpacity } from "react-native";
-import { MenuProvider } from "react-native-popup-menu";
-
-import { AuthStack, LoggedInStack } from "@navigation";
+import { LoggedInStack, AuthStack } from "@navigation";
 import { auth } from "@config";
 
 const Stack = createNativeStackNavigator();
@@ -24,9 +27,19 @@ const App = () => {
     Urbanist_700Bold,
   });
 
+  const [stack, setStack] = useState(AuthStack);
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setStack(LoggedInStack);
+    } else {
+      setStack(AuthStack);
+    }
+  });
 
   return (
     <MenuProvider>
@@ -57,21 +70,8 @@ const App = () => {
             headerShadowVisible: false,
           })}
         >
-          {auth.currentUser &&
-            LoggedInStack &&
-            LoggedInStack.map((item, index) => {
-              return (
-                <Stack.Screen
-                  key={index}
-                  name={item.name}
-                  component={item.component}
-                  options={item.options}
-                />
-              );
-            })}
-          {!auth.currentUser &&
-            AuthStack &&
-            AuthStack.map((item, index) => {
+          {stack &&
+            stack.map((item, index) => {
               return (
                 <Stack.Screen
                   key={index}

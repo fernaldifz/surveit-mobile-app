@@ -1,5 +1,5 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import React, { useEffect } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React from "react";
 import { StyleSheet, Button, TextInput, View, Image, Text } from "react-native";
 import InputPassword from "../components/InputPassword";
 import { auth } from "../config/index";
@@ -8,20 +8,12 @@ const LogIn = ({ navigation }) => {
   const [email, onChangeEmail] = React.useState("");
   const [password, onChangePassword] = React.useState("");
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigation.navigate("Home");
-      }
-    });
-    return unsubscribe;
-  }, []);
-
   const handleLogIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Logged in with : ", user.email);
+        navigation.navigate("Main");
       })
       .catch((error) => alert(error.message));
   };
