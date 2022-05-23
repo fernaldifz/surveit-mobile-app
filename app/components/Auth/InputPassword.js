@@ -28,6 +28,7 @@ const InputPassword = ({ password, onChangePassword }) => {
           lineHeight: 20,
           fontFamily: "Urbanist_500Medium",
           color: "#475569",
+          width: 260,
         }}
         placeholderTextColor="#94A3B8"
       />
