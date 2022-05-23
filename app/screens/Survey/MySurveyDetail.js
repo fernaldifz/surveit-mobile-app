@@ -19,7 +19,7 @@ import kebab from "@assets/kebab-white.png";
 import cheveronLeft from "@assets/cheveron-white-left.png";
 
 const MySurveyDetail = ({ route, navigation }) => {
-  const { title, cover, numQuestion, description } = route.params;
+  const { id, title, cover, numQuestion, description } = route.params;
 
   useEffect(() => {
     navigation.setOptions({

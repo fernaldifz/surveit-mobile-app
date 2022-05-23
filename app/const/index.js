@@ -16,6 +16,5 @@ export const MONTH = {
 export const SURVEY_TEMPLATE =
   "https://firebasestorage.googleapis.com/v0/b/surveit-app-128ab.appspot.com/o/Cover%20Template.png?alt=media&token=6a11bdd8-ef1c-405c-b21c-9e541833a8e7";
 
-// Dummy to maintain the samme Acc for now
-// TODO DELETE
-export const dummyAcc = "zG6JHETd61zRkma4fkVy";
+export const USER_TEMPLATE =
+  "https://firebasestorage.googleapis.com/v0/b/surveit-app-128ab.appspot.com/o/wallback-user.png?alt=media&token=fa4c8710-faf4-46b5-8047-82336b6a5b01";

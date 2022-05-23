@@ -1,5 +1,11 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useState } from "react";
+import { Image, TouchableOpacity } from "react-native";
+import { MenuProvider } from "react-native-popup-menu";
+
+import { onAuthStateChanged } from "firebase/auth";
+
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -7,11 +13,10 @@ import {
   Urbanist_600SemiBold,
   Urbanist_700Bold,
 } from "@expo-google-fonts/urbanist";
-import { StackNav } from "./app/navigation";
 
 import cheveronLeft from "@assets/cheveron-left.png";
-import { Image, TouchableOpacity } from "react-native";
-import { MenuProvider } from "react-native-popup-menu";
+import { LoggedInStack, AuthStack } from "@navigation";
+import { auth } from "@config";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,9 +27,19 @@ const App = () => {
     Urbanist_700Bold,
   });
 
+  const [stack, setStack] = useState(AuthStack);
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setStack(LoggedInStack);
+    } else {
+      setStack(AuthStack);
+    }
+  });
 
   return (
     <MenuProvider>
@@ -55,8 +70,8 @@ const App = () => {
             headerShadowVisible: false,
           })}
         >
-          {StackNav &&
-            StackNav.map((item, index) => {
+          {stack &&
+            stack.map((item, index) => {
               return (
                 <Stack.Screen
                   key={index}

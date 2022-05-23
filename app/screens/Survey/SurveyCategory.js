@@ -1,29 +1,33 @@
 import React from "react";
-import cheveronLeft from "../assets/cheveron-left.png";
 import {
   StyleSheet,
   View,
-  Image,
-  Text,
-  TouchableOpacity,
   ScrollView,
 } from "react-native";
 
 import SurveyCard from "@components/Survey/SurveyCard";
 import { getSurvey } from "@services/SurveyServices";
 import { useEffect, useState } from "react";
-import { dummyAcc } from "@const";
+import { auth } from "@config";
 
-const SurveyRecommendation = ({ navigation }) => {
+const SurveyCategory = ({ route, navigation }) => {
+  const { itemName } = route.params;
+
   const [survey, setSurvey] = useState([]);
 
   const fetchSurvey = async (type) => {
-    let data = await getSurvey(dummyAcc, type);
+    let data = await getSurvey(auth.currentUser.uid, type);
     setSurvey(data);
   };
 
   useEffect(() => {
     fetchSurvey(true);
+  }, []);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: "Survei " + itemName,
+    });
   }, []);
 
   return (
@@ -35,15 +39,19 @@ const SurveyRecommendation = ({ navigation }) => {
       <ScrollView style={{ padding: 20 }} showsVerticalScrollIndicator={false}>
         <View style={{ marginBottom: 20 }}>
           {survey &&
-            survey.map((item, index) => (
-              <SurveyCard
-                key={index}
-                {...item}
-                navigation={navigation}
-                data={item}
-                page="home"
-              />
-            ))}
+            survey.map((item, index) =>
+              item["category"] == itemName ? (
+                <SurveyCard
+                  key={index}
+                  {...item}
+                  navigation={navigation}
+                  data={item}
+                  page="home"
+                />
+              ) : (
+                <View key={index}></View>
+              )
+            )}
         </View>
       </ScrollView>
     </View>
@@ -63,4 +71,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SurveyRecommendation;
+export default SurveyCategory;

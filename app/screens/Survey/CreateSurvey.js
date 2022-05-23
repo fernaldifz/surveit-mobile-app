@@ -10,14 +10,13 @@ import {
   LogBox,
 } from "react-native";
 import Modal from "react-native-modal";
-import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
-// import more from "../assets/more.png";
+import SelectDropdownSurveit from "@components/Survey/SelectDropdownSurveit";
 import * as ImagePicker from "expo-image-picker";
-import surveyCover from "../assets/survey-cover.png";
-import { db, storage } from "../config/index";
-import { collection, Timestamp, addDoc } from "firebase/firestore";
+import surveyCover from "@assets/survey-cover.png";
+import { db, storage, auth } from "@config";
+import { collection, Timestamp, addDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
-import { SURVEY_TEMPLATE, dummyAcc } from "@const/";
+import { SURVEY_TEMPLATE } from "@const/";
 
 // Firebase sets some timers for a long period, which will trigger some warnings.
 LogBox.ignoreLogs([`Setting a timer for a long period`]);
@@ -122,6 +121,8 @@ const CreateSurvey = ({ navigation }) => {
   };
 
   const Create = async (url) => {
+    const userRef = doc(db, "users", auth.currentUser.uid);
+
     var survey = {
       cover: url,
       title: title,
@@ -129,7 +130,7 @@ const CreateSurvey = ({ navigation }) => {
       description: description,
       response_target: parseInt(respondentCount),
       question_list: questionList,
-      user_id: dummyAcc,
+      user_id: userRef,
       timestamp: Timestamp.fromDate(new Date()),
       point: questionList.length * 10,
     };

@@ -9,9 +9,9 @@ import {
   StatusBar,
 } from "react-native";
 
-import point from "../assets/point.png";
+import point from "@assets/point.png";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../config/index";
+import { db } from "@config/";
 
 import cheveronLeft from "@assets/cheveron-white-left.png";
 

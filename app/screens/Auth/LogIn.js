@@ -1,34 +1,26 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import React, { useEffect } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React from "react";
 import { StyleSheet, Button, TextInput, View, Image, Text } from "react-native";
-import InputPassword from "../components/InputPassword";
-import { auth } from "../config/index";
+import InputPassword from "@components/Auth/InputPassword";
+import { auth } from "@config/";
 
 const LogIn = ({ navigation }) => {
   const [email, onChangeEmail] = React.useState("");
   const [password, onChangePassword] = React.useState("");
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigation.navigate("Home");
-      }
-    });
-    return unsubscribe;
-  }, []);
 
   const handleLogIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Logged in with : ", user.email);
+        navigation.navigate("Main");
       })
       .catch((error) => alert(error.message));
   };
 
   return (
     <View style={{ alignItems: "center" }}>
-      <Image style={styles.image} source={require("../assets/log-in.png")} />
+      <Image style={styles.image} source={require("@assets/log-in.png")} />
       <Text style={styles.h1}>Selamat datang di Surveit!</Text>
       <TextInput
         style={styles.input}

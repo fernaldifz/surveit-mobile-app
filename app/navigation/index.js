@@ -1,26 +1,25 @@
-import SurveyCategory from "@screens/SurveyCategory";
-import SurveyRecommendation from "@screens/SurveyRecommendation";
+import SurveyCategory from "@screens/Survey/SurveyCategory";
+import SurveyRecommendation from "@screens/Survey/SurveyRecommendation";
 import MySurveyDetail from "@screens/Survey/MySurveyDetail";
 import SurveySummary from "@screens/Survey/SurveySummary";
 import DetailSummary from "@screens/Survey/DetailSummary";
 import FillSurvey from "@screens/Survey/FillSurvey";
-import CreateQuestion from "@screens/CreateQuestion";
-import CreateSurvey from "@screens/CreateSurvey";
+import CreateQuestion from "@screens/Survey/CreateQuestion";
+import CreateSurvey from "@screens/Survey/CreateSurvey";
+import SurveyDetails from "@screens/Survey/SurveyDetails";
 
-import SignUp from "@screens/SignUp";
-import LogIn from "@screens/LogIn";
-import Guide from "@screens/Guide";
+import SignUp from "@screens/Auth/SignUp";
+import LogIn from "@screens/Auth/LogIn";
+import Guide from "@screens/Home/Guide";
 
 import EditProfile from "@screens/Profile/EditProfile";
 import RedeemPoint from "@screens/Profile/RedeemPoint";
 import Voucher from "@screens/Profile/Voucher";
 
-import SurveyDetails from "@screens/SurveyDetails";
-
 import { NavigationBar } from "./TabNav";
 import { SurveyNav } from "./MySurveyNav";
 
-export const StackNav = [
+export const LoggedInStack = [
   {
     name: "Main",
     component: NavigationBar,
@@ -66,16 +65,6 @@ export const StackNav = [
     options: { title: "Survei untukmu" },
   },
   {
-    name: "SignUp",
-    component: SignUp,
-    options: { headerShown: false },
-  },
-  {
-    name: "LogIn",
-    component: LogIn,
-    options: { headerShown: false },
-  },
-  {
     name: "Voucher",
     component: Voucher,
     options: {
@@ -104,11 +93,24 @@ export const StackNav = [
   {
     name: "CreateQuestion",
     component: CreateQuestion,
-    options: { },
+    options: {},
   },
   {
     name: "CreateSurvey",
     component: CreateSurvey,
-    options: { title: "Buat survei"  },
+    options: { title: "Buat survei" },
+  },
+];
+
+export const AuthStack = [
+  {
+    name: "SignUp",
+    component: SignUp,
+    options: { headerShown: false },
+  },
+  {
+    name: "LogIn",
+    component: LogIn,
+    options: { headerShown: false },
   },
 ];

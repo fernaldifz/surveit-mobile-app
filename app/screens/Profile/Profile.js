@@ -4,13 +4,14 @@ import editPic from "@assets/pencil.png";
 import cheveronRight from "@assets/cheveron-right.png";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { getUser } from "@services/ProfileServices";
-import { dummyAcc } from "@const";
+import { auth } from "@config";
 
 const Profile = ({ navigation }) => {
   const [userDoc, setUserDoc] = useState(null);
 
   const fetchUser = async () => {
-    const data = await getUser(dummyAcc);
+    console.log(auth.currentUser.uid)
+    const data = await getUser(auth.currentUser.uid);
     setUserDoc(data);
   };
 
@@ -21,7 +22,7 @@ const Profile = ({ navigation }) => {
     });
 
     return willFocusSubscription;
-  }, []);
+  }, [auth.currentUser]);
 
   return (
     userDoc && (
@@ -92,7 +93,10 @@ const Profile = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={[styles.logOutButton, { marginTop: 64 }]}>
+        <TouchableOpacity
+          style={[styles.logOutButton, { marginTop: 64 }]}
+          onPress={() => auth.signOut()}
+        >
           <Text style={[styles.button1, { color: "#E86181" }]}>Log Out</Text>
         </TouchableOpacity>
       </View>
