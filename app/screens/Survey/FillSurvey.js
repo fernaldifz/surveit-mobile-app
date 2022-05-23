@@ -37,7 +37,10 @@ const FillSurvey = ({ route, navigation }) => {
     ) {
       tempAnswers[index] = checked;
       setChecked(null);
-    } else if (survey_data.question_list[index].type == "Jawaban singkat") {
+    } else if (
+      survey_data.question_list[index].type == "Jawaban singkat" ||
+      survey_data.question_list[index].type == "Paragraph"
+    ) {
       tempAnswers[index] = answer;
       onChangeAnswer("");
     } else if (survey_data.question_list[index].type == "Kotak centang") {
@@ -55,7 +58,8 @@ const FillSurvey = ({ route, navigation }) => {
       ) {
         setChecked(parseInt(answers[index - 1]));
       } else if (
-        survey_data.question_list[index - 1].type == "Jawaban singkat"
+        survey_data.question_list[index - 1].type == "Jawaban singkat" ||
+        survey_data.question_list[index - 1].type == "Paragraph"
       ) {
         onChangeAnswer(answers[index - 1]);
       } else if (survey_data.question_list[index - 1].type == "Kotak centang") {
@@ -71,7 +75,10 @@ const FillSurvey = ({ route, navigation }) => {
         survey_data.question_list[index + 1].type == "Skala linier"
       ) {
         setChecked(parseInt(answers[index + 1]));
-      } else if (survey_data.question_list[index + 1].type == "Paragraph") {
+      } else if (
+        survey_data.question_list[index + 1].type == "Paragraph" ||
+        survey_data.question_list[index + 1].type == "Jawaban singkat"
+      ) {
         onChangeAnswer(answers[index + 1]);
       } else if (survey_data.question_list[index + 1].type == "Kotak centang") {
         setOption(answers[index + 1]);
