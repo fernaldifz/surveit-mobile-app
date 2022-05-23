@@ -7,11 +7,13 @@ import {
   Urbanist_600SemiBold,
   Urbanist_700Bold,
 } from "@expo-google-fonts/urbanist";
-import { StackNav } from "./app/navigation";
 
 import cheveronLeft from "@assets/cheveron-left.png";
 import { Image, TouchableOpacity } from "react-native";
 import { MenuProvider } from "react-native-popup-menu";
+
+import { AuthStack, LoggedInStack } from "@navigation";
+import { auth } from "@config";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,8 +57,21 @@ const App = () => {
             headerShadowVisible: false,
           })}
         >
-          {StackNav &&
-            StackNav.map((item, index) => {
+          {auth.currentUser &&
+            LoggedInStack &&
+            LoggedInStack.map((item, index) => {
+              return (
+                <Stack.Screen
+                  key={index}
+                  name={item.name}
+                  component={item.component}
+                  options={item.options}
+                />
+              );
+            })}
+          {!auth.currentUser &&
+            AuthStack &&
+            AuthStack.map((item, index) => {
               return (
                 <Stack.Screen
                   key={index}

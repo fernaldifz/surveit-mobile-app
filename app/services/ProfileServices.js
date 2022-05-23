@@ -1,4 +1,3 @@
-import { db } from "@config/";
 import {
   doc,
   getDoc,
@@ -10,6 +9,8 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { MONTH } from "@const/";
+import { db, auth } from "@config/";
+
 
 export const getUser = async (user) => {
   const myDoc = doc(db, "users", user);
@@ -132,3 +133,7 @@ export const redeemVoucher = async (user, id, point) => {
 
   return addRes && reduceRes;
 };
+
+export const signOut = async () => {
+  return await auth.signOut();
+}
