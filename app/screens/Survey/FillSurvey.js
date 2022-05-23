@@ -241,22 +241,32 @@ const FillSurvey = ({ route, navigation }) => {
               {[
                 ...Array(survey_data.question_list[index].number_of_scales),
               ].map((_, idx) => (
-                <View key={idx} style={{ alignItems: "center" }}>
+                <View key={idx} style={{ alignItems: "center", padding: 10 }}>
+                  <Text key={`scale${idx}`}>{idx + 1}</Text>
                   <RadioButton
                     value="test"
                     status={checked === idx ? "checked" : "unchecked"}
                     onPress={() => setChecked(idx)}
                     color="#6E61E8"
                   />
-                  {idx === 0 && <Text key={idx} style={styles.p1}>{idx + 1}</Text>}
-                  {idx ===
-                    survey_data.question_list[index].number_of_scales - 1 && (
-                    <Text style={styles.p1}>
-                      {survey_data.question_list[index].number_of_scales}
-                    </Text>
-                  )}
                 </View>
               ))}
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: 16,
+                paddingHorizontal: 20 + (5 - survey_data.question_list[index].number_of_scales) * (survey_data.question_list[index].number_of_scales === 2 ? 23 : 15)
+              }}
+            >
+              <Text style={[styles.p1, { flex: 1  }]}>
+                {survey_data.question_list[index].option[0]}
+              </Text>
+
+              <Text style={[styles.p1]}>
+                {survey_data.question_list[index].option[1]}
+              </Text>
             </View>
           </>
         )}

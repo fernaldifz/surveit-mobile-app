@@ -21,18 +21,32 @@ export const getSurvey = async (user) => {
   let date = new Date();
   date.setMonth(date.getMonth() + 1);
 
-  querySnapshot.forEach((doc) => {
-    let data = doc.data();
-    if (new Date(data.timestamp.seconds * 1000) < date) {
+  for (let item of querySnapshot.docs) {
+    let data = item.data();
+    let checkFill = await checkUserFill(user, item.id);
+    if (!checkFill && new Date(data.timestamp.seconds * 1000) < date) {
       arr.push({
         ...data,
-        id: doc.id,
+        id: item.id,
         numQuestion: data.question_list.length,
       });
     }
-  });
+  }
 
   return arr;
+};
+
+export const checkUserFill = async (user, survey) => {
+  const userRef = doc(db, "users", user);
+  const surveyRef = doc(db, "surveys", survey);
+
+  const q = query(
+    collection(db, "answers"),
+    where("user_id", "==", userRef),
+    where("survey_id", "==", surveyRef)
+  );
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.size > 0;
 };
 
 export const getUserSurvey = async (user, type) => {

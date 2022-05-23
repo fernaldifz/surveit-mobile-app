@@ -34,7 +34,7 @@ const SurveyCard = ({
                     {page === 'home' ? (
                         <>
                             <Image
-                                style={{ width: 16, height: 16 }}
+                                style={{ width: 16, height: 16, marginRight: 4 }}
                                 source={pointPic}
                             />
                             <View
