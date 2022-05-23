@@ -15,7 +15,7 @@ import { auth } from "@config";
 import { register } from "@services/ProfileServices";
 import signup from "@assets/sign-up.png";
 
-import { USER_TEMPLATE } from "@const/"
+import { USER_TEMPLATE } from "@const/";
 
 // Expo still imports AsyncStorage from react-native which cause warning
 LogBox.ignoreLogs([
@@ -28,30 +28,34 @@ const SignUp = ({ navigation }) => {
   const [password, onChangePassword] = React.useState("");
 
   const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
+    if (nama && email && password) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
 
-        updateProfile(user, {
-          displayName: nama,
-          photoURL: USER_TEMPLATE
-        })
-          .then(async () => {
-            let res = await register(user.uid);
-            if (res) {
-              alert("Registration Successful");
-            }
+          updateProfile(user, {
+            displayName: nama,
+            photoURL: USER_TEMPLATE,
           })
-          .catch((error) => {
-            alert(error.message);
-          });
-      })
-      .then(async () => {
-        reset();
-        await auth.signOut();
-        navigation.navigate("LogIn");
-      })
-      .catch((error) => alert(error.message));
+            .then(async () => {
+              let res = await register(user.uid);
+              if (res) {
+                alert("Registration Successful");
+              }
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
+        })
+        .then(async () => {
+          reset();
+          await auth.signOut();
+          navigation.navigate("LogIn");
+        })
+        .catch((error) => alert(error.message));
+    } else {
+      alert("Isi semua field terlebih dahulu");
+    }
   };
 
   const reset = () => {
@@ -157,7 +161,7 @@ const styles = StyleSheet.create({
   createButton: {
     marginTop: 36,
     marginBottom: 48,
-    width: 320,
+    width: "88.89%",
     height: 56,
     borderRadius: 12,
     overflow: "hidden",

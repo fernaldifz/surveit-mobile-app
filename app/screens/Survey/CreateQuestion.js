@@ -295,6 +295,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 56,
     borderRadius: 12,
+    marginTop: 20,
+    marginBottom: 20,
   },
   disableButtonText: {
     fontSize: 16,

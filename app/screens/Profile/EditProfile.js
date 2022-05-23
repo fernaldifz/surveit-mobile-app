@@ -169,11 +169,11 @@ const EditProfile = ({ navigation }) => {
         </View>
 
         <TouchableOpacity
-          style={[style.editProfileButton, style.button]}
+          style={[style.editProfileButton, style.button, {backgroundColor: (!nama || !email) ? "#F1F5F9" : "#6E61E8"}]}
           onPress={() => uploadImage()}
-          // disabled={nama === auth.currentUser.displayName && email === auth.currentUser.emailVerified && !foto}
+          disabled={!nama || !email}
         >
-          <Text style={[style.button1, { color: "#fff" }]}>Submit</Text>
+          <Text style={[style.button1, { color: (!nama || !email) ? "#94A3B8" : "#fff" }]}>Submit</Text>
         </TouchableOpacity>
       </View>
     )
