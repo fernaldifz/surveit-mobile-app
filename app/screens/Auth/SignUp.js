@@ -44,9 +44,9 @@ const SignUp = ({ navigation }) => {
           });
         console.log("Registered with : ", user.email);
       })
-      .then(() => {
+      .then(async () => {
         reset();
-        auth.signOut();
+        await auth.signOut();
         navigation.navigate("LogIn");
       })
       .catch((error) => alert(error.message));
