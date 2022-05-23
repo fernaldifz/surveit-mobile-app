@@ -18,3 +18,11 @@ export const SURVEY_TEMPLATE =
 
 export const USER_TEMPLATE =
   "https://firebasestorage.googleapis.com/v0/b/surveit-app-128ab.appspot.com/o/wallback-user.png?alt=media&token=fa4c8710-faf4-46b5-8047-82336b6a5b01";
+
+export const PIE_COLOR = [
+  "#6E61E8",
+  "#A889FF",
+  "#E86181",
+  "#F9AD5D",
+  "#4ECDC4",
+];

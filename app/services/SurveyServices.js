@@ -9,6 +9,7 @@ import {
   addDoc,
   getDoc,
 } from "firebase/firestore";
+import { mapAnswer } from "../utils";
 
 export const getSurvey = async (user) => {
   const userRef = doc(db, "users", user);
@@ -94,4 +95,11 @@ export const getQuestion = async (surveyId) => {
       return data.question_list;
     }
   });
+};
+
+export const getData = async (surveyId) => {
+  let question = await getQuestion(surveyId);
+  let answer = await getAnswer(surveyId);
+
+  return mapAnswer(answer, question);
 };

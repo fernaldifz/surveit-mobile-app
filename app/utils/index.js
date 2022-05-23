@@ -1,3 +1,5 @@
+import { PIE_COLOR } from "@const";
+
 export const mapAnswer = (answer, question) => {
   let res = [];
   let arr = [];
@@ -19,6 +21,8 @@ export const mapAnswer = (answer, question) => {
       data = checkListConverter(data, item.option);
     } else if (item.type === "Skala linier") {
       data = scaleConverter(data, item.number_of_scales);
+    } else if (item.type === "Pilihan ganda") {
+      data = pieConverter(data, item.option);
     }
 
     res.push({
@@ -65,7 +69,7 @@ export const scaleConverter = (answer, nScale) => {
   });
 
   return {
-    labels: Array.from({length: nScale}, (_, i) => i + 1),
+    labels: Array.from({ length: nScale }, (_, i) => i + 1),
     datasets: [
       {
         data: arr,
@@ -74,12 +78,64 @@ export const scaleConverter = (answer, nScale) => {
   };
 };
 
-// Bar
-const answers2 = {
-  labels: ["Anjing", "Hamster", "Kucing", "Ikan", "Lainnya"],
-  datasets: [
-    {
-      data: [80, 35, 75, 50, 15],
-    },
-  ],
+export const pieConverter = (answer, option) => {
+  let arr = [];
+  for (let i = 0; i < option.length; i++) {
+    arr.push(0);
+  }
+
+  answer.forEach((item) => {
+    arr[item - 1] += 1;
+  });
+
+  let res = [];
+  option.forEach((item, index) => {
+    res.push({
+      name: `% ${item}`,
+      percentage: (arr[index] / arr.reduce((x, y) => x + y)) * 100,
+      color: PIE_COLOR[index],
+      legendFontColor: "#94A3B8",
+      legendFontSize: 12,
+    });
+  });
+
+  return res;
 };
+
+const answers = [
+  {
+    name: "% Poodle",
+    percentage: 20,
+    color: "#6E61E8",
+    legendFontColor: "#94A3B8",
+    legendFontSize: 12,
+  },
+  {
+    name: "% Corgi",
+    percentage: 30,
+    color: "#A889FF",
+    legendFontColor: "#94A3B8",
+    legendFontSize: 12,
+  },
+  {
+    name: "% Westi",
+    percentage: 10,
+    color: "#E86181",
+    legendFontColor: "#94A3B8",
+    legendFontSize: 12,
+  },
+  {
+    name: "% Pomeranian",
+    percentage: 30,
+    color: "#F9AD5D",
+    legendFontColor: "#94A3B8",
+    legendFontSize: 12,
+  },
+  {
+    name: "% Samoyed",
+    percentage: 10,
+    color: "#4ECDC4",
+    legendFontColor: "#94A3B8",
+    legendFontSize: 12,
+  },
+];
