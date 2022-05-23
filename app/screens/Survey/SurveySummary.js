@@ -1,10 +1,11 @@
-import { ScrollView } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { useEffect, useState } from "react";
 
 import TextSummary from "@components/Survey/TextSummary";
 import PieChartSummary from "@components/Survey/PieChartSummary";
 import BarChartSummary from "@components/Survey/BarChartSummary";
 import { getAnswer, getQuestion } from "@services/SurveyServices";
+import { mapAnswer } from "../../utils";
 
 const dummy = [
   {
@@ -74,43 +75,42 @@ const answers2 = {
 
 const SurveySummary = ({ route, navigation }) => {
   const { id } = route.params;
-  const [question, setQuestion] = useState([]);
-  const [answer, setAnswer] = useState([]);
+  const [data, setData] = useState(null);
+  const [answer, setAnswer] = useState(null);
+  const [question, setQuestion] = useState(null);
 
   const fetchData = async () => {
     let answer = await getAnswer(id);
     let question = await getQuestion(id);
 
-	setAnswer(answer);
-	setQuestion(question);
+    setAnswer(answer);
+    setQuestion(question);
   };
 
   useEffect(() => {
-	fetchData();
+    fetchData();
+
+    if (answer && question) {
+      let newData = mapAnswer(answer, question);
+      setData(newData);
+    }
   }, []);
 
   return (
     <ScrollView style={{ backgroundColor: "#F8FAFC", padding: 20 }}>
-      <TextSummary
-        data={dummy}
-        question={"Siapa namamu?"}
-        navigation={navigation}
-      />
-      <TextSummary
-        data={dummy}
-        question={"Siapa namamu?"}
-        navigation={navigation}
-      />
-      <PieChartSummary
-        data={answers}
-        question={"Jenis doggy apa yang paling kamu sukai?"}
-        navigation={navigation}
-      />
-      <BarChartSummary
-        data={answers2}
-        question={"Hewan apa saja yang pernah kamu pelihara?"}
-        navigation={navigation}
-      />
+      {data &&
+        data.map((item, index) => {
+          switch (item.type) {
+            default:
+              return (
+                <TextSummary
+                  data={item.answer}
+                  question={item.question}
+                  navigation={navigation}
+                />
+              );
+          }
+        })}
     </ScrollView>
   );
 };

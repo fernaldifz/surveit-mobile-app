@@ -74,12 +74,12 @@ export const saveAnswer = async (user, surveyId, answer) => {
 export const getAnswer = async (surveyId) => {
   let surveyRef = doc(db, "surveys", surveyId);
   let q = query(collection(db, "answers"), where("survey_id", "==", surveyRef));
-  let querySnapshot = getDocs(q);
+  let querySnapshot = await getDocs(q);
 
   let arr = [];
-  querySnapshot.forEach((doc) => {
-    let data = doc.data();
-    arr.push({ answer: data.answer, id: doc.id });
+  querySnapshot.forEach((snapshot) => {
+    let data = snapshot.data();
+    arr.push(data.answer);
   });
 
   return arr;

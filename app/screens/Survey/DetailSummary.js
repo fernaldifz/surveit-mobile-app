@@ -15,7 +15,7 @@ const DetailSummary = ({ navigation, route }) => {
         data.map((item, index) => {
           return (
             <View key={index} style={[style.answer]}>
-              <Text style={style.p1}>{item.answer}</Text>
+              <Text style={style.p1}>{item}</Text>
             </View>
           );
         })}
