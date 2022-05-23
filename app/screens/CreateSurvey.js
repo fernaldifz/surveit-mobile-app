@@ -52,7 +52,6 @@ const CreateSurvey = ({ navigation }) => {
       !selectedCategory ||
       !description ||
       !respondentCount ||
-      !selectedQuestionType ||
       questionList.length === 0
     );
   };
