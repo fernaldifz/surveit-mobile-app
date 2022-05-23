@@ -17,11 +17,15 @@ const LogIn = ({ navigation }) => {
   const [password, onChangePassword] = React.useState("");
 
   const handleLogIn = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((_) => {
-        navigation.navigate("Main");
-      })
-      .catch((error) => alert(error.message));
+    if (email && password) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((_) => {
+          navigation.navigate("Main");
+        })
+        .catch((error) => alert(error.message));
+    } else {
+      alert("Isi semua field terlebih dahulu");
+    }
   };
 
   return (
@@ -114,7 +118,7 @@ const styles = StyleSheet.create({
   loginButton: {
     marginTop: 36,
     marginBottom: 48,
-    width: 320,
+    width: "88.89%",
     height: 56,
     borderRadius: 12,
     overflow: "hidden",
