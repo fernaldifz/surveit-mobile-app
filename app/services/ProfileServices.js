@@ -8,9 +8,8 @@ import {
   addDoc,
   setDoc,
 } from "firebase/firestore";
-import { MONTH } from "@const/";
+import { MONTH, USER_TEMPLATE } from "@const/";
 import { db, auth } from "@config/";
-
 
 export const getUser = async (user) => {
   const myDoc = doc(db, "users", user);
@@ -134,6 +133,22 @@ export const redeemVoucher = async (user, id, point) => {
   return addRes && reduceRes;
 };
 
-export const signOut = async () => {
-  return await auth.signOut();
-}
+export const register = async (email, name, id) => {
+  let userRef = doc(db, "users", id);
+
+  let data = {
+    email: email,
+    name: name,
+    point: 0,
+    photo: USER_TEMPLATE,
+  };
+
+  return await setDoc(userRef, data, { merge: true })
+    .then(() => {
+      return true;
+    })
+    .catch((error) => {
+      console.log(error);
+      return false;
+    });
+};

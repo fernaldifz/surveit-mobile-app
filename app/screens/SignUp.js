@@ -11,6 +11,7 @@ import {
 import InputPassword from "../components/InputPassword";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../config/index";
+import { register, signOut } from "../services/ProfileServices";
 
 // Expo still imports AsyncStorage from react-native which cause warning
 LogBox.ignoreLogs([
@@ -30,8 +31,11 @@ const SignUp = ({ navigation }) => {
         updateProfile(user, {
           displayName: nama,
         })
-          .then(() => {
-            console.log("Profile updated!");
+          .then(async () => {
+            let res = await register(email, nama, user.uid);
+            if (res) {
+              alert("Registration Successful");
+            }
           })
           .catch((error) => {
             alert(error.message);
@@ -39,9 +43,17 @@ const SignUp = ({ navigation }) => {
         console.log("Registered with : ", user.email);
       })
       .then(() => {
+        reset();
+        auth.signOut();
         navigation.navigate("LogIn");
       })
       .catch((error) => alert(error.message));
+  };
+
+  const reset = () => {
+    onChangeNama("");
+    onChangeEmail("");
+    onChangePassword("");
   };
 
   return (
@@ -54,13 +66,19 @@ const SignUp = ({ navigation }) => {
         style={styles.input}
         onChangeText={onChangeNama}
         placeholder="Nama"
+        value={nama}
       />
       <TextInput
         style={styles.input}
         onChangeText={onChangeEmail}
         placeholder="Email"
+        value={email}
       />
-      <InputPassword password={password} onChangePassword={onChangePassword} />
+      <InputPassword
+        password={password}
+        onChangePassword={onChangePassword}
+        value={password}
+      />
       <View style={styles.viewButton}>
         <Button title="Buat akun" color="#6E61E8" onPress={handleSignUp} />
       </View>
@@ -68,7 +86,10 @@ const SignUp = ({ navigation }) => {
         Sudah punya akun?
         <Text
           style={{ color: "#6E61E8" }}
-          onPress={() => navigation.navigate("LogIn")}
+          onPress={() => {
+            reset();
+            navigation.navigate("LogIn");
+          }}
         >
           {" "}
           Masuk

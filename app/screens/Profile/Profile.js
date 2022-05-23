@@ -3,7 +3,8 @@ import pointPic from "@assets/point.png";
 import editPic from "@assets/pencil.png";
 import cheveronRight from "@assets/cheveron-right.png";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { getUser, signOut } from "@services/ProfileServices";
+import { getUser } from "@services/ProfileServices";
+import { auth } from "@config";
 import { dummyAcc } from "@const";
 
 const Profile = ({ navigation }) => {
@@ -21,7 +22,7 @@ const Profile = ({ navigation }) => {
     });
 
     return willFocusSubscription;
-  }, []);
+  }, [auth.currentUser]);
 
   return (
     userDoc && (
@@ -94,7 +95,7 @@ const Profile = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={[styles.logOutButton, { marginTop: 64 }]}
-          onPress={() => signOut}
+          onPress={() => auth.signOut()}
         >
           <Text style={[styles.button1, { color: "#E86181" }]}>Log Out</Text>
         </TouchableOpacity>
