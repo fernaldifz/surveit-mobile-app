@@ -165,7 +165,7 @@ const FillSurvey = ({ route, navigation }) => {
               {questions[index].question}
               {questions[index].required ? " *" : ""}
             </Text>
-            <View style={{ marginTop: 16 }}>
+            <View>
               {survey_data.question_list[index].option.map((item, idx) => {
                 return (
                   <View
@@ -204,7 +204,7 @@ const FillSurvey = ({ route, navigation }) => {
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
-                    marginTop: 12,
+                    marginTop: 16,
                   }}
                 >
                   <Checkbox
@@ -235,7 +235,7 @@ const FillSurvey = ({ route, navigation }) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-evenly",
-                marginTop: 36,
+                marginTop: 16,
               }}
             >
               {[
@@ -248,10 +248,10 @@ const FillSurvey = ({ route, navigation }) => {
                     onPress={() => setChecked(idx)}
                     color="#6E61E8"
                   />
-                  {idx === 0 && <Text>{1}</Text>}
+                  {idx === 0 && <Text key={idx} style={styles.p1}>{idx + 1}</Text>}
                   {idx ===
                     survey_data.question_list[index].number_of_scales - 1 && (
-                    <Text>
+                    <Text style={styles.p1}>
                       {survey_data.question_list[index].number_of_scales}
                     </Text>
                   )}

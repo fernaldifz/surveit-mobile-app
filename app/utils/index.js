@@ -90,13 +90,15 @@ export const pieConverter = (answer, option) => {
 
   let res = [];
   option.forEach((item, index) => {
-    res.push({
-      name: `% ${item}`,
-      percentage: (arr[index] / arr.reduce((x, y) => x + y)) * 100,
-      color: PIE_COLOR[index],
-      legendFontColor: "#94A3B8",
-      legendFontSize: 12,
-    });
+    if (arr.reduce((x, y) => x + y) > 0) {
+      res.push({
+        name: `% ${item}`,
+        percentage: (arr[index] / arr.reduce((x, y) => x + y)) * 100,
+        color: PIE_COLOR[index],
+        legendFontColor: "#94A3B8",
+        legendFontSize: 12,
+      });
+    }
   });
 
   return res;
