@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import InputPassword from "@components/Auth/InputPassword";
 import { auth } from "@config/";
@@ -26,35 +27,40 @@ const LogIn = ({ navigation }) => {
   };
 
   return (
-    <View style={{ alignItems: "center" }}>
-      <Image style={styles.image} source={require("@assets/log-in.png")} />
-      <Text style={styles.h1}>Selamat datang di Surveit!</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeEmail}
-        placeholder="Email"
-        placeholderTextColor="#94A3B8"
-      />
-      <InputPassword password={password} onChangePassword={onChangePassword} />
-      <TouchableOpacity onPress={handleLogIn} style={styles.loginButton}>
-        <Text style={styles.button1}>Masuk</Text>
-      </TouchableOpacity>
-      <Text style={styles.p1}>
-        Belum punya akun?
-        <Text
-          style={{
-            color: "#6E61E8",
-            fontSize: 16,
-            lineHeight: 20,
-            fontFamily: "Urbanist_600SemiBold",
-          }}
-          onPress={() => navigation.navigate("SignUp")}
-        >
-          {" "}
-          Buat akun
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={{ alignItems: "center" }}>
+        <Image style={styles.image} source={require("@assets/log-in.png")} />
+        <Text style={styles.h1}>Selamat datang di Surveit!</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeEmail}
+          placeholder="Email"
+          placeholderTextColor="#94A3B8"
+        />
+        <InputPassword
+          password={password}
+          onChangePassword={onChangePassword}
+        />
+        <TouchableOpacity onPress={handleLogIn} style={styles.loginButton}>
+          <Text style={styles.button1}>Masuk</Text>
+        </TouchableOpacity>
+        <Text style={styles.p1}>
+          Belum punya akun?
+          <Text
+            style={{
+              color: "#6E61E8",
+              fontSize: 16,
+              lineHeight: 20,
+              fontFamily: "Urbanist_600SemiBold",
+            }}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            {" "}
+            Buat akun
+          </Text>
         </Text>
-      </Text>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -72,6 +78,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: "Urbanist_500Medium",
     color: "#94A3B8",
+    marginBottom: 48,
   },
   button1: {
     fontSize: 16,

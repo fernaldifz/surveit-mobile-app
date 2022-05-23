@@ -1,13 +1,13 @@
 import React from "react";
 import {
   StyleSheet,
-  Button,
   TextInput,
   View,
   Image,
   Text,
   LogBox,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import InputPassword from "@components/Auth/InputPassword";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -59,52 +59,54 @@ const SignUp = ({ navigation }) => {
   };
 
   return (
-    <View style={{ alignItems: "center" }}>
-      <Image style={styles.image} source={signup} />
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={{ alignItems: "center" }}>
+        <Image style={styles.image} source={signup} />
 
-      <Text style={styles.h1}>Buat akun Surveitmu</Text>
+        <Text style={styles.h1}>Buat akun Surveitmu</Text>
 
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeNama}
-        placeholder="Nama"
-        value={nama}
-        placeholderTextColor="#94A3B8"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeEmail}
-        placeholder="Email"
-        value={email}
-        placeholderTextColor="#94A3B8"
-      />
-      <InputPassword
-        password={password}
-        onChangePassword={onChangePassword}
-        value={password}
-      />
-      <TouchableOpacity onPress={handleSignUp} style={styles.createButton}>
-        <Text style={styles.button1}>Buat akun</Text>
-      </TouchableOpacity>
-      <Text style={styles.p1}>
-        Sudah punya akun?
-        <Text
-          style={{
-            color: "#6E61E8",
-            fontSize: 16,
-            lineHeight: 20,
-            fontFamily: "Urbanist_600SemiBold",
-          }}
-          onPress={() => {
-            reset();
-            navigation.navigate("LogIn");
-          }}
-        >
-          {" "}
-          Masuk
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeNama}
+          placeholder="Nama"
+          value={nama}
+          placeholderTextColor="#94A3B8"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeEmail}
+          placeholder="Email"
+          value={email}
+          placeholderTextColor="#94A3B8"
+        />
+        <InputPassword
+          password={password}
+          onChangePassword={onChangePassword}
+          value={password}
+        />
+        <TouchableOpacity onPress={handleSignUp} style={styles.createButton}>
+          <Text style={styles.button1}>Buat akun</Text>
+        </TouchableOpacity>
+        <Text style={styles.p1}>
+          Sudah punya akun?
+          <Text
+            style={{
+              color: "#6E61E8",
+              fontSize: 16,
+              lineHeight: 20,
+              fontFamily: "Urbanist_600SemiBold",
+            }}
+            onPress={() => {
+              reset();
+              navigation.navigate("LogIn");
+            }}
+          >
+            {" "}
+            Masuk
+          </Text>
         </Text>
-      </Text>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -122,6 +124,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: "Urbanist_500Medium",
     color: "#94A3B8",
+    marginBottom: 48,
   },
   button1: {
     fontSize: 16,
