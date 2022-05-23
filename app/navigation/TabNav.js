@@ -11,7 +11,7 @@ import plusPic from "@assets/plus.png";
 import { AddSurveyButton } from "./SurveyButton";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,7 @@ export const NavigationBar = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                alignSelf: "center"
+                alignSelf: "center",
               }}
             >
               <Image
@@ -65,8 +65,8 @@ export const NavigationBar = () => {
       <Tab.Screen
         name="Add Survey"
         component={CreateSurvey}
-        options={{
-          headerShown: false,
+        options={({ _ }) => ({
+          headerTitleAlign: "center",
           tabBarIcon: ({ _ }) => (
             <Image
               source={plusPic}
@@ -78,7 +78,13 @@ export const NavigationBar = () => {
             />
           ),
           tabBarButton: (props) => <AddSurveyButton {...props} />,
-        }}
+        })}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("CreateSurvey");
+          },
+        })}
       />
       <Tab.Screen
         name="Profile"
@@ -90,7 +96,7 @@ export const NavigationBar = () => {
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                alignSelf: "center"
+                alignSelf: "center",
               }}
             >
               <Image

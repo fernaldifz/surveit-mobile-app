@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -11,20 +11,18 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
-import close from "../assets/close.png";
-import more from "../assets/more.png";
+// import more from "../assets/more.png";
 import * as ImagePicker from "expo-image-picker";
 import surveyCover from "../assets/survey-cover.png";
 import { db, storage } from "../config/index";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, Timestamp, addDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
+import { SURVEY_TEMPLATE, dummyAcc } from "@const/";
 
 // Firebase sets some timers for a long period, which will trigger some warnings.
 LogBox.ignoreLogs([`Setting a timer for a long period`]);
 
-const user_id_dummy = "user_id_dummy";
-
-const CreateSurvey = ({ route, navigation }) => {
+const CreateSurvey = ({ navigation }) => {
   const categories = ["Edukasi", "Bisnis", "Gaya Hidup", "Hobi"];
   const questionTypes = [
     "Jawaban singkat",
@@ -40,15 +38,24 @@ const CreateSurvey = ({ route, navigation }) => {
   const [respondentCount, onChangeRespondentCount] = React.useState("");
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedQuestionType, setSelectedQuestionType] = React.useState("");
-  const [questionList, setQuestionList] = React.useState(
-    route.params?.questionListTemp || []
-  );
+  const [questionList, setQuestionList] = React.useState([]);
   const [cover, setCover] = React.useState(null);
 
   const toggleModal = () => {
+    setSelectedQuestionType("");
     setModalVisible(!modalVisible);
   };
 
+  const checkDisabled = () => {
+    return (
+      !title ||
+      !selectedCategory ||
+      !description ||
+      !respondentCount ||
+      !selectedQuestionType ||
+      questionList.length === 0
+    );
+  };
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -63,12 +70,35 @@ const CreateSurvey = ({ route, navigation }) => {
     }
   };
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Image
+            source={require("@assets/close.png")}
+            style={{ width: 12, height: 12, marginLeft: 10 }}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+
   const handleAddQuestion = () => {
     navigation.navigate("CreateQuestion", {
       selectedQuestionType: selectedQuestionType,
       questionCountTemp: questionList.length,
       questionListTemp: questionList,
+      handleNewQuestion: handleNewQuestion,
     });
+    setSelectedQuestionType("");
+  };
+
+  const handleNewQuestion = (newQuestion) => {
+    setQuestionList([...newQuestion]);
   };
 
   const handleCreateSurvey = async () => {
@@ -88,14 +118,11 @@ const CreateSurvey = ({ route, navigation }) => {
         console.log(e);
       }
     } else {
-      Create(null);
+      Create(SURVEY_TEMPLATE);
     }
   };
 
   const Create = async (url) => {
-    const myDoc = doc(db, "surveys", "document_dummy_test");
-    const { Timestamp } = require("firebase/firestore");
-
     var survey = {
       cover: url,
       title: title,
@@ -103,14 +130,14 @@ const CreateSurvey = ({ route, navigation }) => {
       description: description,
       response_target: parseInt(respondentCount),
       question_list: questionList,
-      user_id: user_id_dummy,
+      user_id: dummyAcc,
       timestamp: Timestamp.fromDate(new Date()),
       point: questionList.length * 10,
     };
 
-    setDoc(myDoc, survey)
+    addDoc(collection(db, "surveys"), survey)
       .then(() => {
-        console.log("success");
+        navigation.navigate("Home");
       })
       .catch((error) => {
         alert(error.message);
@@ -118,139 +145,152 @@ const CreateSurvey = ({ route, navigation }) => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.title}>
-        <View
-          style={{
-            paddingLeft: 20,
-            paddingRight: 20,
-            paddingTop: 32,
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-            <Image style={styles.close} source={close} />
-          </TouchableOpacity>
-          <View
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            <Text style={styles.h3}>Buat survei</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.contents}>
-        <View style={styles.content}>
-          <View style={{ display: "flex", flexDirection: "column" }}>
-            <Text style={styles.h3}>Cover</Text>
-            {cover ? (
-              <Image source={{ uri: cover }} style={styles.cover} />
-            ) : (
-              <Image source={surveyCover} style={styles.cover} />
-            )}
-
-            <TouchableOpacity
-              style={styles.uploadPictureButton}
-              onPress={() => pickImage()}
-            >
-              <Text style={styles.textButton}>Upload Gambar</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.h3}>Judul survei</Text>
-          <TextInput
-            style={{ ...styles.textInput, ...styles.p1 }}
-            onChangeText={onChangeTitle}
-            value={title}
-          />
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.h3}>Kategori survei</Text>
-          <SelectDropdownSurveit
-            data={categories}
-            defaultButtonText="Pilih kategori survei"
-            setSelectedOption={setSelectedCategory}
-          />
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.h3}>Deskripsi survei</Text>
-          <TextInput
-            multiline
-            numberOfLines={4}
-            maxHeight={96}
-            style={{ ...styles.multilineTextInput, ...styles.p1 }}
-            onChangeText={onChangeDescription}
-            value={description}
-          />
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.h3}>Target Jumlah Responden</Text>
-          <TextInput
-            style={{ ...styles.respondentInput, ...styles.p1 }}
-            onChangeText={onChangeRespondentCount}
-            keyboardType="numeric"
-            maxLength={4}
-            value={respondentCount}
-          />
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.h3}>Pertanyaan ({questionList.length})</Text>
-          {questionList.map((questionData, index) => (
-            <View key={index} style={styles.questionDisplay}>
-              {questionData.question.length <= 25 ? (
-                <Text style={styles.p1}>{questionData.question}</Text>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ padding: 20, backgroundColor: "#F8FAFC" }}>
+        <View style={styles.contents}>
+          <View style={styles.content}>
+            <View style={{ display: "flex", flexDirection: "column" }}>
+              <Text style={styles.h3}>Cover</Text>
+              {cover ? (
+                <Image source={{ uri: cover }} style={styles.cover} />
               ) : (
-                <Text style={styles.p1}>
-                  {questionData.question.substr(0, 24)}...
-                </Text>
+                <Image source={surveyCover} style={styles.cover} />
               )}
-              <Image style={styles.more} source={more} />
-            </View>
-          ))}
-          <TouchableOpacity
-            style={styles.addQuestionButton}
-            onPress={toggleModal}
-          >
-            <Text style={styles.textButton}>Tambah Pertanyaan</Text>
-          </TouchableOpacity>
-        </View>
-        <Modal isVisible={modalVisible} onBackdropPress={toggleModal}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={{ ...styles.h3, ...styles.modalText }}>
-                Pilih jenis pertanyaan
-              </Text>
-              <SelectDropdownSurveit
-                data={questionTypes}
-                defaultButtonText="Pilih jenis pertanyaan"
-                setSelectedOption={setSelectedQuestionType}
-              />
+
               <TouchableOpacity
-                style={styles.continueButton}
-                onPress={handleAddQuestion}
+                style={styles.uploadPictureButton}
+                onPress={() => pickImage()}
               >
-                <Text style={styles.textButton}>Lanjut</Text>
+                <Text style={styles.textButton}>Upload Gambar</Text>
               </TouchableOpacity>
             </View>
+            <Text style={styles.h3}>Judul survei</Text>
+            <TextInput
+              style={{ ...styles.textInput, ...styles.p1 }}
+              onChangeText={onChangeTitle}
+              value={title}
+            />
           </View>
-        </Modal>
-        <View>
-          <TouchableOpacity
-            style={styles.createButton}
-            onPress={handleCreateSurvey}
-          >
-            <Text style={styles.textButton}>Buat survei</Text>
-          </TouchableOpacity>
+          <View style={styles.content}>
+            <Text style={styles.h3}>Kategori survei</Text>
+            <SelectDropdownSurveit
+              data={categories}
+              defaultButtonText="Pilih kategori survei"
+              setSelectedOption={setSelectedCategory}
+            />
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.h3}>Deskripsi survei</Text>
+            <TextInput
+              multiline
+              numberOfLines={4}
+              maxHeight={96}
+              style={{ ...styles.multilineTextInput, ...styles.p1 }}
+              onChangeText={onChangeDescription}
+              value={description}
+            />
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.h3}>Target Jumlah Responden</Text>
+            <TextInput
+              style={{ ...styles.respondentInput, ...styles.p1 }}
+              onChangeText={onChangeRespondentCount}
+              keyboardType="numeric"
+              maxLength={4}
+              value={respondentCount}
+            />
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.h3}>Pertanyaan ({questionList.length})</Text>
+            {questionList.map((questionData) => (
+              <View key={questionData.question} style={styles.questionDisplay}>
+                {questionData.question.length <= 25 ? (
+                  <Text style={styles.p1}>{questionData.question}</Text>
+                ) : (
+                  <Text style={styles.p1}>
+                    {questionData.question.substr(0, 24)}...
+                  </Text>
+                )}
+                {/* <Image style={styles.more} source={more} /> */}
+              </View>
+            ))}
+            <TouchableOpacity
+              style={styles.addQuestionButton}
+              onPress={toggleModal}
+            >
+              <Text style={styles.textButton}>Tambah Pertanyaan</Text>
+            </TouchableOpacity>
+          </View>
+          <Modal isVisible={modalVisible} onBackdropPress={toggleModal}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={{ ...styles.h3, ...styles.modalText }}>
+                  Pilih jenis pertanyaan
+                </Text>
+                <SelectDropdownSurveit
+                  data={questionTypes}
+                  defaultButtonText="Pilih jenis pertanyaan"
+                  setSelectedOption={setSelectedQuestionType}
+                  type={true}
+                />
+                <TouchableOpacity
+                  style={
+                    !selectedQuestionType
+                      ? [styles.disableButton, { marginTop: 32 }]
+                      : styles.continueButton
+                  }
+                  onPress={handleAddQuestion}
+                  disabled={!selectedQuestionType}
+                >
+                  <Text
+                    style={
+                      !selectedQuestionType
+                        ? styles.disableButtonText
+                        : styles.textButton
+                    }
+                  >
+                    Lanjut
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </View>
+      </ScrollView>
+      <View style={{ backgroundColor: "#fff", padding: 20 }}>
+        <TouchableOpacity
+          style={checkDisabled() ? styles.disableButton : styles.createButton}
+          onPress={handleCreateSurvey}
+          disabled={checkDisabled()}
+        >
+          <Text
+            style={
+              checkDisabled() ? styles.disableButtonText : styles.textButton
+            }
+          >
+            Buat survei
+          </Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  disableButton: {
+    backgroundColor: "#F1F5F9",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 56,
+    borderRadius: 12,
+  },
+  disableButtonText: {
+    fontSize: 16,
+    lineHeight: 20,
+    fontFamily: "Urbanist_600SemiBold",
+    color: "#94A3B8",
+  },
   title: {
     marginTop: 28,
     marginBottom: 20,
@@ -258,20 +298,20 @@ const styles = StyleSheet.create({
   h2: {
     fontSize: 24,
     lineHeight: 24,
-    fontWeight: "600",
+    fontFamily: "Urbanist_600SemiBold",
     color: "#334155",
   },
   h3: {
     fontSize: 16,
     lineHeight: 20,
-    fontWeight: "600",
     color: "#334155",
+    fontFamily: "Urbanist_600SemiBold",
   },
   p1: {
     fontSize: 16,
     color: "#334155",
     lineHeight: 20,
-    fontWeight: "500",
+    fontFamily: "Urbanist_500Medium",
   },
   contents: {
     marginHorizontal: 20,
@@ -324,7 +364,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     lineHeight: 20,
-    fontWeight: "600",
+    fontFamily: "Urbanist_600SemiBold",
   },
   addQuestionButton: {
     marginTop: 10,

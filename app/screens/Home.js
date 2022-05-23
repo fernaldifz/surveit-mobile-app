@@ -51,6 +51,11 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     fetchSurvey();
+    const willFocusSubscription = navigation.addListener("focus", () => {
+      fetchSurvey();
+    });
+
+    return willFocusSubscription;
   }, []);
 
   return (
@@ -124,7 +129,6 @@ const Home = ({ navigation }) => {
             })}
           </View>
         </View>
-
         <View
           style={{
             display: "flex",

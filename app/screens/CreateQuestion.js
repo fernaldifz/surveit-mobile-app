@@ -3,14 +3,17 @@ import {
   StyleSheet,
   TextInput,
   View,
-  Image,
   Text,
   TouchableOpacity,
   ScrollView,
+  LogBox,
 } from "react-native";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
 import SwitchSurveit from "../components/SwitchSurveit";
-import cheveronLeft from "../assets/cheveron-left.png";
+
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
 
 const CreateQuestion = ({ route, navigation }) => {
   const questionTypes = [
@@ -23,7 +26,8 @@ const CreateQuestion = ({ route, navigation }) => {
   const optionCount = [1, 2, 3, 4, 5];
   const scaleCount = [2, 3, 4, 5];
 
-  const { selectedQuestionType, questionListTemp } = route.params;
+  const { selectedQuestionType, questionListTemp, handleNewQuestion } =
+    route.params;
   const [currSelectedQuestionType, setCurrSelectedQuestionType] =
     useState(selectedQuestionType);
   const [question, onChangeQuestion] = useState("");
@@ -39,6 +43,40 @@ const CreateQuestion = ({ route, navigation }) => {
   const [selectedScaleCount, setSelectedScaleCount] = useState(2);
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const handleDisabled = () => {
+    var res = true;
+    console.log(currSelectedQuestionType);
+    switch (currSelectedQuestionType) {
+      case "Pilihan ganda":
+      case "Kotak centang":
+        res = res && option_1;
+
+        if (selectedOptionCount >= 2) {
+          res = res && option_2;
+        }
+        if (selectedOptionCount >= 3) {
+          res = res && option_3;
+        }
+        if (selectedOptionCount >= 4) {
+          res = res && option_4;
+        }
+        if (selectedOptionCount >= 5) {
+          res = res && option_5;
+        }
+        break;
+      case "Skala linier":
+        res = res && leftDescription;
+        if (selectedScaleCount >= 2) {
+          res = res && rightDescription;
+        }
+        break;
+      default:
+        break;
+    }
+
+    return !question || !res;
+  };
 
   const handleSaveQuestion = () => {
     if (
@@ -90,162 +128,192 @@ const CreateQuestion = ({ route, navigation }) => {
 
     questionListTemp.push(questionData);
 
-    navigation.navigate("CreateSurvey", {
-      questionCountTemp: questionListTemp.length + 1,
-      questionListTemp: questionListTemp,
-    });
+    handleNewQuestion(questionListTemp);
+    navigation.goBack();
   };
 
+  const reset = () => {
+    clearOption();
+    onChangeLeftDescription("");
+    onChangeRightDescription("");
+    setSelectedScaleCount(2);
+    setSelectedOptionCount(1);
+  };
+
+  const clearOption = () => {
+    onChangeOption_1("");
+    onChangeOption_2("");
+    onChangeOption_3("");
+    onChangeOption_4("");
+    onChangeOption_5("");
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: `Pertanyaan ${questionListTemp.length + 1}`,
+    });
+  }, [questionListTemp]);
+
   return (
-    <ScrollView>
-      <View style={styles.title}>
-        <TouchableOpacity onPress={() => navigation.navigate("CreateSurvey")}>
-          <Image
-            style={{ width: 24, height: 24, alignSelf: "flex-start" }}
-            source={cheveronLeft}
-          />
-        </TouchableOpacity>
-        <View
-          style={{
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ backgroundColor: "#F8FAFC", padding: 20 }}>
+        <View>
+          <View style={{ marginBottom: 20 }}>
+            <SelectDropdownSurveit
+              data={questionTypes}
+              defaultButtonText="Pilih jenis pertanyaan"
+              defaultValue={currSelectedQuestionType}
+              setSelectedOption={setCurrSelectedQuestionType}
+              reset={reset}
+            />
+          </View>
+          <View style={{ marginBottom: 4 }}>
+            <Text style={{ ...styles.h3 }}>Pertanyaan</Text>
+            <TextInput
+              multiline
+              numberOfLines={4}
+              maxHeight={96}
+              style={{ ...styles.multilineTextInput, ...styles.p1 }}
+              onChangeText={onChangeQuestion}
+              value={question}
+            />
+          </View>
+
+          {(currSelectedQuestionType == "Pilihan ganda" ||
+            currSelectedQuestionType == "Kotak centang") && (
+            <View style={{ marginBottom: 20 }}>
+              <Text style={{ ...styles.h3 }}>Jumlah opsi</Text>
+              <SelectDropdownSurveit
+                data={optionCount}
+                defaultButtonText="Pilih jumlah opsi"
+                setSelectedOption={setSelectedOptionCount}
+                defaultValue={1}
+                reset={clearOption}
+              />
+            </View>
+          )}
+          {(currSelectedQuestionType == "Pilihan ganda" ||
+            currSelectedQuestionType == "Kotak centang") && (
+            <View style={{ marginBottom: 4 }}>
+              <Text style={{ ...styles.h3 }}>Pilihan</Text>
+              {selectedOptionCount >= 1 && (
+                <TextInput
+                  style={{ ...styles.textInput, ...styles.p1 }}
+                  onChangeText={onChangeOption_1}
+                  value={option_1}
+                />
+              )}
+              {selectedOptionCount >= 2 && (
+                <TextInput
+                  style={{ ...styles.textInput, ...styles.p1 }}
+                  onChangeText={onChangeOption_2}
+                  value={option_2}
+                />
+              )}
+              {selectedOptionCount >= 3 && (
+                <TextInput
+                  style={{ ...styles.textInput, ...styles.p1 }}
+                  onChangeText={onChangeOption_3}
+                  value={option_3}
+                />
+              )}
+              {selectedOptionCount >= 4 && (
+                <TextInput
+                  style={{ ...styles.textInput, ...styles.p1 }}
+                  onChangeText={onChangeOption_4}
+                  value={option_4}
+                />
+              )}
+              {selectedOptionCount >= 5 && (
+                <TextInput
+                  style={{ ...styles.textInput, ...styles.p1 }}
+                  onChangeText={onChangeOption_5}
+                  value={option_5}
+                />
+              )}
+            </View>
+          )}
+
+          {currSelectedQuestionType == "Skala linier" && (
+            <View style={{ marginBottom: 20 }}>
+              <Text style={{ ...styles.h3 }}>Jumlah skala</Text>
+              <SelectDropdownSurveit
+                data={scaleCount}
+                defaultButtonText="Pilih jumlah skala"
+                setSelectedOption={setSelectedScaleCount}
+                defaultValue={2}
+              />
+            </View>
+          )}
+          {currSelectedQuestionType == "Skala linier" && (
+            <View style={{ marginBottom: 4 }}>
+              <Text style={{ ...styles.h3 }}>Keterangan</Text>
+              <TextInput
+                style={{ ...styles.textInput, ...styles.p1 }}
+                onChangeText={onChangeLeftDescription}
+                value={leftDescription}
+              />
+              <TextInput
+                style={{ ...styles.textInput, ...styles.p1 }}
+                onChangeText={onChangeRightDescription}
+                value={rightDescription}
+              />
+            </View>
+          )}
+
+          <View>
+            <SwitchSurveit onValueChange={toggleSwitch} value={isEnabled} />
+          </View>
+        </View>
+        <View style={{ marginBottom: 20 }} />
+      </ScrollView>
+      <View style={{ backgroundColor: "#fff", padding: 20 }}>
+        <TouchableOpacity
+          style={
+            handleDisabled() ? styles.disableButton : styles.saveQuestionButton
+          }
+          onPress={handleSaveQuestion}
+          disabled={handleDisabled()}
         >
-          <Text style={styles.h3}>
-            Pertanyaan {questionListTemp.length + 1}
-          </Text>
-        </View>
-      </View>
-      <View style={{ marginHorizontal: 20 }}>
-        <View style={{ marginBottom: 20 }}>
-          <SelectDropdownSurveit
-            data={questionTypes}
-            defaultButtonText="Pilih jenis pertanyaan"
-            defaultValue={currSelectedQuestionType}
-            setSelectedOption={setCurrSelectedQuestionType}
-          />
-        </View>
-        <View style={{ marginBottom: 4 }}>
-          <Text style={{ ...styles.h3 }}>Pertanyaan</Text>
-          <TextInput
-            multiline
-            numberOfLines={4}
-            maxHeight={96}
-            style={{ ...styles.multilineTextInput, ...styles.p1 }}
-            onChangeText={onChangeQuestion}
-            value={question}
-          />
-        </View>
-
-        {(currSelectedQuestionType == "Pilihan ganda" ||
-          currSelectedQuestionType == "Kotak centang") && (
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ ...styles.h3 }}>Jumlah opsi</Text>
-            <SelectDropdownSurveit
-              data={optionCount}
-              defaultButtonText="Pilih jumlah opsi"
-              setSelectedOption={setSelectedOptionCount}
-              defaultValue={1}
-            />
-          </View>
-        )}
-        {(currSelectedQuestionType == "Pilihan ganda" ||
-          currSelectedQuestionType == "Kotak centang") && (
-          <View style={{ marginBottom: 4 }}>
-            <Text style={{ ...styles.h3 }}>Pilihan</Text>
-            {selectedOptionCount >= 1 && (
-              <TextInput
-                style={{ ...styles.textInput, ...styles.p1 }}
-                onChangeText={onChangeOption_1}
-                value={option_1}
-              />
-            )}
-            {selectedOptionCount >= 2 && (
-              <TextInput
-                style={{ ...styles.textInput, ...styles.p1 }}
-                onChangeText={onChangeOption_2}
-                value={option_2}
-              />
-            )}
-            {selectedOptionCount >= 3 && (
-              <TextInput
-                style={{ ...styles.textInput, ...styles.p1 }}
-                onChangeText={onChangeOption_3}
-                value={option_3}
-              />
-            )}
-            {selectedOptionCount >= 4 && (
-              <TextInput
-                style={{ ...styles.textInput, ...styles.p1 }}
-                onChangeText={onChangeOption_4}
-                value={option_4}
-              />
-            )}
-            {selectedOptionCount >= 5 && (
-              <TextInput
-                style={{ ...styles.textInput, ...styles.p1 }}
-                onChangeText={onChangeOption_5}
-                value={option_5}
-              />
-            )}
-          </View>
-        )}
-
-        {currSelectedQuestionType == "Skala linier" && (
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ ...styles.h3 }}>Jumlah skala</Text>
-            <SelectDropdownSurveit
-              data={scaleCount}
-              defaultButtonText="Pilih jumlah skala"
-              setSelectedOption={setSelectedScaleCount}
-              defaultValue={2}
-            />
-          </View>
-        )}
-        {currSelectedQuestionType == "Skala linier" && (
-          <View style={{ marginBottom: 4 }}>
-            <Text style={{ ...styles.h3 }}>Keterangan</Text>
-            <TextInput
-              style={{ ...styles.textInput, ...styles.p1 }}
-              onChangeText={onChangeLeftDescription}
-              value={leftDescription}
-            />
-            <TextInput
-              style={{ ...styles.textInput, ...styles.p1 }}
-              onChangeText={onChangeRightDescription}
-              value={rightDescription}
-            />
-          </View>
-        )}
-
-        <View>
-          <SwitchSurveit onValueChange={toggleSwitch} value={isEnabled} />
-        </View>
-        <View>
-          <TouchableOpacity
-            style={styles.saveQuestionButton}
-            onPress={handleSaveQuestion}
+          <Text
+            style={
+              handleDisabled() ? styles.disableButtonText : styles.textButton
+            }
           >
-            <Text style={styles.textButton}>Simpan pertanyaan</Text>
-          </TouchableOpacity>
-        </View>
+            Simpan pertanyaan
+          </Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  disableButton: {
+    backgroundColor: "#F1F5F9",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 56,
+    borderRadius: 12,
+  },
+  disableButtonText: {
+    fontSize: 16,
+    lineHeight: 20,
+    fontFamily: "Urbanist_600SemiBold",
+    color: "#94A3B8",
+  },
   h3: {
     fontSize: 16,
     lineHeight: 20,
-    fontWeight: "600",
     color: "#334155",
+    fontFamily: "Urbanist_600SemiBold",
   },
   p1: {
     fontSize: 16,
     color: "#334155",
     lineHeight: 20,
-    fontWeight: "500",
+    fontFamily: "Urbanist_500Medium",
   },
   title: {
     paddingLeft: 20,
@@ -269,7 +337,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     lineHeight: 20,
-    fontWeight: "600",
+    fontFamily: "Urbanist_600SemiBold",
   },
   saveQuestionButton: {
     marginTop: 20,

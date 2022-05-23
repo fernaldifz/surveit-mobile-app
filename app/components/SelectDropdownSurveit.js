@@ -8,13 +8,44 @@ const SelectDropdownSurveit = ({
   defaultButtonText,
   setSelectedOption,
   defaultValue,
+  reset,
+  type
 }) => {
+  const styles = StyleSheet.create({
+    p1: {
+      fontSize: 16,
+      color: "#334155",
+      lineHeight: 20,
+      fontWeight: "500",
+    },
+    dropdownButton: {
+      width: "100%",
+      height: 50,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: "#E2E8F0",
+      backgroundColor: type ? "#fff" : "#F8FAFC",
+      marginTop: 10,
+    },
+    dropdownButtonText: {
+      textAlign: "left",
+      fontFamily: "Urbanist_500Medium",
+    },
+    dropdownRow: {
+      borderBottomColor: "#E2E8F0",
+    },
+    dropdownRowText: { textAlign: "left", fontFamily: "Urbanist_500Medium" },
+  });
+
   return (
     <View>
       <SelectDropdown
         data={data}
         onSelect={(selectedOption) => {
           setSelectedOption(selectedOption);
+          if (reset) {
+            reset();
+          }
         }}
         defaultButtonText={defaultButtonText}
         buttonStyle={styles.dropdownButton}
@@ -36,30 +67,5 @@ const SelectDropdownSurveit = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  p1: {
-    fontSize: 16,
-    color: "#334155",
-    lineHeight: 20,
-    fontWeight: "500",
-  },
-  dropdownButton: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#E2E8F0",
-    marginTop: 10,
-  },
-  dropdownButtonText: {
-    textAlign: "left",
-  },
-  dropdownRow: {
-    borderBottomColor: "#E2E8F0",
-  },
-  dropdownRowText: { textAlign: "left" },
-});
 
 export default SelectDropdownSurveit;
