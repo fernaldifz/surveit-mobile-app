@@ -130,7 +130,7 @@ const CreateSurvey = ({ route, navigation }) => {
             alignItems: "center",
           }}
         >
-          <TouchableOpacity onPress={() => console.log("pindah ke home")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
             <Image style={styles.close} source={close} />
           </TouchableOpacity>
           <View
