@@ -104,13 +104,13 @@ export const LoggedInStack = [
 
 export const AuthStack = [
   {
-    name: "SignUp",
-    component: SignUp,
+    name: "LogIn",
+    component: LogIn,
     options: { headerShown: false },
   },
   {
-    name: "LogIn",
-    component: LogIn,
+    name: "SignUp",
+    component: SignUp,
     options: { headerShown: false },
   },
 ];
