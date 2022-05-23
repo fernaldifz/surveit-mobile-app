@@ -80,7 +80,7 @@ const MySurveyDetail = ({ route, navigation }) => {
       <View style={style.container}>
         <TouchableOpacity
           style={style.button}
-          onPress={() => navigation.navigate("SurveySummary")}
+          onPress={() => navigation.navigate("SurveySummary", {id: id})}
         >
           <Text style={style.buttonText}>Lihat ringkasan</Text>
         </TouchableOpacity>

@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import SelectDropdownSurveit from "../components/SelectDropdownSurveit";
-import more from "../assets/more.png";
+// import more from "../assets/more.png";
 import * as ImagePicker from "expo-image-picker";
 import surveyCover from "../assets/survey-cover.png";
 import { db, storage } from "../config/index";
@@ -211,7 +211,7 @@ const CreateSurvey = ({ navigation }) => {
                     {questionData.question.substr(0, 24)}...
                   </Text>
                 )}
-                <Image style={styles.more} source={more} />
+                {/* <Image style={styles.more} source={more} /> */}
               </View>
             ))}
             <TouchableOpacity
@@ -231,6 +231,7 @@ const CreateSurvey = ({ navigation }) => {
                   data={questionTypes}
                   defaultButtonText="Pilih jenis pertanyaan"
                   setSelectedOption={setSelectedQuestionType}
+                  type={true}
                 />
                 <TouchableOpacity
                   style={
@@ -310,6 +311,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#334155",
     lineHeight: 20,
+    fontFamily: "Urbanist_500Medium",
   },
   contents: {
     marginHorizontal: 20,

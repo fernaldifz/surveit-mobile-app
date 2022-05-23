@@ -109,6 +109,6 @@ export const StackNav = [
   {
     name: "CreateSurvey",
     component: CreateSurvey,
-    options: {  },
+    options: { title: "Buat survei"  },
   },
 ];
