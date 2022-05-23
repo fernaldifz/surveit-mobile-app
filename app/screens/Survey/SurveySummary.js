@@ -1,4 +1,4 @@
-import { ScrollView, Text } from "react-native";
+import { ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 
 import TextSummary from "@components/Survey/TextSummary";
@@ -6,25 +6,6 @@ import PieChartSummary from "@components/Survey/PieChartSummary";
 import BarChartSummary from "@components/Survey/BarChartSummary";
 import { getAnswer, getQuestion } from "@services/SurveyServices";
 import { mapAnswer } from "../../utils";
-
-const dummy = [
-  {
-    id: 1,
-    answer: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa",
-  },
-  {
-    id: 2,
-    answer: "B",
-  },
-  {
-    id: 3,
-    answer: "C",
-  },
-  {
-    id: 4,
-    answer: "D",
-  },
-];
 
 const answers = [
   {
@@ -64,15 +45,6 @@ const answers = [
   },
 ];
 
-const answers2 = {
-  labels: ["Anjing", "Hamster", "Kucing", "Ikan", "Lainnya"],
-  datasets: [
-    {
-      data: [80, 35, 75, 50, 15],
-    },
-  ],
-};
-
 const SurveySummary = ({ route, navigation }) => {
   const { id } = route.params;
   const [data, setData] = useState(null);
@@ -93,6 +65,7 @@ const SurveySummary = ({ route, navigation }) => {
     if (answer && question) {
       let newData = mapAnswer(answer, question);
       setData(newData);
+      console.log(data);
     }
   }, []);
 
@@ -101,9 +74,20 @@ const SurveySummary = ({ route, navigation }) => {
       {data &&
         data.map((item, index) => {
           switch (item.type) {
+            case "Kotak centang":
+            case "Skala linier":
+              return (
+                <BarChartSummary
+                  key={index}
+                  data={item.answer}
+                  question={item.question}
+                  navigation={navigation}
+                />
+              );
             default:
               return (
                 <TextSummary
+                  key={index}
                   data={item.answer}
                   question={item.question}
                   navigation={navigation}
