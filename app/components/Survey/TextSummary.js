@@ -16,7 +16,7 @@ const TextSummary = ({ data, question, navigation }) => {
               return (
                 <View style={style.answer} key={index}>
                   <Text numberOfLines={1} style={style.p1}>
-                    {item.answer}
+                    {item}
                   </Text>
                 </View>
               );

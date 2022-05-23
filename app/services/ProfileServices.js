@@ -8,7 +8,7 @@ import {
   addDoc,
   setDoc,
 } from "firebase/firestore";
-import { MONTH, USER_TEMPLATE } from "@const/";
+import { MONTH } from "@const/";
 import { db } from "@config/";
 
 export const getUser = async (user) => {
@@ -133,14 +133,11 @@ export const redeemVoucher = async (user, id, point) => {
   return addRes && reduceRes;
 };
 
-export const register = async (email, name, id) => {
+export const register = async (id) => {
   let userRef = doc(db, "users", id);
 
   let data = {
-    email: email,
-    name: name,
     point: 0,
-    photo: USER_TEMPLATE,
   };
 
   return await setDoc(userRef, data, { merge: true })
