@@ -44,7 +44,7 @@ export const checkListConverter = (answer, labels) => {
 
   answer.forEach((item) => {
     item.forEach((row) => {
-      arr[row - 1] += 1;
+      arr[row] += 1;
     });
   });
 
@@ -65,7 +65,7 @@ export const scaleConverter = (answer, nScale) => {
   }
 
   answer.forEach((item) => {
-    arr[item - 1] += 1;
+    arr[item] += 1;
   });
 
   return {
@@ -85,7 +85,7 @@ export const pieConverter = (answer, option) => {
   }
 
   answer.forEach((item) => {
-    arr[item - 1] += 1;
+    arr[item] += 1;
   });
 
   let res = [];

@@ -51,12 +51,12 @@ const FillSurvey = ({ route, navigation }) => {
   };
 
   const handleBack = () => {
-    if (answers[index - 1]) {
+    if (answers[index - 1] || answers[index - 1] == 0) {
       if (
         survey_data.question_list[index - 1].type == "Pilihan ganda" ||
         survey_data.question_list[index - 1].type == "Skala linier"
       ) {
-        setChecked(parseInt(answers[index - 1]));
+        setChecked(answers[index - 1]);
       } else if (
         survey_data.question_list[index - 1].type == "Jawaban singkat" ||
         survey_data.question_list[index - 1].type == "Paragraph"
@@ -69,12 +69,12 @@ const FillSurvey = ({ route, navigation }) => {
   };
 
   const handleNext = () => {
-    if (answers[index + 1]) {
+    if (answers[index + 1] || answers[index + 1] === 0) {
       if (
         survey_data.question_list[index + 1].type == "Pilihan ganda" ||
         survey_data.question_list[index + 1].type == "Skala linier"
       ) {
-        setChecked(parseInt(answers[index + 1]));
+        setChecked(answers[index + 1]);
       } else if (
         survey_data.question_list[index + 1].type == "Paragraph" ||
         survey_data.question_list[index + 1].type == "Jawaban singkat"
@@ -91,7 +91,7 @@ const FillSurvey = ({ route, navigation }) => {
     switch (survey_data.question_list[index].type) {
       case "Pilihan ganda":
       case "Skala linier":
-        res = !checked;
+        res = checked === null;
         break;
       case "Kotak centang":
         res = !option.length > 0;
@@ -110,7 +110,7 @@ const FillSurvey = ({ route, navigation }) => {
         result: ans ? (Array.isArray(ans) ? ans : String(ans)) : ans,
       };
     });
-    mapAns = mapAns.filter((ans) => ans.result);
+    mapAns = mapAns.filter((ans) => (ans.result === 0 ? 0 : ans.result));
     mapAns = mapAns.filter((ans) => ans.result.length > 0);
 
     let res = await saveAnswer(auth.currentUser.uid, survey_data.id, mapAns);
@@ -257,10 +257,15 @@ const FillSurvey = ({ route, navigation }) => {
                 display: "flex",
                 flexDirection: "row",
                 marginTop: 16,
-                paddingHorizontal: 20 + (5 - survey_data.question_list[index].number_of_scales) * (survey_data.question_list[index].number_of_scales === 2 ? 23 : 15)
+                paddingHorizontal:
+                  20 +
+                  (5 - survey_data.question_list[index].number_of_scales) *
+                    (survey_data.question_list[index].number_of_scales === 2
+                      ? 23
+                      : 15),
               }}
             >
-              <Text style={[styles.p1, { flex: 1  }]}>
+              <Text style={[styles.p1, { flex: 1 }]}>
                 {survey_data.question_list[index].option[0]}
               </Text>
 
