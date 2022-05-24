@@ -1,7 +1,28 @@
 import { View, Text, StyleSheet } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 
+function* ylabel(size) {
+  let res = [0, size / 4, size / 2, (size / 4) * 3, size];
+
+  res = res.map((item) => Math.floor(item));
+
+  let counter = -1;
+  for (let i = 0; i < res.length; i++) {
+    if (res[i] !== counter) {
+      counter = res[i];
+    } else {
+      res[i] = "";
+    }
+  }
+  yield* res;
+}
+
 const BarChartSummary = ({ data, question }) => {
+  const yLabelIterator = ylabel(
+    data.datasets[0].data.reduce((x, y) => {
+      return x > y ? x : y;
+    })
+  );
   const chartConfig = {
     backgroundGradientFrom: "#fff",
     backgroundGradientFromOpacity: 0,
@@ -12,6 +33,7 @@ const BarChartSummary = ({ data, question }) => {
     barPercentage: 1,
     useShadowColorFromDataset: false, // optional
     decimalPlaces: 0,
+    formatYLabel: () => yLabelIterator.next().value,
   };
 
   return (
